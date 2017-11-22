@@ -34,45 +34,86 @@ use work.cpuconstant.ALL;
 entity bus_dispatcher is
 		Port(
 				clk, rst : in std_logic;
-				pc_in : in std_logic_vector(15 downto 0);
-				dm_addr : in std_logic_vector(15 downto 0);
-				mem_content : inout std_logic_vector(15 downto 0);
-				mem_addr : out std_logic_vector(15 downto 0);
+				pc_in, dm_addr : in std_logic_vector(15 downto 0);
+				im_content_in, dm_content_in : in std_logic_vector(15 downto 0);
+				mem_content_in : in std_logic_vector(15 downto 0);
 				oprand_type: in integer;
 				dm_signal : in std_logic;
-				sram_optype : out std_logic; --'0'read '1'write
+				finish_signal : in std_logic;
+				mem_start : out std_logic;
+				im_content_out, dm_content_out : out std_logic_vector(15 downto 0);
+				mem_addr, mem_content : out std_logic_vector(15 downto 0);
+				mem_optype : out std_logic_vector(1 downto 0); --'00' uart read, '01' uart write, '10' mem read, '11' mem write
 				bus_stall_request : out std_logic
 		);
 end bus_dispatcher;
 
 architecture Behavioral of bus_dispatcher is
-
 begin
-		op_sram : process(clk) is
+		get_output : process(mem_content, finish_signal) is
+		begin
+			if (finish_signal = '1') then
+				mem_start <= '0';
+				if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then
+					if (dm_signal = '1') then
+						dm_content_out <= mem_content_in;
+					else
+						im_content_out <= mem_content_in;
+					end if;
+				end if;
+			end if;
+		end process;
+
+		op_sram_uart : process(clk) is
 		begin
 				if(clk'event and clk = '1') then
 						if(dm_signal = '1') then
 								bus_stall_request <= '1';
 								case oprand_type is
 										when LW_OP =>
+												if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
+													mem_optype <= "00";
+												else
+													mem_optype <= "10";
+												end if;
 												mem_addr <= dm_addr;
-												sram_optype <= '0';
+												mem_start <= '1';
 										when LW_SP_OP =>
+												if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
+													mem_optype <= "00";
+												else
+													mem_optype <= "10";
+												end if;
 												mem_addr <= dm_addr;
-												sram_optype <= '0';
+												mem_start <= '1';
 										when SW_OP =>
+												if (dm_addr = "1011111100000000") then
+													mem_optype <= "01";
+												else
+													mem_optype <= "11";
+												end if;
 												mem_addr <= dm_addr;
-												sram_optype <= '1';
+												mem_addr <= dm_content_in;
+												mem_start <= '1';
 										when SW_SP_OP =>
+												if (dm_addr = "1011111100000000") then
+													mem_optype <= "01";
+												else
+													mem_optype <= "11";
+												end if;
 												mem_addr <= dm_addr;
-												sram_optype <= '1';
+												mem_addr <= dm_content_in;
+												mem_start <= '1';
 										when others =>
-												mem_addr <= pc_in;
-												sram_optype <= '0';
 								end case;
 						else
+								if (pc_in = "1011111100000000") then
+										mem_optype <= "00"; 
+								else
+										mem_optype <= "10"; 
+								end if;
 								mem_addr <= pc_in;
-								sram_optype <= '0';
+								mem_start <= '1';
 						end if;
 				end if;
 		end process;

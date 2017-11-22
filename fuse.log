@@ -16,8 +16,7 @@ Compiling package cpuconstant
 Compiling architecture behavioral of entity operand_analyse [operand_analyse_default]
 Compiling architecture behavior of entity test_operand_analyse
 Time Resolution for simulation is 1ps.
-Waiting for 1 sub-compilation(s) to finish...
 Compiled 8 VHDL Units
 Built simulation executable C:/Users/leavan/Desktop/thcomips/test_operand_analyse_isim_beh.exe
-Fuse Memory Usage: 32636 KB
-Fuse CPU Usage: 3233 ms
+Fuse Memory Usage: 32544 KB
+Fuse CPU Usage: 3264 ms
