@@ -57,7 +57,7 @@ begin
 		get_output : process(finish_signal, mem_content_in) is
 		begin
 			if (finish_signal = '1') then
-				--mem_start <= '0';
+				mem_start <= '0';
 				if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then
 					if (dm_signal = '1') then
 						dm_content_out <= mem_content_in;

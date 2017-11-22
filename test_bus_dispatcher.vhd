@@ -126,10 +126,15 @@ BEGIN
 
       -- insert stimulus here 
 		operand_type <= 16;
+		wait for 20 ns;
 		pc_in <= "1010101010101010";
+		wait for 20 ns;
 		dm_addr <= "0000000000000000";
+		wait for 20 ns;
 		dm_signal <= '0';
+		wait for 20 ns;
 		mem_content_in <= "0000001000000000";
+		wait for 20 ns;
 		dm_content_in <= "0111111111111110";
 		
 		wait for 5 ns;
