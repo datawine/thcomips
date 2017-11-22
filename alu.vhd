@@ -60,7 +60,7 @@ begin
 			A + imm when ADDIU3_OP,
 			A and B when AND_OP,
 			A or B when OR_OP,
-			to_stdlogicvector(to_bitvector(ry) sll conv_integer(A)) when SLLV_OP,
+			to_stdlogicvector(to_bitvector(B) sll conv_integer(A)) when SLLV_OP,
 			A + B when ADDU_OP,
 			A - B when SUBU_OP,
 			neql when CMP_OP,

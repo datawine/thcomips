@@ -106,7 +106,7 @@ BEGIN
 		rx_addr <= "0000000000000001";
 		ry_addr <= "0000000000000111";
 		
-		save_register_addr <= "0000000000000000";
+		save_register_addr <= "0000000000000001";
 
 		operand <= B_OP;
 		

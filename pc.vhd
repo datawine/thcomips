@@ -50,8 +50,8 @@ begin
 		if (clk'event and clk = '1') then
 			if (pc_staller = '0') then
 				pc_register <= pc_in;
-			else
-				pc_register <= unaffected;
+--			else
+--				pc_register <= unaffected;
 			end if;
 		end if;
 	end process;

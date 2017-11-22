@@ -53,7 +53,7 @@ begin
 	rx_mux_en <= '1' when (rx_addr = save_register_addr and write_register = '1') else '0';
 	ry_mux_en <= '1' when (ry_addr = save_register_addr and write_register = '1') else '0';
 
-	alu_stall_request <= '1' when ((operand = LW_OP or operand = LW_SP_OP) and (rx_mux_en = '1' or ry_mux_en = '1')) else '0';
+	alu_stall_request <= '1' when ((operand = LW_OP or operand = LW_SP_OP) and ((rx_addr = save_register_addr and write_register = '1') or (ry_addr  = save_register_addr and write_register = '1'))) else '0';
 
 end Behavioral;
 

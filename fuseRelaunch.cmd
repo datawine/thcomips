@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "C:/Users/leavan/Desktop/thcomips/test_operand_analyse_isim_beh.exe" -prj "C:/Users/leavan/Desktop/thcomips/test_operand_analyse_beh.prj" "work.test_operand_analyse" 
