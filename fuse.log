@@ -1,20 +1,18 @@
-Running: D:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/leavan/Desktop/thcomips/test_EXMEM_isim_beh.exe -prj C:/Users/leavan/Desktop/thcomips/test_EXMEM_beh.prj work.test_EXMEM 
+Running: D:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/leavan/Desktop/thcomips/test_MEMWB_isim_beh.exe -prj C:/Users/leavan/Desktop/thcomips/test_MEMWB_beh.prj work.test_MEMWB 
 ISim P.20131013 (signature 0x7708f090)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
-Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/cpuconstant.vhd" into library work
-Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/EXMEM.vhd" into library work
-Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/test_EXMEM.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/MEMWB.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/test_MEMWB.vhd" into library work
 Starting static elaboration
 Completed static elaboration
 Compiling package standard
 Compiling package std_logic_1164
-Compiling package cpuconstant
-Compiling architecture behavioral of entity EXMEM [exmem_default]
-Compiling architecture behavior of entity test_exmem
+Compiling architecture behavioral of entity MEMWB [memwb_default]
+Compiling architecture behavior of entity test_memwb
 Time Resolution for simulation is 1ps.
-Compiled 6 VHDL Units
-Built simulation executable C:/Users/leavan/Desktop/thcomips/test_EXMEM_isim_beh.exe
-Fuse Memory Usage: 28500 KB
-Fuse CPU Usage: 2655 ms
+Compiled 5 VHDL Units
+Built simulation executable C:/Users/leavan/Desktop/thcomips/test_MEMWB_isim_beh.exe
+Fuse Memory Usage: 28324 KB
+Fuse CPU Usage: 2546 ms

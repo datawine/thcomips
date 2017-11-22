@@ -31,6 +31,7 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity MEMWB is
 	Port(
+		clk, nop, hold : in std_logic;
 		pc_in, DM_in, save_register_addr_in : in std_logic_vector(15 downto 0);
 		pc_out, DM_out, save_register_addr_out : out std_logic_vector(15 downto 0)
 	);
@@ -47,9 +48,6 @@ begin
 	begin
 		if (clk'event and clk = '1') then
 			if (nop = '1' or hold = '1') then
-				pc_out <= unaffected;
-				DM_out <= unaffected;
-				save_register_addr_out <= unaffected;
 			else
 				pc_out <= tmp_pc;
 				DM_out <= tmp_dm;
