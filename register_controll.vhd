@@ -31,8 +31,9 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity register_controll is
 	Port(
-		pc : in std_logic_vector(15 downto 0);
-		A_addr, B_addr, write_addr, write_content: in std_logic_vector(15 downto 0);
+		pc_in : in std_logic_vector(15 downto 0);
+		A_addr, B_addr, write_addr: in std_logic_vector(3 downto 0);
+		write_content : in std_logic_vector(15 downto 0);
 		
 		A, B : out std_logic_vector(15 downto 0)
 	);
@@ -41,7 +42,7 @@ end register_controll;
 architecture Behavioral of register_controll is
 	signal R0, R1, R2, R3, R4, R5, R6, R7, T, SP, PC, IH: std_logic_vector(15 downto 0) := "0000000000000000";
 begin
-	PC <= pc;
+	PC <= pc_in;
 
 	with A_addr select
 		A <=
@@ -75,17 +76,17 @@ begin
 			pc when "1011",
 			"ZZZZZZZZZZZZZZZZ" when others;
 	
-	R0 <= write_content when (write_addr = "0000") else unaffected;
-	R1 <= write_content when (write_addr = "0001") else unaffected;
-	R2 <= write_content when (write_addr = "0010") else unaffected;
-	R3 <= write_content when (write_addr = "0011") else unaffected;
-	R4 <= write_content when (write_addr = "0100") else unaffected;
-	R5 <= write_content when (write_addr = "0101") else unaffected;
-	R6 <= write_content when (write_addr = "0110") else unaffected;
-	R7 <= write_content when (write_addr = "0111") else unaffected;
-	SP <= write_content when (write_addr = "1000") else unaffected;
-	T <= write_content when (write_addr = "1001") else unaffected;
-	IH <= write_content when (write_addr = "1010") else unaffected;
+	R0 <= write_content when (write_addr = "0000") ;
+	R1 <= write_content when (write_addr = "0001") ;
+	R2 <= write_content when (write_addr = "0010") ;
+	R3 <= write_content when (write_addr = "0011") ;
+	R4 <= write_content when (write_addr = "0100") ;
+	R5 <= write_content when (write_addr = "0101") ;
+	R6 <= write_content when (write_addr = "0110") ;
+	R7 <= write_content when (write_addr = "0111") ;
+	SP <= write_content when (write_addr = "1000") ;
+	T <= write_content when (write_addr = "1001") ;
+	IH <= write_content when (write_addr = "1010") ;
 
 end Behavioral;
 
