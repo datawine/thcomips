@@ -44,17 +44,14 @@ architecture Behavioral of IFID is
 	signal temp_pc, temp_instruct: std_logic_vector(15 downto 0);
 begin
 	temp_pc <= pc_in;
-	temp_instuct <= instruction_in;
+	temp_instruct <= instruction_in;
 	
 	transmit: process(clk) is
 	begin
 		if (clk'event and clk = '1') then
 			if (nop = '1') then
 				instruction_out <= "0000100000000000";
-				pc_out <= unaffected;
 			elsif (hold = '1') then
-				instruction_out <= unaffected;
-				pc_out <= unaffected;
 			else
 				instruction_out <= temp_instruct;
 				pc_out <= temp_pc;

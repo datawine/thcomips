@@ -33,6 +33,7 @@ use work.cpuconstant.ALL;
 
 entity EXMEM is
 	Port(
+		clk : in std_logic;
 		operand_type_in : in integer;
 		pc_in : in std_logic_vector(15 downto 0);
 		save_reg_addr_in : in std_logic_vector(15 downto 0);
@@ -41,13 +42,13 @@ entity EXMEM is
 		
 		operand_type_out : out integer;
 		pc_out : out std_logic_vector(15 downto 0);
-		save_reg_addr_in : in std_logic_vector(15 downto 0);
+		save_reg_addr_out : out std_logic_vector(15 downto 0);
 		A_out, B_out, C_out : out std_logic_vector(15 downto 0)
 	);
 end EXMEM;
 
 architecture Behavioral of EXMEM is
-	signal tmp_pc, tmp_reg_addr, tmp_a, tmp_b, tmp_c : std_logic_vector(15 downto 0);
+	signal tmp_pc, tmp_reg_addr, tmp_a, tmp_b, tmp_c, pc_tmp : std_logic_vector(15 downto 0);
 	signal tmp_op : integer;
 begin
 	tmp_pc <= pc_in;
@@ -59,19 +60,8 @@ begin
 	begin
 		if (clk'event and clk = '1') then
 			if (nop = '1') then
-				pc_out <= unaffected;
-				A_out <= unaffected;
-				B_out <= unaffected;
-				C_out <= unaffected;
-				save_reg_addr_out <= unaffected;
 				operand_type_out <= NOP_OP;
 			elsif (hold = '1') then
-				pc_out <= unaffected;
-				A_out <= unaffected;
-				B_out <= unaffected;
-				C_out <= unaffected;
-				save_reg_addr_out <= unaffected;
-				operand_type_out <= unaffected;
 			else
 				pc_out <= pc_tmp;
 				A_out <= tmp_a;
