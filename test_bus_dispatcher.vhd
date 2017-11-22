@@ -195,6 +195,9 @@ BEGIN
 		
 		finish_signal <= '0';
 
+		wait for 20 ns;
+		
+		dm_signal <= '0';
       wait;
    end process;
 

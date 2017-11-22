@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/thcomips/test_stall_controller.vhd";
+static const char *ng0 = "C:/Users/leavan/Desktop/thcomips/test_stall_controller.vhd";
 
 
 
@@ -217,7 +217,7 @@ LAB21:    goto LAB20;
 LAB23:    goto LAB21;
 
 LAB24:    xsi_set_current_line(138, ng0);
-    t2 = (t0 + 8420);
+    t2 = (t0 + 8756);
     t6 = (t0 + 5312);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
@@ -226,7 +226,7 @@ LAB24:    xsi_set_current_line(138, ng0);
     memcpy(t10, t2, 16U);
     xsi_driver_first_trans_fast(t6);
     xsi_set_current_line(139, ng0);
-    t2 = (t0 + 8436);
+    t2 = (t0 + 8772);
     t6 = (t0 + 5376);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);

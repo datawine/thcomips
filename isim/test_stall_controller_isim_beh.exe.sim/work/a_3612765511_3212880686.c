@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/thcomips/stall_controller.vhd";
+static const char *ng0 = "C:/Users/leavan/Desktop/thcomips/stall_controller.vhd";
 extern char *WORK_P_0136478414;
 extern char *IEEE_P_3620187407;
 
@@ -126,20 +126,20 @@ LAB1:    return;
 LAB2:    xsi_set_current_line(59, ng0);
     t2 = (t0 + 1832U);
     t13 = *((char **)t2);
-    t2 = (t0 + 8512U);
+    t2 = (t0 + 8848U);
     t14 = (t0 + 1192U);
     t15 = *((char **)t14);
-    t14 = (t0 + 8464U);
+    t14 = (t0 + 8800U);
     t16 = ieee_std_logic_unsigned_equal_stdv_stdv(IEEE_P_3620187407, t13, t2, t15, t14);
     if (t16 != 0)
         goto LAB8;
 
 LAB10:    t2 = (t0 + 1832U);
     t3 = *((char **)t2);
-    t2 = (t0 + 8512U);
+    t2 = (t0 + 8848U);
     t5 = (t0 + 1352U);
     t8 = *((char **)t5);
-    t5 = (t0 + 8480U);
+    t5 = (t0 + 8816U);
     t1 = ieee_std_logic_unsigned_equal_stdv_stdv(IEEE_P_3620187407, t3, t2, t8, t5);
     if (t1 != 0)
         goto LAB11;

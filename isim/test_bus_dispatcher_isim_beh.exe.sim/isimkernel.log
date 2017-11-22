@@ -1,0 +1,28 @@
+Command line:
+   test_bus_dispatcher_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  9505
+
+Wed Nov 22 20:03:39 2017
+
+
+ Elaboration Time: 0.453125 sec
+
+ Current Memory Usage: 367.817 Meg
+
+ Total Signals          : 32
+ Total Nets             : 137
+ Total Signal Drivers   : 15
+ Total Blocks           : 4
+ Total Primitive Blocks : 3
+ Total Processes        : 3
+ Total Traceable Variables  : 47
+ Total Scalar Nets and Variables : 551
+
+ Total Simulation Time: 0.515625 sec
+
+ Current Memory Usage: 682.406 Meg
+
+Wed Nov 22 20:04:44 2017
+
