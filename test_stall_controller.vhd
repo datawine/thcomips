@@ -137,7 +137,27 @@ BEGIN
 		
 		alu_mem_addr <= "1111111111111111";
 		pc_pc <= "1111111111111111"; 
-		alu_op_type <= 16;
+		alu_op_type <= 18;
+		wait for 20 ns;
+		
+		pc_pc <= "0000000000000000";
+		
+		wait for 20 ns;
+		
+		pc_ifid <= "1111111111111111";
+		
+		wait for 20 ns;
+		
+		pc_ifid <= "0000000000000000";
+		
+		wait for 20 ns;
+		
+		pc_idex <= "1111111111111111";
+		
+		wait for 20 ns;
+		
+		pc_idex <= "0000000000000000";
+		
 		wait for 20 ns;
 		
 		alu_stall_request <= '1';
@@ -148,6 +168,7 @@ BEGIN
 		
 		wait for 20 ns;
  
+		
       wait;
    end process;
 
