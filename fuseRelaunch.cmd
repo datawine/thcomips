@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "C:/Users/leavan/Desktop/thcomips/test_mem_forward_isim_beh.exe" -prj "C:/Users/leavan/Desktop/thcomips/test_mem_forward_beh.prj" "work.test_mem_forward" 
+-intstyle "ise" -incremental -o "C:/Users/leavan/Desktop/thcomips/cpu_top_isim_beh.exe" -prj "C:/Users/leavan/Desktop/thcomips/cpu_top_beh.prj" "work.cpu_top" 

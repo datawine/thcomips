@@ -1,22 +1,45 @@
-Running: D:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/leavan/Desktop/thcomips/test_mem_forward_isim_beh.exe -prj C:/Users/leavan/Desktop/thcomips/test_mem_forward_beh.prj work.test_mem_forward 
+Running: D:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/leavan/Desktop/thcomips/cpu_top_isim_beh.exe -prj C:/Users/leavan/Desktop/thcomips/cpu_top_beh.prj work.cpu_top 
 ISim P.20131013 (signature 0x7708f090)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
 Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/cpuconstant.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/stall_controller.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/register_controll.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/pc.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/operand_analyse.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/mux_3.vhd" into library work
 Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/mem_forward.vhd" into library work
-Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/test_mem_forward.vhd" into library work
-Starting static elaboration
-Completed static elaboration
-Compiling package standard
-Compiling package std_logic_1164
-Compiling package std_logic_arith
-Compiling package std_logic_unsigned
-Compiling package cpuconstant
-Compiling architecture behavioral of entity mem_forward [mem_forward_default]
-Compiling architecture behavior of entity test_mem_forward
-Time Resolution for simulation is 1ps.
-Compiled 8 VHDL Units
-Built simulation executable C:/Users/leavan/Desktop/thcomips/test_mem_forward_isim_beh.exe
-Fuse Memory Usage: 32352 KB
-Fuse CPU Usage: 3030 ms
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/MEMWB.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/memory.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/jump_controller.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/IM.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/IFID.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/IDEX.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/EXMEM.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/DM.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/bus_dispatcher.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/alu_forward.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/alu.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/adder_1.vhd" into library work
+Parsing VHDL file "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" into library work
+ERROR:HDLCompiler:432 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 349: Formal <pc> has no actual or default value.
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 360: Type error near a_mux_alu_enable ; current type std_logic_vector; expected type std_logic
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 361: Type error near a_mux_dm_enable ; current type std_logic_vector; expected type std_logic
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 369: Type error near b_mux_alu_enable ; current type std_logic_vector; expected type std_logic
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 370: Type error near b_mux_dm_enable ; current type std_logic_vector; expected type std_logic
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 379: Type error near operand_operand_analyse_out ; current type std_logic_vector; expected type integer
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 387: Type error near operand_operand_analyse_out ; current type std_logic_vector; expected type integer
+ERROR:HDLCompiler:69 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 403: <bus_stall_request> is not declared.
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 405: Type error near pc_staller ; current type std_logic; expected type std_logic_vector
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 406: Type error near ifid_hold ; current type std_logic; expected type std_logic_vector
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 407: Type error near ifid_nop ; current type std_logic; expected type std_logic_vector
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 408: Type error near idex_hold ; current type std_logic; expected type std_logic_vector
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 409: Type error near idex_nop ; current type std_logic; expected type std_logic_vector
+ERROR:HDLCompiler:1314 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 411: Formal port/generic <jp_stall_target> is not declared in <stall_controller>
+ERROR:HDLCompiler:32 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 414: <idex> is already declared in this region.
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 416: Type error near operand_operand_analyse_out ; current type std_logic_vector; expected type integer
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 425: Type error near operand_idex_out ; current type std_logic_vector; expected type integer
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 434: Type error near operand_idex_out ; current type std_logic_vector; expected type integer
+ERROR:HDLCompiler:1728 - "C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 438: Type error near alu_stall_request ; current type std_logic_vector; expected type std_logic
+Sorry, too many errors..

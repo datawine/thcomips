@@ -182,7 +182,7 @@ component EXMEM
 		
 		operand_type_out : out integer;
 		pc_out : out std_logic_vector(15 downto 0);
-		save_reg_addr_in : in std_logic_vector(15 downto 0);
+		save_reg_addr_out : in std_logic_vector(15 downto 0);
 		A_out, B_out, C_out : out std_logic_vector(15 downto 0)
 	);
 end component;
@@ -240,7 +240,6 @@ component memory
 end component;
 
 	-- IF
-	signal sys_clk: std_logic;
 	signal next_pc, pc_pc_out: std_logic_vector(15 downto 0); 
 	signal bus_content_bus_im, bus_addr_im_bus: std_logic_vector(15 downto 0);
 	signal inst_im_ifid: std_logic_vector(15 downto 0);
@@ -248,12 +247,12 @@ end component;
 	signal added_pc: std_logic_vector(15 downto 0);
 	
 	signal jump_enable, jump_stall_enable: std_logic;
-	signal jump_target, jump_stall_target: std_logic;
+	signal jump_target, jump_stall_target: std_logic_vector(15 downto 0);
 	
 	-- ID
+	signal inst_ifid: std_logic_vector(15 downto 0);
 	signal inst_ifid_out: std_logic_vector(15 downto 0);
 	signal pc_ifid_out: std_logic_vector(15 downto 0);
-	signal inst_ifid_out: std_logic_vector(15 downto 0);
 	
 	signal A_addr_operand_analyse_register_controll: std_logic_vector(15 downto 0);
 	signal B_addr_operand_analyse_register_controll: std_logic_vector(15 downto 0);
@@ -262,7 +261,7 @@ end component;
 	
 	signal A_mux_alu_enable, B_mux_alu_enable, A_mux_dm_enable, B_mux_dm_enable: std_logic_vector(15 downto 0);
 	
-	signal alu_forward, dm_forward: std_logic_vector(15 downto 0);
+	signal alu_forward_sig, dm_forward: std_logic_vector(15 downto 0);
 	
 	signal A_mux_out, B_mux_out: std_logic_vector(15 downto 0);
 	
@@ -270,8 +269,6 @@ end component;
 	signal save_register_addr_operand_analyse_IEDX: std_logic_vector(15 downto 0);
 	signal imm_operand_analyse_out: std_logic_vector(15 downto 0);
 	
-	signal jump_target : std_logic_vector(15 downto 0);
-	signal jump_enable : std_logic;
 	
 	-- EXE
 	signal operand_idex_out: std_logic_vector(15 downto 0);
@@ -311,14 +308,14 @@ end component;
 	--jump branch
 begin
 
-	pc: pc port map(
+	pc_1: pc port map(
 		clk => sys_clk,
 		pc_in => next_pc,
 		pc_staller => pc_staller,
 		pc_out => pc_pc_out
 	);
 
-	im: im port map(	
+	im_1: im port map(	
 		pc_in => pc_pc_out,
 		bus_content => bus_content_bus_im,
 		bus_addr => bus_addr_im_bus,
@@ -339,7 +336,7 @@ begin
 		output => next_pc
 	);
 
-	IFID: IFID port map(
+	IFID_1: IFID port map(
 		clk => sys_clk,
 		pc_in => pc_pc_out,
 		hold => ifid_hold, 
@@ -348,13 +345,13 @@ begin
 		instruction_out => inst_ifid_out,
 		pc_out => inst_ifid
 	);
-
+ 
 	rc: register_controll port map(
 		A_addr => A_addr_operand_analyse_register_controll,
 		B_addr => B_addr_operand_analyse_register_controll, 
 		write_addr => save_register_addr_memwb_out, 	
 		write_content => DM_memwb_out,
-		
+
 		A => A_register_controll_out,
 		B => B_register_controll_out
 	); 
@@ -363,7 +360,7 @@ begin
 		mux1_EN => A_mux_alu_enable, 
 		mux2_EN => A_mux_dm_enable,
 		src_1 => A_register_controll_out,
-		src_2 => alu_forward,
+		src_2 => alu_forward_sig,
 		src_3 => dm_forward,
 		output => A_mux_out
 	);
@@ -372,7 +369,7 @@ begin
 		mux1_EN => B_mux_alu_enable, 
 		mux2_EN => B_mux_dm_enable,
 		src_1 => B_register_controll_out,
-		src_2 => alu_forward,
+		src_2 => alu_forward_sig,
 		src_3 => dm_forward,
 		output => B_mux_out
 	);

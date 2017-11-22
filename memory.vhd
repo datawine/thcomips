@@ -46,15 +46,15 @@ entity memory is
 end memory;
 
 architecture Behavioral of memory is
-	type states is (start, mem_write_1, mem_write_2, mem_read_1, mem_read_2, uart_read_1, uart_read_2, uart_read_3, uart_write_1, uart_write_2, uart_write_3, uart_write_4);
-	shared variable current : states := start;
+	type states is (start_0, mem_write_1, mem_write_2, mem_read_1, mem_read_2, uart_read_1, uart_read_2, uart_read_3, uart_write_1, uart_write_2, uart_write_3, uart_write_4);
+	shared variable current : states := start_0;
 begin
 	--'00' uart read, '01' uart write, '10' mem read, '11' mem write
 	change_states: process(clk) is
 	begin
 		if (clk'event and clk = '1') then
 			case current is
-				when start =>
+				when start_0 =>
 					done <= '0';
 					if (start = '1') then
 						if (operand_type = "00") then
@@ -82,7 +82,7 @@ begin
 							ram1EN <= '0';
 							ram1WE <= '1';
 							ram1OE <= '0';
-							inout_RAM_DATA <= (others => 'Z');
+							inout_RAM1_DATA <= (others => 'Z');
 							current := mem_read_1;
 						elsif (operand_type = "11") then
 							rdn <= '1';
@@ -93,28 +93,28 @@ begin
 							current := mem_write_1;
 						end if;
 					else
-						current := start;
+						current := start_0;
 					end if;
 				when mem_read_1 =>
 					output_RAM1(17 downto 16) <= "00";
 					output_RAM1(15 downto 0) <= input_addr;
 					current := mem_read_2;
 				when mem_read_2 =>
-					output_content <= inout_RAM_DATA;
-					current := start;
+					output_content <= inout_RAM1_DATA;
+					current := start_0;
 					done <= '1';
 				when mem_write_1 =>
 					ram1WE <= '0';
-					inout_RAM_DATA <= input_content;
+					inout_RAM1_DATA <= input_content;
 					output_RAM1(17 downto 16) <= "00";
 					output_RAM1(15 downto 0) <= input_addr;
 					current := mem_write_2;
 				when mem_write_2 =>
 					ram1WE <= '1';
-					current := start;
+					current := start_0;
 					done <= '1';
 				when uart_read_1 =>
-					inout_RAM_DATA <= (others => 'Z');
+					inout_RAM1_DATA <= (others => 'Z');
 					rdn <= '1';
 					current := uart_read_2;
 				when uart_read_2 =>
@@ -125,11 +125,11 @@ begin
 						current := uart_read_1;
 					end if;
 				when uart_read_3 =>
-					output_content <= inout_RAM_DATA;
-					current := start;
+					output_content <= inout_RAM1_DATA;
+					current := start_0;
 					done <= '1';
 				when uart_write_1 =>  -- high 8 or low 8?
-					inout_RAM_DATA <= input_content(7 downto 0);
+					inout_RAM1_DATA <= input_content(7 downto 0);
 					wrn <= '0';
 					current := uart_write_2;
 				when uart_write_2 =>
@@ -143,13 +143,13 @@ begin
 					end if;
 				when uart_write_4 =>
 					if (tsre = '1') then
-						current := start;
+						current := start_0;
 						done <= '1';
 					else
 						current := uart_write_4;
 					end if;
 				when others =>
-					current := start;
+					current := start_0;
 			end case;
 		end if;
 	end process;
