@@ -1,0 +1,10 @@
+Command line:
+   test_bus_dispatcher_isim_beh.exe
+     -simmode  gui
+     -simrunnum  0
+     -socket  9161
+
+Wed Nov 22 16:43:45 2017
+
+
+ Elaboration Time: 0.4375 sec
