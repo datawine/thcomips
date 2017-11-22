@@ -68,9 +68,8 @@ begin
 			end if;
 		end process;
 
-		op_sram_uart : process(clk) is
+		op_sram_uart : process(pc_in, dm_addr, dm_content_in) is
 		begin
-				if(clk'event and clk = '1') then
 						if(dm_signal = '1') then
 								bus_stall_request <= '1';
 								case operand_type is
@@ -119,7 +118,6 @@ begin
 								mem_addr <= pc_in;
 								mem_start <= '1';
 						end if;
-				end if;
 		end process;
 
 end Behavioral;
