@@ -51,7 +51,7 @@ begin
 
 	make_jp : process(jp_op, operand, A, B, imm) is		
 	begin
-		if (jp_op) then
+		if (jp_op = '1') then
 			case operand is
 				when B_OP =>
 					jump_target <= pc_in + imm;
@@ -60,21 +60,29 @@ begin
 					if (A = "0000000000000000") then
 						jump_target <= pc_in + imm;
 						jump_enable <= '1';
+					else
+						jump_enable <= '0';
 					end if;
 				when BNEZ_OP =>
 					if (A /= "0000000000000000") then
 						jump_target <= pc_in + imm;
 						jump_enable <= '1';
+					else
+						jump_enable <= '0';
 					end if;
 				when BTEQZ_OP =>
 					if (A = "0000000000000000") then
 						jump_target <= pc_in + imm;
 						jump_enable <= '1';
+					else
+						jump_enable <= '0';
 					end if;
 				when BTNEZ_OP =>
 					if (A /= "0000000000000000") then
 						jump_target <= pc_in + imm;
 						jump_enable <= '1';
+					else
+						jump_enable <= '0';
 					end if;
 				when JR_OP =>
 					jump_target <= A;

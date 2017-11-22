@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "G:/vhdl/thcomips/test_bus_dispatcher_isim_beh.exe" -prj "G:/vhdl/thcomips/test_bus_dispatcher_beh.prj" "test_bus_dispatcher" 
+-intstyle "ise" -incremental -o "C:/Users/leavan/Desktop/thcomips/test_jump_controller_isim_beh.exe" -prj "C:/Users/leavan/Desktop/thcomips/test_jump_controller_beh.prj" "work.test_jump_controller" 
