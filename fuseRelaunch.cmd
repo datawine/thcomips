@@ -1,0 +1,1 @@
+-intstyle "ise" -incremental -o "G:/vhdl/thcomips/test_adder_1_isim_beh.exe" -prj "G:/vhdl/thcomips/test_adder_1_beh.prj" "work.test_adder_1" 

@@ -47,7 +47,7 @@ ARCHITECTURE behavior OF test_alu IS
          A : IN  std_logic_vector(15 downto 0);
          B : IN  std_logic_vector(15 downto 0);
          imm : IN  std_logic_vector(15 downto 0);
-         save_register_data : OUT  std_logic_vector(15 downto 0)
+         C : OUT  std_logic_vector(15 downto 0)
         );
     END COMPONENT;
     
@@ -60,7 +60,7 @@ ARCHITECTURE behavior OF test_alu IS
    signal imm : std_logic_vector(15 downto 0) := (others => '0');
 
  	--Outputs
-   signal save_register_data : std_logic_vector(15 downto 0);
+   signal C : std_logic_vector(15 downto 0);
    -- No clocks detected in port list. Replace <clock> below with 
    -- appropriate port name 
  
@@ -74,7 +74,7 @@ BEGIN
           A => A,
           B => B,
           imm => imm,
-          save_register_data => save_register_data
+          C => C
         );
 
    -- Clock process definitions
