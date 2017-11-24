@@ -54,7 +54,7 @@ end bus_dispatcher;
 
 architecture Behavioral of bus_dispatcher is
 begin
-		get_output : process(mem_content, finish_signal) is
+		get_output : process(mem_content_in, finish_signal) is
 		begin
 			if (finish_signal = '1') then
 				mem_start <= '0';
@@ -68,9 +68,8 @@ begin
 			end if;
 		end process;
 
-		op_sram_uart : process(clk) is
+		op_sram_uart : process(pc_in, dm_addr, dm_content_in) is
 		begin
-				if(clk'event and clk = '1') then
 						if(dm_signal = '1') then
 								bus_stall_request <= '1';
 								case oprand_type is
@@ -119,7 +118,6 @@ begin
 								mem_addr <= pc_in;
 								mem_start <= '1';
 						end if;
-				end if;
 		end process;
 
 end Behavioral;
