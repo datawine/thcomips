@@ -49,7 +49,7 @@ end DM;
 architecture Behavioral of DM is
 	
 begin
-	get_dm_out: process(A, B, C, operand_type, DM_out) is
+	get_dm_out: process(A, B, C, operand_type, bus_content_in) is
 	begin
 		bus_optype <= operand_type;
 		case operand_type is
