@@ -5,61 +5,13 @@
      behavior or data corruption.  It is strongly advised that
      users do not edit the contents of this file. -->
 <messages>
-<msg type="error" file="HDLCompiler" num="432" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 349: Formal &lt;<arg fmt="%s" index="1">pc</arg>&gt; has no actual or default value.
+<msg type="warning" file="Simulator" num="1010" delta="unknown" >One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by Xilinx, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running fuse with the &quot;-mt off -v 1&quot; switches to see more information from the C compiler. The following environment variables have been detected:
 </msg>
 
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 360: Type error near <arg fmt="%s" index="1">a_mux_alu_enable</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">std_logic</arg>
+<msg type="warning" file="HDLCompiler" num="960" delta="unknown" >"G:/vhdl/thcomips/memory.vhd" Line 132: Expression has incompatible type
 </msg>
 
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 361: Type error near <arg fmt="%s" index="1">a_mux_dm_enable</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">std_logic</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 369: Type error near <arg fmt="%s" index="1">b_mux_alu_enable</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">std_logic</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 370: Type error near <arg fmt="%s" index="1">b_mux_dm_enable</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">std_logic</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 379: Type error near <arg fmt="%s" index="1">operand_operand_analyse_out</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">integer</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 387: Type error near <arg fmt="%s" index="1">operand_operand_analyse_out</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">integer</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="69" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 403: &lt;<arg fmt="%s" index="1">bus_stall_request</arg>&gt; is not declared.
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 405: Type error near <arg fmt="%s" index="1">pc_staller</arg> ; current type <arg fmt="%s" index="2">std_logic</arg>; expected type <arg fmt="%s" index="3">std_logic_vector</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 406: Type error near <arg fmt="%s" index="1">ifid_hold</arg> ; current type <arg fmt="%s" index="2">std_logic</arg>; expected type <arg fmt="%s" index="3">std_logic_vector</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 407: Type error near <arg fmt="%s" index="1">ifid_nop</arg> ; current type <arg fmt="%s" index="2">std_logic</arg>; expected type <arg fmt="%s" index="3">std_logic_vector</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 408: Type error near <arg fmt="%s" index="1">idex_hold</arg> ; current type <arg fmt="%s" index="2">std_logic</arg>; expected type <arg fmt="%s" index="3">std_logic_vector</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 409: Type error near <arg fmt="%s" index="1">idex_nop</arg> ; current type <arg fmt="%s" index="2">std_logic</arg>; expected type <arg fmt="%s" index="3">std_logic_vector</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1314" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 411: Formal port/generic &lt;<arg fmt="%s" index="1">jp_stall_target</arg>&gt; is not declared in &lt;<arg fmt="%s" index="2">stall_controller</arg>&gt;
-</msg>
-
-<msg type="error" file="HDLCompiler" num="32" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 414: &lt;<arg fmt="%s" index="1">idex</arg>&gt; is already declared in this region.
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 416: Type error near <arg fmt="%s" index="1">operand_operand_analyse_out</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">integer</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 425: Type error near <arg fmt="%s" index="1">operand_idex_out</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">integer</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 434: Type error near <arg fmt="%s" index="1">operand_idex_out</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">integer</arg>
-</msg>
-
-<msg type="error" file="HDLCompiler" num="1728" delta="unknown" >"C:/Users/leavan/Desktop/thcomips/cpu_top.vhd" Line 438: Type error near <arg fmt="%s" index="1">alu_stall_request</arg> ; current type <arg fmt="%s" index="2">std_logic_vector</arg>; expected type <arg fmt="%s" index="3">std_logic</arg>
+<msg type="warning" file="Simulator" num="0" delta="unknown" >Unable to copy libPortabilityNOSH.dll to the simulation executable directory: <arg fmt="%s" index="1">boost::filesystem::copy_file: ￏﾵￍﾳￕￒﾲﾻﾵﾽￖﾸﾶﾨﾵￄￂﾷﾾﾶﾡﾣ, &quot;isim\cpu_top_isim_beh.exe.sim\libPortability.dll&quot;</arg>.
 </msg>
 
 </messages>

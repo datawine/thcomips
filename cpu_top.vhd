@@ -33,9 +33,9 @@ entity cpu_top is
 	Port(
 		sys_clk: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
-		inout_RAM_DATA: inout std_logic_vector(17 downto 0);
+		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 
-		output_RAM1: out std_logic_vector(15 downto 0);
+		output_RAM1: out std_logic_vector(17 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		wrn, rdn: out std_logic
 	);
@@ -91,8 +91,9 @@ end component;
 
 component register_controll
 	Port(
-		pc : in std_logic_vector(15 downto 0);
-		A_addr, B_addr, write_addr, write_content: in std_logic_vector(15 downto 0);
+		pc_in : in std_logic_vector(15 downto 0);
+		A_addr, B_addr, write_addr: in std_logic_vector(3 downto 0);
+		write_content : in std_logic_vector(15 downto 0);
 		
 		A, B : out std_logic_vector(15 downto 0)
 	); 
@@ -100,7 +101,7 @@ end component;
 
 component operand_analyse
 	Port(
-		instuct : in std_logic_vector(15 downto 0);
+		instruct : in std_logic_vector(15 downto 0);
 		operand : out integer;
 		A_addr, B_addr, save_addr: out std_logic_vector(3 downto 0);
 		imm : out std_logic_vector(15 downto 0)
@@ -121,13 +122,14 @@ component stall_controller
 	Port(
 		clk : in std_logic;
 		pc_pc, pc_ifid: in std_logic_vector(15 downto 0);
-		alu_stall_request : in std_logic_vector(15 downto 0);
-		alu_mem_addr, alu_op_type : in std_logic_vector(15 downto 0);
-		bus_stall_request : in std_logic_vector(15 downto 0);
+		alu_stall_request : in std_logic;
+		alu_mem_addr : in std_logic_vector(15 downto 0);
+		alu_op_type : in integer;
+		bus_stall_request : in std_logic;
 		
-		pc_enable, ifid_hold, ifid_nop, idex_hold, idex_nop: out std_logic_vector(15 downto 0);
+		pc_enable, ifid_hold, ifid_nop, idex_hold, idex_nop: out std_logic;
 		jp_stall_enable : out std_logic;
-		jp_stall_targer : out std_logic_vector(15 downto 0)
+		jp_stall_target : out std_logic_vector(15 downto 0)
 	);
 end component;
 
@@ -135,12 +137,12 @@ component IDEX
 	Port(
 		clk : in std_logic;
 		operand_type_in : in integer;
-		save_reg_addr_in : in std_logic_vector(15 downto 0);
+		save_reg_addr_in : in std_logic_vector(3 downto 0);
 		A_in, B_in, imm_in, pc_in : in std_logic_vector(15 downto 0);
 		nop, hold : in std_logic;
 		
 		operand_type_out : out integer;
-		save_reg_addr_out : out std_logic_vector(15 downto 0);
+		save_reg_addr_out : out std_logic_vector(3 downto 0);
 		A_out, B_out, imm_out, pc_out : out std_logic_vector(15 downto 0)
 	);
 end component;
@@ -148,8 +150,8 @@ end component;
 component alu_forward
 	port(
 		operand: in integer;
-		save_register_addr: in std_logic_vector(15 downto 0);
-		rx_addr, ry_addr: in std_logic_vector(15 downto 0);
+		save_register_addr: in std_logic_vector(3 downto 0);
+		rx_addr, ry_addr: in std_logic_vector(3 downto 0);
 		alu_stall_request: out std_logic;
 		rx_mux_en, ry_mux_en: out std_logic
 	); 
@@ -166,23 +168,24 @@ end component;
 component mem_forward
 	Port(
 		operand: in integer;
-		save_register_addr: in std_logic_vector(15 downto 0);
-		rx_addr, ry_addr: in std_logic_vector(15 downto 0);
+		save_register_addr: in std_logic_vector(3 downto 0);
+		rx_addr, ry_addr: in std_logic_vector(3 downto 0);
 		rx_mux_en, ry_mux_en: out std_logic
 	);
 end component;
 
 component EXMEM
 	Port(
+		clk : in std_logic;
 		operand_type_in : in integer;
 		pc_in : in std_logic_vector(15 downto 0);
-		save_reg_addr_in : in std_logic_vector(15 downto 0);
+		save_reg_addr_in : in std_logic_vector(3 downto 0);
 		A_in, B_in, C_in : in std_logic_vector(15 downto 0);
 		nop, hold : in std_logic;
 		
 		operand_type_out : out integer;
 		pc_out : out std_logic_vector(15 downto 0);
-		save_reg_addr_out : in std_logic_vector(15 downto 0);
+		save_reg_addr_out : out std_logic_vector(3 downto 0);
 		A_out, B_out, C_out : out std_logic_vector(15 downto 0)
 	);
 end component;
@@ -191,9 +194,10 @@ component DM
 	Port(
 		A, B, C : in std_logic_vector(15 downto 0);
 		operand_type : in integer;
-		bus_optype : out integer;
-		bus_content : inout std_logic_vector(15 downto 0);
+		bus_content_in : in std_logic_vector(15 downto 0);
+
 		send_signal : out std_logic;
+		bus_content_out : out std_logic_vector(15 downto 0);
 		bus_addr : out std_logic_vector(15 downto 0);
 		DM_out : out std_logic_vector(15 downto 0)
 	);
@@ -201,22 +205,29 @@ end component;
 
 component MEMWB
 	Port(
-		pc_in, DM_in, save_register_addr_in : in std_logic_vector(15 downto 0);
-		pc_out, DM_out, save_register_addr_out : out std_logic_vector(15 downto 0)
+		clk, nop, hold : in std_logic;
+		pc_in, DM_in : in std_logic_vector(15 downto 0);
+		save_register_addr_in : in std_logic_vector(3 downto 0);
+		pc_out, DM_out : out std_logic_vector(15 downto 0);
+		save_register_addr_out : out std_logic_vector(3 downto 0)
 	); 
 end component;
 
 component bus_dispatcher
 	Port(
+		-- inputs
 		clk, rst : in std_logic;
+		operand_type: in integer;
 		pc_in, dm_addr : in std_logic_vector(15 downto 0);
-		im_content_in, dm_content_in : in std_logic_vector(15 downto 0);
+		dm_content_in : in std_logic_vector(15 downto 0);
 		mem_content_in : in std_logic_vector(15 downto 0);
-		oprand_type: in integer;
 		dm_signal : in std_logic;
 		finish_signal : in std_logic;
+				
+		-- outputs
 		mem_start : out std_logic;
-		im_content_out, dm_content_out : out std_logic_vector(15 downto 0);
+		im_content_out : out std_logic_vector(15 downto 0);
+		dm_content_out : out std_logic_vector(15 downto 0);
 		mem_addr, mem_content : out std_logic_vector(15 downto 0);
 		mem_optype : out std_logic_vector(1 downto 0); --'00' uart read, '01' uart write, '10' mem read, '11' mem write
 		bus_stall_request : out std_logic
@@ -254,37 +265,37 @@ end component;
 	signal inst_ifid_out: std_logic_vector(15 downto 0);
 	signal pc_ifid_out: std_logic_vector(15 downto 0);
 	
-	signal A_addr_operand_analyse_register_controll: std_logic_vector(15 downto 0);
-	signal B_addr_operand_analyse_register_controll: std_logic_vector(15 downto 0);
+	signal A_addr_operand_analyse_register_controll: std_logic_vector(3 downto 0);
+	signal B_addr_operand_analyse_register_controll: std_logic_vector(3 downto 0);
 	signal A_register_controll_out: std_logic_vector(15 downto 0);
 	signal B_register_controll_out: std_logic_vector(15 downto 0);
 	
-	signal A_mux_alu_enable, B_mux_alu_enable, A_mux_dm_enable, B_mux_dm_enable: std_logic_vector(15 downto 0);
-	
-	signal alu_forward_sig, dm_forward: std_logic_vector(15 downto 0);
+	signal A_mux_alu_enable, B_mux_alu_enable, A_mux_dm_enable, B_mux_dm_enable: std_logic;
 	
 	signal A_mux_out, B_mux_out: std_logic_vector(15 downto 0);
 	
-	signal operand_operand_analyse_out: std_logic_vector(15 downto 0);	
-	signal save_register_addr_operand_analyse_IEDX: std_logic_vector(15 downto 0);
+	signal operand_operand_analyse_out: integer;	
+	signal save_register_addr_operand_analyse_IEDX: std_logic_vector(3 downto 0);
 	signal imm_operand_analyse_out: std_logic_vector(15 downto 0);
 	
 	
 	-- EXE
-	signal operand_idex_out: std_logic_vector(15 downto 0);
+	signal operand_idex_out: integer;
 	signal pc_idex_out: std_logic_vector(15 downto 0);
 	signal A_idex_out, B_idex_out, imm_idex_out: std_logic_vector(15 downto 0);
-	signal save_register_addr_idex_out: std_logic_vector(15 downto 0);
+	signal save_register_addr_idex_out: std_logic_vector(3 downto 0);
+	signal C_alu_out: std_logic_vector(15 downto 0);
 
-	signal alu_stall_request: std_logic_vector(15 downto 0);
+	signal alu_stall_request: std_logic;
 	signal alu_mem_addr: std_logic_vector(15 downto 0); 
 	
 	-- MEM
-	signal operand_exmem_out: std_logic_vector(15 downto 0);
+	signal operand_exmem_out: integer;
 	signal pc_exmem_out: std_logic_vector(15 downto 0);
 	signal A_exmem_out, B_exmem_out, C_exmem_out: std_logic_vector(15 downto 0);
-	signal save_register_addr_exmem_out: std_logic_vector(15 downto 0);
+	signal save_register_addr_exmem_out: std_logic_vector(3 downto 0);
 	
+	signal bus_stall_request: std_logic;
 	signal bus_content_dm_bus, bus_addr_dm_bus: std_logic_vector(15 downto 0);
 	signal bus_addr_dm: std_logic_vector(15 downto 0);
 	signal dm_signal: std_logic;
@@ -293,13 +304,14 @@ end component;
 	signal bus_content_bus_dm, bus_addr_bus_dm: std_logic_vector(15 downto 0);
 	signal mem_addr_bus_mem, mem_content_bus_mem: std_logic_vector(15 downto 0);
 	signal mem_optype: std_logic_vector(1 downto 0);
+	signal mem_content_mem_bus: std_logic_vector(15 downto 0);
 
 	signal bus_content_mem_bus: std_logic_vector(15 downto 0);
 	signal finish_signal, mem_start_dm: std_logic;
 
 	-- WB
 	signal pc_memwb_out: std_logic_vector(15 downto 0);
-	signal save_register_addr_memwb_out: std_logic_vector(15 downto 0);
+	signal save_register_addr_memwb_out: std_logic_vector(3 downto 0);
 	signal dm_memwb_out: std_logic_vector(15 downto 0);
 
 	--stall control
@@ -346,7 +358,8 @@ begin
 		pc_out => inst_ifid
 	);
  
-	rc: register_controll port map(
+	register_controller: register_controll port map(
+		pc_in => pc_ifid_out,
 		A_addr => A_addr_operand_analyse_register_controll,
 		B_addr => B_addr_operand_analyse_register_controll, 
 		write_addr => save_register_addr_memwb_out, 	
@@ -360,8 +373,8 @@ begin
 		mux1_EN => A_mux_alu_enable, 
 		mux2_EN => A_mux_dm_enable,
 		src_1 => A_register_controll_out,
-		src_2 => alu_forward_sig,
-		src_3 => dm_forward,
+		src_2 => C_alu_out,
+		src_3 => dm_dm_out,
 		output => A_mux_out
 	);
 
@@ -369,13 +382,13 @@ begin
 		mux1_EN => B_mux_alu_enable, 
 		mux2_EN => B_mux_dm_enable,
 		src_1 => B_register_controll_out,
-		src_2 => alu_forward_sig,
-		src_3 => dm_forward,
+		src_2 => C_alu_out,
+		src_3 => dm_dm_out,
 		output => B_mux_out
 	);
 	
 	op: operand_analyse port map(
-		instuct => inst_ifid_out,
+		instruct => inst_ifid_out,
 		operand => operand_operand_analyse_out,
 		A_addr => A_addr_operand_analyse_register_controll, 
 		B_addr => B_addr_operand_analyse_register_controll, 
@@ -411,7 +424,7 @@ begin
 		jp_stall_target => jump_stall_target
 	);
 
-	IDEX: IDEX port map(
+	IDEX_1: IDEX port map(
 		clk => sys_clk,
 		operand_type_in => operand_operand_analyse_out,
 		save_reg_addr_in => save_register_addr_operand_analyse_IEDX,
@@ -440,7 +453,7 @@ begin
 		ry_mux_en => B_mux_alu_enable
 	); 
 
-	alu: alu port map(
+	alu_1: alu port map(
 		operand => operand_idex_out,
 		A => A_idex_out, 
 		B => B_idex_out, 
@@ -448,19 +461,20 @@ begin
 		C => C_alu_out
 	); 
 	
-	EXMEM: EXMEM port map(
+	EXMEM_1: EXMEM port map(
+		clk => sys_clk,
 		operand_type_in => operand_idex_out,
 		pc_in => pc_idex_out,
 		save_reg_addr_in => save_register_addr_idex_out,
 		A_in => A_idex_out, 
 		B_in => B_idex_out, 
-		C_in => C_idex_out,
-		nop => idex_nop, 
-		hold => idex_hold,
+		C_in => C_alu_out,
+		nop => '0', 
+		hold => '0',
 		
 		operand_type_out => operand_exmem_out,
 		pc_out => pc_exmem_out,
-		save_reg_addr_in => save_register_addr_exmem_out,
+		save_reg_addr_out => save_register_addr_exmem_out,
 		A_out => A_exmem_out, 
 		B_out => B_exmem_out, 
 		C_out => C_exmem_out
@@ -471,19 +485,19 @@ begin
 		save_register_addr => save_register_addr_exmem_out,
 		rx_addr => A_addr_operand_analyse_register_controll, 
 		ry_addr => B_addr_operand_analyse_register_controll,
-		rx_mux_en => A_mux_mem_enable, 
-		ry_mux_en => B_mex_mem_enable
+		rx_mux_en => A_mux_dm_enable, 
+		ry_mux_en => B_mux_dm_enable
 	);
 
-	DM: DM port map(
+	DM_1: DM port map(
 		A => A_exmem_out, 
 		B => B_exmem_out, 
 		C => C_exmem_out,
 		operand_type => operand_exmem_out,
-		bus_optype => bus_optype_dm,
 		bus_content_in => bus_content_bus_dm,
-		bus_content_out => bus_content_dm_bus,
+
 		send_signal => dm_signal,
+		bus_content_out => bus_content_dm_bus,
 		bus_addr => bus_addr_dm,
 		DM_out => dm_dm_out
 	);
@@ -508,7 +522,10 @@ begin
 		bus_stall_request => bus_stall_request
 	);
 
-	MEMWB: MEMWB port map(
+	MEMWB_1: MEMWB port map(
+		clk => sys_clk,
+		nop => '0', 
+		hold => '0',
 		pc_in => pc_exmem_out, 
 		DM_in => dm_dm_out, 
 		save_register_addr_in => save_register_addr_exmem_out,
@@ -517,7 +534,7 @@ begin
 		save_register_addr_out => save_register_addr_memwb_out
 	); 
 	
-	memory: memory port map(
+	memory_1: memory port map(
 		clk => sys_clk,
 		input_addr => mem_addr_bus_mem, 
 		input_content => mem_content_bus_mem,

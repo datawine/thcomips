@@ -36,8 +36,8 @@ use work.cpuconstant.ALL;
 entity mem_forward is
 	Port(
 		operand: in integer;
-		save_register_addr: in std_logic_vector(15 downto 0);
-		rx_addr, ry_addr: in std_logic_vector(15 downto 0);
+		save_register_addr: in std_logic_vector(3 downto 0);
+		rx_addr, ry_addr: in std_logic_vector(3 downto 0);
 		rx_mux_en, ry_mux_en: out std_logic
 	);
 end mem_forward;

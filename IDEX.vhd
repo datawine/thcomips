@@ -35,18 +35,19 @@ entity IDEX is
 	Port(
 		clk : in std_logic;
 		operand_type_in : in integer;
-		save_reg_addr_in : in std_logic_vector(15 downto 0);
+		save_reg_addr_in : in std_logic_vector(3 downto 0);
 		A_in, B_in, imm_in, pc_in : in std_logic_vector(15 downto 0);
 		nop, hold : in std_logic;
 		
 		operand_type_out : out integer;
-		save_reg_addr_out : out std_logic_vector(15 downto 0);
+		save_reg_addr_out : out std_logic_vector(3 downto 0);
 		A_out, B_out, imm_out, pc_out : out std_logic_vector(15 downto 0)
 	);
 end IDEX;
 
 architecture Behavioral of IDEX is
-	signal A_tmp, B_tmp, imm_tmp, save_tmp, pc_tmp : std_logic_vector(15 downto 0);
+	signal A_tmp, B_tmp, imm_tmp, pc_tmp : std_logic_vector(15 downto 0);
+	signal save_tmp : std_logic_vector(3 downto 0);
 	signal op_tmp : integer;
 begin
 	pc_tmp <= pc_in;

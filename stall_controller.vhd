@@ -36,7 +36,7 @@ use work.cpuconstant.ALL;
 entity stall_controller is
 	Port(
 		clk : in std_logic;
-		pc_pc, pc_ifid, pc_idex: in std_logic_vector(15 downto 0);
+		pc_pc, pc_ifid: in std_logic_vector(15 downto 0);
 		alu_stall_request : in std_logic;
 		alu_mem_addr : in std_logic_vector(15 downto 0);
 		alu_op_type : in integer;
@@ -53,7 +53,7 @@ architecture Behavioral of stall_controller is
 	signal nop: integer := 0;
 	-- 1 for pc, 2 for ifid, 3 for idex, 4 for exmem, 0 for nothing
 begin
-	gen_stall: process(pc_pc, pc_ifid, pc_idex, alu_stall_request, bus_stall_request, alu_mem_addr, alu_op_type) is
+	gen_stall: process(pc_pc, pc_ifid, alu_stall_request, bus_stall_request, alu_mem_addr, alu_op_type) is
 	begin
 		if (alu_op_type = SW_OP or alu_op_type = SW_SP_OP) then
 			if (alu_mem_addr = pc_pc) then

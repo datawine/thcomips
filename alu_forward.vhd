@@ -36,8 +36,8 @@ use work.cpuconstant.ALL;
 entity alu_forward is
 	port(
 		operand: in integer;
-		save_register_addr: in std_logic_vector(15 downto 0);
-		rx_addr, ry_addr: in std_logic_vector(15 downto 0);
+		save_register_addr: in std_logic_vector(3 downto 0);
+		rx_addr, ry_addr: in std_logic_vector(3 downto 0);
 		alu_stall_request: out std_logic;
 		rx_mux_en, ry_mux_en: out std_logic
 	);
