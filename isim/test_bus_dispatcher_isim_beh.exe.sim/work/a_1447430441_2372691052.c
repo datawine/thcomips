@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "C:/Users/leavan/Desktop/thcomips/test_bus_dispatcher.vhd";
+static const char *ng0 = "G:/vhdl/thcomips/test_bus_dispatcher.vhd";
 
 
 
@@ -157,7 +157,7 @@ LAB9:    goto LAB8;
 LAB11:    goto LAB9;
 
 LAB12:    xsi_set_current_line(130, ng0);
-    t2 = (t0 + 9256);
+    t2 = (t0 + 8904);
     t6 = (t0 + 5472);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
@@ -178,7 +178,7 @@ LAB13:    goto LAB12;
 LAB15:    goto LAB13;
 
 LAB16:    xsi_set_current_line(132, ng0);
-    t2 = (t0 + 9272);
+    t2 = (t0 + 8920);
     t6 = (t0 + 5536);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
@@ -219,7 +219,7 @@ LAB21:    goto LAB20;
 LAB23:    goto LAB21;
 
 LAB24:    xsi_set_current_line(136, ng0);
-    t2 = (t0 + 9288);
+    t2 = (t0 + 8936);
     t6 = (t0 + 5664);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
@@ -240,7 +240,7 @@ LAB25:    goto LAB24;
 LAB27:    goto LAB25;
 
 LAB28:    xsi_set_current_line(138, ng0);
-    t2 = (t0 + 9304);
+    t2 = (t0 + 8952);
     t6 = (t0 + 5728);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
@@ -301,7 +301,7 @@ LAB37:    goto LAB36;
 LAB39:    goto LAB37;
 
 LAB40:    xsi_set_current_line(150, ng0);
-    t2 = (t0 + 9320);
+    t2 = (t0 + 8968);
     t6 = (t0 + 5536);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
@@ -318,7 +318,7 @@ LAB40:    xsi_set_current_line(150, ng0);
     *((unsigned char *)t8) = (unsigned char)3;
     xsi_driver_first_trans_fast(t2);
     xsi_set_current_line(152, ng0);
-    t2 = (t0 + 9336);
+    t2 = (t0 + 8984);
     t6 = (t0 + 5664);
     t7 = (t6 + 56U);
     t8 = *((char **)t7);
