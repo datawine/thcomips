@@ -35,14 +35,14 @@ use work.cpuconstant.ALL;
 
 entity operand_analyse is
 	Port(
-		instuct : in std_logic_vector(15 downto 0);
+		instruct : in std_logic_vector(15 downto 0);
 		operand : out integer;
 		A_addr, B_addr, save_addr: out std_logic_vector(3 downto 0);
 		imm : out std_logic_vector(15 downto 0)
 	);
 end operand_analyse;
 
-architecture Behavioral of operand_analyse is
+	architecture Behavioral of operand_analyse is
 	
 	signal inst_15_11: std_logic_vector(4 downto 0);
 	signal inst_10_8, inst_7_5, inst_4_2: std_logic_vector(2 downto 0);
@@ -50,19 +50,23 @@ architecture Behavioral of operand_analyse is
 	signal inst_1_0: std_logic_vector(1 downto 0);
 	signal inst_4_0: std_logic_vector(4 downto 0);
 	signal inst_10_0: std_logic_vector(10 downto 0);
+	signal inst_7_0: std_logic_vector(7 downto 0);
+	signal inst_6: std_logic;
 	
 	signal optype_origin, optype: integer;
-	signal ss_op_type, abbm_op_type, as_op_type, acjno_op_type, ms_op_type, mm_op_type: integer;
+	signal ss_op_type, abbm_op_type, as_op_type, acjnoms_op_type, ms_op_type, mm_op_type, jm_op_type: integer;
 	signal tmp_imm: integer;
 begin
-	inst_15_11 <= instuct(15 downto 11);
-	inst_10_8 <= instuct(10 downto 8);
-	inst_7_5 <= instuct(7 downto 5);
-	inst_3_0 <= instuct(3 downto 0);
-	inst_1_0 <= instuct(1 downto 0);
-	inst_4_0 <= instuct(4 downto 0);
-	inst_10_0 <= instuct(10 downto 0);
+	inst_15_11 <= instruct(15 downto 11);
+	inst_10_8 <= instruct(10 downto 8);
+	inst_7_5 <= instruct(7 downto 5);
+	inst_3_0 <= instruct(3 downto 0);
+	inst_1_0 <= instruct(1 downto 0);
+	inst_4_0 <= instruct(4 downto 0);
+	inst_10_0 <= instruct(10 downto 0);
 	inst_4_2 <= instruct(4 downto 2);
+	inst_7_0 <= instruct(7 downto 0);
+	inst_6 <= instruct(6);
 	
 	with inst_15_11 select
 		optype_origin <=
@@ -82,8 +86,7 @@ begin
 			SW_SP_OP when "11010",
 			SW_OP when "11011",
 			ADDU_SUBU_OP when "11100",
-			AND_CMP_JR_NOT_OR_OP when "11101",
-			MFPC_SLLV_OP when "11101",
+			AND_CMP_JR_NOT_OR_MFPC_SLLV_OP when "11101",
 			MFIH_MTIH_OP when "11110",
 			ERROR_OP when others;
 
@@ -107,13 +110,20 @@ begin
 			SUBU_OP when "11",
 			ERROR_OP when others;		
 
+	with inst_6 select
+		jm_op_type <=
+			JR_OP when '0',
+			MFPC_OP when '1',
+			ERROR_OP when others;
+
 	with inst_4_0 select --11101
-		acjno_op_type <=
+		acjnoms_op_type <=
 			AND_OP when "01100",
 			CMP_OP when "01010",
-			JR_OP when "00000",
+			jm_op_type when "00000",
 			NOT_OP when "01111",
 			OR_OP when "01101",
+			SLLV_OP when "00100",
 			ERROR_OP when others;		
 
 	with inst_4_0 select
@@ -122,10 +132,10 @@ begin
 			SLLV_OP when "00100",
 			ERROR_OP when others;
 			
-	with inst_4_0 select
+	with inst_1_0 select
 		mm_op_type <=
-			MFIH when "00000",
-			MTIH when "00001",
+			MFIH_OP when "00",
+			MTIH_OP when "01",
 			ERROR_OP when others;
 	
 	with optype_origin select
@@ -133,10 +143,10 @@ begin
 			ss_op_type when SLL_SRA_OP,
 			abbm_op_type when ADDSP_BTEQZ_BTNEZ_MTSP_OP,
 			as_op_type when ADDU_SUBU_OP,
-			acjno_op_type when AND_CMP_JR_NOT_OR_OP,
+			acjnoms_op_type when AND_CMP_JR_NOT_OR_MFPC_SLLV_OP,
 			ms_op_type when MFPC_SLLV_OP,
 			mm_op_type when MFIH_MTIH_OP,
-			unaffected when others;
+			optype_origin when others;
 	
 	with optype select
 		A_addr(3 downto 0) <=
@@ -216,23 +226,26 @@ begin
 	
 	with optype select
 		tmp_imm <=
-			to_integer(signed(inst_7_0)) when ADDIU_OP,
-			to_integer(signed(inst_3_0)) when ADDIU3_OP,
-			to_integer(signed(inst_7_0)) when ADDSP3_OP,
-			to_integer(signed(inst_7_0)) when ADDSP_OP,
-			to_integer(signed(inst_10_0)) when B_OP,
-			to_integer(signed(inst_7_0)) when BEQZ_OP,
-			to_integer(signed(inst_7_0)) when BNEZ_OP,
-			to_integer(signed(inst_7_0)) when BTEQZ_OP,
-			to_integer(signed(inst_7_0)) when BTNEZ_OP,
-			to_integer(unsigned(inst_7_0)) when LI_OP,
-			to_integer(signed(inst_4_0)) when LW_OP,
-			to_integer(signed(inst_7_0)) when LW_SP_OP,
-			to_integer(signed(inst_4_2)) when SLL_OP,
-			to_integer(signed(inst_7_0)) when SLTI_OP,
-			to_integer(signed(inst_4_2)) when SRA_OP,
-			to_integer(signed(inst_4_0)) when SW_OP,
-			to_integer(signed(inst_7_0)) when SW_SP_OP,
+			conv_integer(signed(inst_7_0)) when ADDIU_OP,
+			conv_integer(signed(inst_3_0)) when ADDIU3_OP,
+			conv_integer(signed(inst_7_0)) when ADDSP3_OP,
+			conv_integer(signed(inst_7_0)) when ADDSP_OP,
+			conv_integer(signed(inst_10_0)) when B_OP,
+			conv_integer(signed(inst_7_0)) when BEQZ_OP,
+			conv_integer(signed(inst_7_0)) when BNEZ_OP,
+			conv_integer(signed(inst_7_0)) when BTEQZ_OP,
+			conv_integer(signed(inst_7_0)) when BTNEZ_OP,
+			conv_integer(unsigned(inst_7_0)) when LI_OP,
+			conv_integer(signed(inst_4_0)) when LW_OP,
+			conv_integer(signed(inst_7_0)) when LW_SP_OP,
+			conv_integer(signed(inst_4_2)) when SLL_OP,
+			conv_integer(signed(inst_7_0)) when SLTI_OP,
+			conv_integer(signed(inst_4_2)) when SRA_OP,
+			conv_integer(signed(inst_4_0)) when SW_OP,
+			conv_integer(signed(inst_7_0)) when SW_SP_OP,
 			0 when others;
+			
+	imm <= conv_std_logic_vector(tmp_imm, 16);
+	operand <= optype;
 		
 end Behavioral;

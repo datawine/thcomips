@@ -71,6 +71,7 @@ package cpuconstant is
 
 
 
+
 -- Declare functions and procedure
 --
 -- function <function_name>  (signal <signal_name> : in <type_declaration>) return <type_declaration>;
