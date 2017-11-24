@@ -58,10 +58,17 @@ begin
 					done <= '0';
 					if (start = '1') then
 						if (operand_type = "00") then
-							ram1OE <= '1';
-							ram1WE <= '1';
-							ram1EN <= '1';
-							current := uart_read_1;
+							if (input_addr = "1011111100000001") then
+								output_content(0) <= tsre and tbre;
+								output_content(1) <= data_ready;
+								output_content(15 downto 2) <= "00000000000000";
+								done <= '1';
+							else
+								ram1OE <= '1';
+								ram1WE <= '1';
+								ram1EN <= '1';
+								current := uart_read_1;
+							end if;
 						elsif (operand_type = "01") then
 							rdn <= '1';
 							wrn <= '1';

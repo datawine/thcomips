@@ -71,7 +71,7 @@ begin
 								bus_stall_request <= '1';
 								case oprand_type is
 										when LW_OP =>
-												if (dm_addr = "1011111100000000") then
+												if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
 													mem_optype <= "00";
 												else
 													mem_optype <= "10";
@@ -79,7 +79,7 @@ begin
 												mem_addr <= dm_addr;
 												mem_start <= '1';
 										when LW_SP_OP =>
-												if (dm_addr = "1011111100000000") then
+												if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
 													mem_optype <= "00";
 												else
 													mem_optype <= "10";
