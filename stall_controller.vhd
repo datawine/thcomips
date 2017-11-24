@@ -63,6 +63,8 @@ begin
 			else
 				reset <= 0;
 			end if;
+		else
+			reset <= 0;
 		end if;
 		
 		if ((alu_stall_request = '1' or bus_stall_request = '1') and reset = 0) then
@@ -74,6 +76,7 @@ begin
 				nop <= 0;
 			end if;
 		else
+			nop <= 0;
 		end if;
 	end process;
 	
@@ -86,29 +89,54 @@ begin
 					jp_stall_target <= pc_ifid;
 					idex_nop <= '1';
 					ifid_nop <= '1';
+					idex_hold <= '0';
+					ifid_hold <= '0';
+					pc_enable <= '1';
 				when 2 =>
 					jp_stall_enable <= '1';
 					jp_stall_target <= pc_pc;
 					ifid_nop <= '1';
+					idex_nop <= '0';
+					idex_hold <= '0';
+					ifid_hold <= '0';
+					pc_enable <= '1';
 				when others =>
 					idex_nop <= '0';
 					ifid_nop <= '0';
+					idex_hold <= '0';
+					ifid_hold <= '0';
+					pc_enable <= '1';
 			end case;
 		elsif (nop /= 0) then
 			case nop is
 				when 3 =>
 					idex_nop <= '1';
 					ifid_hold <= '1';
+					ifid_nop <= '0';
+					idex_hold <= '0';
 					pc_enable <= '0';					
 				when 2 =>
 					ifid_nop <= '1';
+					idex_nop <= '0';
+					idex_hold <= '0';
+					ifid_hold <= '0';
 					pc_enable <= '0';
 				when others =>
+					idex_nop <= '0';
+					ifid_nop <= '0';
+					idex_hold <= '0';
+					ifid_hold <= '0';
+					pc_enable <= '1';
 			end case;
 		else
 			idex_nop <= '0';
 			ifid_nop <= '0';
 			jp_stall_enable <= '0';
+			idex_nop <= '0';
+			ifid_nop <= '0';
+			idex_hold <= '0';
+			ifid_hold <= '0';
+			pc_enable <= '1';
 		end if;
 	end process;
 
