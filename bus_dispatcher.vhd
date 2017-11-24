@@ -35,13 +35,13 @@ entity bus_dispatcher is
 		Port(
 				clk, rst : in std_logic;
 				pc_in, dm_addr : in std_logic_vector(15 downto 0);
-				im_content_in, dm_content_in : in std_logic_vector(15 downto 0);
 				mem_content_in : in std_logic_vector(15 downto 0);
-				oprand_type: in integer;
+				operand_type: in integer;
 				dm_signal : in std_logic;
 				finish_signal : in std_logic;
 				mem_start : out std_logic;
-				im_content_out, dm_content_out : out std_logic_vector(15 downto 0);
+				im_content_out : out std_logic_vector(15 downto 0);
+				dm_content_out : inout std_logic_vector(15 downto 0);
 				mem_addr, mem_content : out std_logic_vector(15 downto 0);
 				mem_optype : out std_logic_vector(1 downto 0); --'00' uart read, '01' uart write, '10' mem read, '11' mem write
 				bus_stall_request : out std_logic
@@ -93,7 +93,7 @@ begin
 													mem_optype <= "11";
 												end if;
 												mem_addr <= dm_addr;
-												mem_addr <= dm_content_in;
+												mem_content <= dm_content_in;
 												mem_start <= '1';
 										when SW_SP_OP =>
 												if (dm_addr = "1011111100000000") then
@@ -102,7 +102,7 @@ begin
 													mem_optype <= "11";
 												end if;
 												mem_addr <= dm_addr;
-												mem_addr <= dm_content_in;
+												mem_content <= dm_content_in;
 												mem_start <= '1';
 										when others =>
 								end case;

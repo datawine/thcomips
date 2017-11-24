@@ -31,7 +31,6 @@ use IEEE.STD_LOGIC_1164.ALL;
 
 entity register_controll is
 	Port(
-		clk : in std_logic;
 		pc : in std_logic_vector(15 downto 0);
 		A_addr, B_addr, write_addr, write_content: in std_logic_vector(15 downto 0);
 		

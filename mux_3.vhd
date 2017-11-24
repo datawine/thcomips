@@ -42,13 +42,22 @@ end mux_3;
 architecture Behavioral of mux_3 is
 	signal mux_EN: std_logic_vector(1 downto 0);
 begin
+	-- for forward part
 	-- src_1 is original
 	-- src_2 is ALU
 	-- src_3 is MEM
-	-- mux(0) is ALU,
-	-- mux(1) is MEM
-	mux_EN(0) <= mux1_EN;
-	mux_EN(1) <= mux2_EN;
+	-- mux(1) is ALU,
+	-- mux(0) is MEM
+
+	-- for new pc part
+	-- src_1 is original
+	-- src_2 is jp_stall_target
+	-- src_3 is jp target
+	-- mux(1) is stall controll,
+	-- mux(0) is jump controlls
+
+	mux_EN(1) <= mux1_EN;
+	mux_EN(0) <= mux2_EN;
 	
 	with mux_EN select
 		output <= 

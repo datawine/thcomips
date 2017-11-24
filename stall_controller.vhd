@@ -43,7 +43,7 @@ entity stall_controller is
 		
 		pc_enable, ifid_hold, ifid_nop, idex_hold, idex_nop: out std_logic_vector(15 downto 0);
 		jp_stall_enable : out std_logic;
-		jp_stall_targer : out std_logic_vector(15 downto 0)
+		jp_stall_target : out std_logic_vector(15 downto 0)
 	);
 end stall_controller;
 
