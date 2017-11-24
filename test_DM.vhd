@@ -45,7 +45,6 @@ ARCHITECTURE behavior OF test_DM IS
          B : IN  std_logic_vector(15 downto 0);
          C : IN  std_logic_vector(15 downto 0);
          operand_type : IN  integer;
-         bus_optype : OUT  integer;
          bus_content_in : IN  std_logic_vector(15 downto 0);
 			bus_content_out : out std_logic_vector(15 downto 0);
          send_signal : OUT  std_logic;
@@ -66,7 +65,6 @@ ARCHITECTURE behavior OF test_DM IS
 	signal bus_content_out : std_logic_vector(15 downto 0);
 
  	--Outputs
-   signal bus_optype : integer;
    signal send_signal : std_logic;
    signal bus_addr : std_logic_vector(15 downto 0);
    signal DM_out : std_logic_vector(15 downto 0);
@@ -84,7 +82,6 @@ BEGIN
           B => B,
           C => C,
           operand_type => operand_type,
-          bus_optype => bus_optype,
           bus_content_in => bus_content_in,
 			 bus_content_out => bus_content_out,
           send_signal => send_signal,

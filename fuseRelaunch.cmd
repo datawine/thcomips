@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "C:/Users/leavan/Desktop/thcomips/test_DM_isim_beh.exe" -prj "C:/Users/leavan/Desktop/thcomips/test_DM_beh.prj" "work.test_DM" 
+-intstyle "ise" -incremental -o "C:/Users/leavan/Desktop/thcomips/test_register_controll_isim_beh.exe" -prj "C:/Users/leavan/Desktop/thcomips/test_register_controll_beh.prj" "work.test_register_controll" 
