@@ -41,7 +41,7 @@ end IM;
 architecture Behavioral of IM is
 
 begin
-	get_inst: process(pc_in, bus_content, bus_addr) is
+	get_inst: process(pc_in, bus_content) is
 	begin
 		bus_addr <= pc_in;
 		instruction <= bus_content;
