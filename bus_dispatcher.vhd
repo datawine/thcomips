@@ -33,15 +33,19 @@ use work.cpuconstant.ALL;
 
 entity bus_dispatcher is
 		Port(
+				-- inputs
 				clk, rst : in std_logic;
-				pc_in, dm_addr : in std_logic_vector(15 downto 0);
-				mem_content_in : in std_logic_vector(15 downto 0);
 				operand_type: in integer;
+				pc_in, dm_addr : in std_logic_vector(15 downto 0);
+				dm_content_in : in std_logic_vector(15 downto 0);
+				mem_content_in : in std_logic_vector(15 downto 0);
 				dm_signal : in std_logic;
 				finish_signal : in std_logic;
+				
+				-- outputs
 				mem_start : out std_logic;
 				im_content_out : out std_logic_vector(15 downto 0);
-				dm_content_out : inout std_logic_vector(15 downto 0);
+				dm_content_out : out std_logic_vector(15 downto 0);
 				mem_addr, mem_content : out std_logic_vector(15 downto 0);
 				mem_optype : out std_logic_vector(1 downto 0); --'00' uart read, '01' uart write, '10' mem read, '11' mem write
 				bus_stall_request : out std_logic

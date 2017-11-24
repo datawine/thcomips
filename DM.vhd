@@ -37,9 +37,10 @@ entity DM is
 	Port(
 		A, B, C : in std_logic_vector(15 downto 0);
 		operand_type : in integer;
-		bus_optype : out integer;
-		bus_content : inout std_logic_vector(15 downto 0);
+		bus_content_in : in std_logic_vector(15 downto 0);
+
 		send_signal : out std_logic;
+		bus_content_out : out std_logic_vector(15 downto 0);
 		bus_addr : out std_logic_vector(15 downto 0);
 		DM_out : out std_logic_vector(15 downto 0)
 	);
@@ -54,19 +55,19 @@ begin
 		case operand_type is
 			when LW_OP =>
 				bus_addr <= C;
-				DM_out <= bus_content;
+				DM_out <= bus_content_in;
 				send_signal <= '1';
 			when LW_SP_OP =>
 				bus_addr <= C;
-				DM_out <= bus_content;
+				DM_out <= bus_content_in;
 				send_signal <= '1';
-			when LW_OP =>
+			when SW_OP =>
 				bus_addr <= C;
-				bus_content <= B;
+				bus_content_out <= B;
 				send_signal <= '1';
-			when LW_SP_OP =>
+			when SW_SP_OP =>
 				bus_addr <= C;
-				bus_content <= A;
+				bus_content_out <= A;
 				send_signal <= '1';
 			when others =>
 				DM_out <= C;

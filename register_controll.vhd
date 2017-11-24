@@ -41,6 +41,8 @@ end register_controll;
 architecture Behavioral of register_controll is
 	signal R0, R1, R2, R3, R4, R5, R6, R7, T, SP, PC, IH: std_logic_vector(15 downto 0) := "0000000000000000";
 begin
+	PC <= pc;
+
 	with A_addr select
 		A <=
 			R0 when "0000",
