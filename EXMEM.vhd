@@ -56,6 +56,8 @@ begin
 	tmp_reg_addr <= save_reg_addr_in;
 	tmp_c <= C_in;
 	tmp_op <= operand_type_in;
+	tmp_a <= A_in;
+	tmp_b <= B_in;
 	
 	transmit: process(clk) is
 	begin

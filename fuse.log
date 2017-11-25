@@ -1,4 +1,4 @@
-Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o G:/vhdl/thcomips/cpu_top_isim_beh.exe -prj G:/vhdl/thcomips/cpu_top_beh.prj cpu_top 
+Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o G:/vhdl/thcomips/test_cpu_top_isim_beh.exe -prj G:/vhdl/thcomips/test_cpu_top_beh.prj work.test_cpu_top 
 ISim P.20131013 (signature 0x7708f090)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
@@ -24,8 +24,8 @@ Parsing VHDL file "G:/vhdl/thcomips/alu_forward.vhd" into library work
 Parsing VHDL file "G:/vhdl/thcomips/alu.vhd" into library work
 Parsing VHDL file "G:/vhdl/thcomips/adder_1.vhd" into library work
 Parsing VHDL file "G:/vhdl/thcomips/cpu_top.vhd" into library work
+Parsing VHDL file "G:/vhdl/thcomips/test_cpu_top.vhd" into library work
 Starting static elaboration
-WARNING:HDLCompiler:960 - "G:/vhdl/thcomips/memory.vhd" Line 132: Expression has incompatible type
 Completed static elaboration
 Compiling package standard
 Compiling package std_logic_1164
@@ -50,11 +50,12 @@ Compiling architecture behavioral of entity DM [dm_default]
 Compiling architecture behavioral of entity bus_dispatcher [bus_dispatcher_default]
 Compiling architecture behavioral of entity MEMWB [memwb_default]
 Compiling architecture behavioral of entity memory [memory_default]
-Compiling architecture behavioral of entity cpu_top
+Compiling architecture behavioral of entity cpu_top [cpu_top_default]
+Compiling architecture behavior of entity test_cpu_top
 Time Resolution for simulation is 1ps.
-Waiting for 16 sub-compilation(s) to finish...
-WARNING:Simulator - Unable to copy libPortabilityNOSH.dll to the simulation executable directory: boost::filesystem::copy_file: 系统找不到指定的路径。, "isim\cpu_top_isim_beh.exe.sim\libPortability.dll".
-Compiled 42 VHDL Units
-Built simulation executable G:/vhdl/thcomips/cpu_top_isim_beh.exe
-Fuse Memory Usage: 35592 KB
-Fuse CPU Usage: 1155 ms
+Waiting for 17 sub-compilation(s) to finish...
+WARNING:Simulator - Unable to copy libPortabilityNOSH.dll to the simulation executable directory: boost::filesystem::copy_file: 系统找不到指定的路径。, "isim\test_cpu_top_isim_beh.exe.sim\libPortability.dll".
+Compiled 44 VHDL Units
+Built simulation executable G:/vhdl/thcomips/test_cpu_top_isim_beh.exe
+Fuse Memory Usage: 35776 KB
+Fuse CPU Usage: 1233 ms

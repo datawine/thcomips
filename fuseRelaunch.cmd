@@ -1,1 +1,1 @@
--intstyle "ise" -incremental -o "G:/vhdl/thcomips/cpu_top_isim_beh.exe" -prj "G:/vhdl/thcomips/cpu_top_beh.prj" "cpu_top" 
+-intstyle "ise" -incremental -o "G:/vhdl/thcomips/test_cpu_top_isim_beh.exe" -prj "G:/vhdl/thcomips/test_cpu_top_beh.prj" "work.test_cpu_top" 

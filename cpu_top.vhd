@@ -37,6 +37,7 @@ entity cpu_top is
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 
 		LED: out std_logic_vector(15 downto 0);
+		digit: out std_logic_vector(6 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		wrn, rdn: out std_logic
@@ -93,10 +94,12 @@ end component;
 
 component register_controll
 	Port(
+		clk: in std_logic;
 		pc_in : in std_logic_vector(15 downto 0);
 		A_addr, B_addr, write_addr: in std_logic_vector(3 downto 0);
 		write_content : in std_logic_vector(15 downto 0);
 		
+		R6_out : out std_logic_vector(15 downto 0);
 		A, B : out std_logic_vector(15 downto 0)
 	); 
 end component;
@@ -320,11 +323,23 @@ end component;
 	signal pc_staller, ifid_hold, ifid_nop, idex_hold, idex_nop: std_logic := '0';
 	
 	--jump branch
+	
+	signal test_R6: std_logic_vector(15 downto 0);
 begin
 --	LED(15) <= bus_stall_request;
 --	LED(14 downto 0) <= pc_pc_out(14 downto 0);
 --	LED <= inst_im_ifid;
-	LED <= mem_addr_bus_mem;
+--	digit(3 downto 0) <= save_register_addr_memwb_out;
+--	digit(5 downto 4) <= "00";
+--	digit(5 downto 0) <= "000000";
+--	digit(6) <= jump_enable;
+--	LED <= DM_memwb_out;
+	digit(6 downto 4) <= "000";
+	digit(3 downto 0) <= A_addr_operand_analyse_register_controll;
+	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
+	LED(3 downto 0) <= save_register_addr_memwb_out;
+--	LED <= A_register_controll_out;
+--	LED <= test_R6;
 
 	pc_1: pc port map(
 		clk => press_clk,
@@ -367,12 +382,14 @@ begin
 	);
  
 	register_controller: register_controll port map(
+		clk => press_clk,
 		pc_in => pc_ifid_out,
 		A_addr => A_addr_operand_analyse_register_controll,
 		B_addr => B_addr_operand_analyse_register_controll, 
 		write_addr => save_register_addr_memwb_out, 	
 		write_content => DM_memwb_out,
 
+		R6_out => test_R6,
 		A => A_register_controll_out,
 		B => B_register_controll_out
 	); 
