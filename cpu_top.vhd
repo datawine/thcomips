@@ -321,8 +321,10 @@ end component;
 	
 	--jump branch
 begin
-	LED(15) <= bus_stall_request;
-	LED(14 downto 0) <= pc_pc_out(14 downto 0);
+--	LED(15) <= bus_stall_request;
+--	LED(14 downto 0) <= pc_pc_out(14 downto 0);
+--	LED <= inst_im_ifid;
+	LED <= mem_addr_bus_mem;
 
 	pc_1: pc port map(
 		clk => press_clk,
