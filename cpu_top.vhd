@@ -32,9 +32,11 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity cpu_top is
 	Port(
 		sys_clk: in std_logic;
+		press_clk: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 
+		LED: out std_logic_vector(15 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		wrn, rdn: out std_logic
@@ -321,8 +323,8 @@ end component;
 begin
 
 	pc_1: pc port map(
-		clk => sys_clk,
-		pc_in => next_pc,
+		clk => press_clk,
+		pc_in => added_pc,
 		pc_staller => pc_staller,
 		pc_out => pc_pc_out
 	);
@@ -495,8 +497,9 @@ begin
 		C => C_exmem_out,
 		operand_type => operand_exmem_out,
 		bus_content_in => bus_content_bus_dm,
-
-		send_signal => dm_signal,
+		
+		send_signal => '0',
+--		send_signal => dm_signal,
 		bus_content_out => bus_content_dm_bus,
 		bus_addr => bus_addr_dm,
 		DM_out => dm_dm_out

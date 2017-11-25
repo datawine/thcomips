@@ -41,7 +41,7 @@ entity pc is
 end pc;
 
 architecture Behavioral of pc is
-	signal pc_register: std_logic_vector(15 downto 0);
+	signal pc_register: std_logic_vector(15 downto 0) := "0000000000000000";
 begin
 	pc_out <= pc_register;
 	

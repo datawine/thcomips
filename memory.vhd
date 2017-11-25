@@ -125,11 +125,13 @@ begin
 						current := uart_read_1;
 					end if;
 				when uart_read_3 =>
-					output_content <= inout_RAM1_DATA;
+					output_content(7 downto 0) <= inout_RAM1_DATA(7 downto 0);
+					output_content(15 downto 8) <= "00000000";
 					current := start_0;
 					done <= '1';
 				when uart_write_1 =>  -- high 8 or low 8?
-					inout_RAM1_DATA <= input_content(7 downto 0);
+					inout_RAM1_DATA(15 downto 8) <= "00000000";
+					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
 					wrn <= '0';
 					current := uart_write_2;
 				when uart_write_2 =>
