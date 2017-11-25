@@ -91,31 +91,10 @@ begin
 					ifid_nop <= '1';
 					idex_hold <= '0';
 					ifid_hold <= '0';
-					pc_enable <= '1';
+					pc_enable <= '0';
 				when 2 =>
 					jp_stall_enable <= '1';
 					jp_stall_target <= pc_pc;
-					ifid_nop <= '1';
-					idex_nop <= '0';
-					idex_hold <= '0';
-					ifid_hold <= '0';
-					pc_enable <= '1';
-				when others =>
-					idex_nop <= '0';
-					ifid_nop <= '0';
-					idex_hold <= '0';
-					ifid_hold <= '0';
-					pc_enable <= '1';
-			end case;
-		elsif (nop /= 0) then
-			case nop is
-				when 3 =>
-					idex_nop <= '1';
-					ifid_hold <= '1';
-					ifid_nop <= '0';
-					idex_hold <= '0';
-					pc_enable <= '0';					
-				when 2 =>
 					ifid_nop <= '1';
 					idex_nop <= '0';
 					idex_hold <= '0';
@@ -126,7 +105,28 @@ begin
 					ifid_nop <= '0';
 					idex_hold <= '0';
 					ifid_hold <= '0';
+					pc_enable <= '0';
+			end case;
+		elsif (nop /= 0) then
+			case nop is
+				when 3 =>
+					idex_nop <= '1';
+					ifid_hold <= '1';
+					ifid_nop <= '0';
+					idex_hold <= '0';
+					pc_enable <= '1';					
+				when 2 =>
+					ifid_nop <= '1';
+					idex_nop <= '0';
+					idex_hold <= '0';
+					ifid_hold <= '0';
 					pc_enable <= '1';
+				when others =>
+					idex_nop <= '0';
+					ifid_nop <= '0';
+					idex_hold <= '0';
+					ifid_hold <= '0';
+					pc_enable <= '0';
 			end case;
 		else
 			idex_nop <= '0';
@@ -136,7 +136,7 @@ begin
 			ifid_nop <= '0';
 			idex_hold <= '0';
 			ifid_hold <= '0';
-			pc_enable <= '1';
+			pc_enable <= '0';
 		end if;
 	end process;
 

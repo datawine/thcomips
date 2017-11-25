@@ -58,12 +58,12 @@ begin
 		begin
 			if (finish_signal = '1') then
 				mem_start <= '0';
-				if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then
-					if (dm_signal = '1') then
-						dm_content_out <= mem_content_in;
-					else
-						im_content_out <= mem_content_in;
+				if (dm_signal = '1') then
+					if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then
+							dm_content_out <= mem_content_in;
 					end if;
+				else
+					im_content_out <= mem_content_in;
 				end if;
 			else
 				if(dm_signal = '1') then

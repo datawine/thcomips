@@ -321,10 +321,12 @@ end component;
 	
 	--jump branch
 begin
+	LED(15) <= bus_stall_request;
+	LED(14 downto 0) <= pc_pc_out(14 downto 0);
 
 	pc_1: pc port map(
 		clk => press_clk,
-		pc_in => added_pc,
+		pc_in => next_pc,
 		pc_staller => pc_staller,
 		pc_out => pc_pc_out
 	);
@@ -335,6 +337,8 @@ begin
 		bus_addr => bus_addr_im_bus,
 		instruction => inst_im_ifid
 	);
+	
+--	LED <= inst_im_ifid;
 	
 	adder: adder_1 port map(
 		pc_in => pc_pc_out,
@@ -351,13 +355,13 @@ begin
 	);
 
 	IFID_1: IFID port map(
-		clk => sys_clk,
+		clk => press_clk,
 		pc_in => pc_pc_out,
 		hold => ifid_hold, 
 		nop => ifid_nop,
 		instruction_in => inst_im_ifid,
 		instruction_out => inst_ifid_out,
-		pc_out => inst_ifid
+		pc_out => pc_ifid_out
 	);
  
 	register_controller: register_controll port map(
@@ -400,7 +404,7 @@ begin
 
 	jc: jump_controller port map(
 		operand => operand_operand_analyse_out,
-		pc_in => inst_ifid_out,
+		pc_in => pc_ifid_out,
 		A => A_mux_out, 
 		B => B_mux_out, 
 		imm => imm_operand_analyse_out,
@@ -409,7 +413,7 @@ begin
 	);
 
 	sc: stall_controller port map(
-		clk => sys_clk,
+		clk => press_clk,
 		pc_pc => pc_pc_out, 
 		pc_ifid => pc_ifid_out,
 		alu_stall_request => alu_stall_request,
@@ -427,7 +431,7 @@ begin
 	);
 
 	IDEX_1: IDEX port map(
-		clk => sys_clk,
+		clk => press_clk,
 		operand_type_in => operand_operand_analyse_out,
 		save_reg_addr_in => save_register_addr_operand_analyse_IEDX,
 		A_in => A_mux_out, 
@@ -464,7 +468,7 @@ begin
 	); 
 	
 	EXMEM_1: EXMEM port map(
-		clk => sys_clk,
+		clk => press_clk,
 		operand_type_in => operand_idex_out,
 		pc_in => pc_idex_out,
 		save_reg_addr_in => save_register_addr_idex_out,
@@ -498,8 +502,7 @@ begin
 		operand_type => operand_exmem_out,
 		bus_content_in => bus_content_bus_dm,
 		
-		send_signal => '0',
---		send_signal => dm_signal,
+		send_signal => dm_signal,
 		bus_content_out => bus_content_dm_bus,
 		bus_addr => bus_addr_dm,
 		DM_out => dm_dm_out
@@ -526,7 +529,7 @@ begin
 	);
 
 	MEMWB_1: MEMWB port map(
-		clk => sys_clk,
+		clk => press_clk,
 		nop => '0', 
 		hold => '0',
 		pc_in => pc_exmem_out, 
