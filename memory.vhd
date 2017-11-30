@@ -52,6 +52,8 @@ architecture Behavioral of memory is
 	signal uart_signal: std_logic_vector(15 downto 0);
 	signal mem_signal: std_logic_vector(15 downto 0);
 begin
+	done <= '1';
+
 	state_signal(0) <= tsre and tbre;
 	state_signal(1) <= data_ready;
 	state_signal(15 downto 2) <= "00000000000000";

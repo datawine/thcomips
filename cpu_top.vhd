@@ -588,7 +588,7 @@ begin
 	); 
 	
 	memory_1: memory port map(
-		clk => sys_clk,
+		clk => press_clk,
 		input_addr => mem_addr_bus_mem, 
 		input_content => mem_content_bus_mem,
 		start => mem_start_dm,
