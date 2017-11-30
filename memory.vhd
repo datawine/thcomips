@@ -48,113 +48,80 @@ end memory;
 architecture Behavioral of memory is
 	type states is (start_0, mem_write_1, mem_write_2, mem_read_1, mem_read_2, uart_read_1, uart_read_2, uart_read_3, uart_write_1, uart_write_2, uart_write_3, uart_write_4, done_state);
 	shared variable current : states := start_0;
+	signal state_signal, uart_out_signal: std_logic_vector(15 downto 0);
+	signal uart_signal: std_logic_vector(15 downto 0);
+	signal mem_signal: std_logic_vector(15 downto 0);
 begin
+	state_signal(0) <= tsre and tbre;
+	state_signal(1) <= data_ready;
+	state_signal(15 downto 2) <= "00000000000000";
+	
+	uart_out_signal(7 downto 0) <= inout_RAM1_DATA(7 downto 0);
+	uart_out_signal(15 downto 8) <= "00000000";
+
+	with input_addr select
+		uart_signal <=
+			state_signal when "1011111100000001",
+			uart_out_signal when others;
+	
+	mem_signal <= inout_RAM1_DATA;
+	
+	with operand_type select
+		output_content <=
+			uart_signal when "00",
+			mem_signal when others;
+
 	--'00' uart read, '01' uart write, '10' mem read, '11' mem write
 	change_states: process(clk) is
 	begin
-		if (clk'event and clk = '1') then
-			case current is
-				when start_0 =>
-					if (start = '1') then
-						if (operand_type = "00") then
-							if (input_addr = "1011111100000001") then
-								output_content(0) <= tsre and tbre;
-								output_content(1) <= data_ready;
-								output_content(15 downto 2) <= "00000000000000";
-								current := start_0;
-								done <= '1';
-							else
-								ram1OE <= '1';
-								ram1WE <= '1';
-								ram1EN <= '1';
-								current := uart_read_1;
-							end if;
-						elsif (operand_type = "01") then
-							rdn <= '1';
-							wrn <= '1';
-							ram1EN <= '1';
-							ram1WE <= '1';
-							ram1OE <= '0';
-							current := uart_write_1;
-						elsif (operand_type = "10") then
-							rdn <= '1';
-							wrn <= '1';
-							ram1EN <= '0';
-							ram1WE <= '1';
-							ram1OE <= '0';
-							inout_RAM1_DATA <= (others => 'Z');
-							current := mem_read_1;
-						elsif (operand_type = "11") then
-							rdn <= '1';
-							wrn <= '1';
-							ram1EN <= '0';
-							ram1WE <= '1';
-							ram1OE <= '1';
-							current := mem_write_1;
-						end if;
-					else
-						current := start_0;
+		if (clk'event) then
+			if (clk = 0) then
+--				if (start = '1') then
+				if (operand_type = "00") then -- read uart
+					if (input_addr /= "1011111100000001") then	
+						ram1EN <= '1';
+						ram1WE <= '1';
+						ram1OE <= '1';
 					end if;
-				when mem_read_1 =>
+				elsif (operand_type = "01") then -- write uart
+					rdn <= '1';
+					wrn <= '0';
+					ram1EN <= '1';
+					ram1WE <= '1';
+					ram1OE <= '0';
+					inout_RAM1_DATA(15 downto 8) <= "00000000";
+					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
+				elsif (operand_type = "10") then -- read memory
+					rdn <= '1';
+					wrn <= '1';
+					ram1EN <= '0';
+					ram1WE <= '1';
+					ram1OE <= '0';
+					inout_RAM1_DATA <= (others => 'Z');
 					output_RAM1(17 downto 16) <= "00";
 					output_RAM1(15 downto 0) <= input_addr;
-					current := mem_read_2;
-				when mem_read_2 =>
-					output_content <= inout_RAM1_DATA;
-					current := start_0;
-					done <= '1';
-				when mem_write_1 =>
+				elsif (operand_type = "11") then -- write memory
+					rdn <= '1';
+					wrn <= '1';
+					ram1EN <= '0';
+					ram1OE <= '1';
 					ram1WE <= '0';
 					inout_RAM1_DATA <= input_content;
 					output_RAM1(17 downto 16) <= "00";
 					output_RAM1(15 downto 0) <= input_addr;
-					current := mem_write_2;
-				when mem_write_2 =>
-					ram1WE <= '1';
-					current := start_0;
-					done <= '1';
-				when uart_read_1 =>
-					inout_RAM1_DATA <= (others => 'Z');
-					rdn <= '1';
-					current := uart_read_2;
-				when uart_read_2 =>
-					if (data_ready = '1') then
-						current := uart_read_3;
-						rdn <= '0';
-					else
-						current := uart_read_1;
-					end if;
-				when uart_read_3 =>
-					output_content(7 downto 0) <= inout_RAM1_DATA(7 downto 0);
-					output_content(15 downto 8) <= "00000000";
-					current := start_0;
-					done <= '1';
-				when uart_write_1 =>  -- high 8 or low 8?
-					done <= '0';
-					inout_RAM1_DATA(15 downto 8) <= "00000000";
-					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
-					wrn <= '0';
-					current := uart_write_2;
-				when uart_write_2 =>
-					wrn <= '1';
-					current := uart_write_3;
-				when uart_write_3 =>
-					if (tbre = '1') then
-						current := uart_write_4;
-					else
-						current := uart_write_3;
-					end if;
-				when uart_write_4 =>
-					if (tsre = '1') then
-						current := start_0;
-						done <= '1';
-					else
-						current := uart_write_4;
-					end if;
-				when others =>
-					current := start_0;
-			end case;
-		end if;
+				end if;
+				
+--				end if;
+			elsif (clk = 1) then
+--				done <= '1';
+				rdn <= '1';
+				wrn <= '1';
+				ram1EN <= '1';
+				ram1OE <= '1';
+				ram1WE <= '1';
+				inout_RAM1_DATA <= (others => 'Z');
+			end if;
+		end if;	
 	end process;
 
 end Behavioral;

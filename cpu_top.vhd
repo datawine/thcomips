@@ -45,6 +45,31 @@ entity cpu_top is
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		wrn, rdn: out std_logic
 	);
+
+	function encode_number(inputnum: in std_logic_vector) return std_logic_vector is
+	begin
+		case inputnum is
+			when "0000000000000000" => return "1111110";
+			when "0000000000000001" => return "0110000";
+			when "0000000000000010" => return "1101101";
+			when "0000000000000011" => return "1111001";
+			when "0000000000000100" => return "0110011";
+			when "0000000000000101" => return "1011011";
+			when "0000000000000110" => return "0011111";
+			when "0000000000000111" => return "1110000";
+			when "0000000000001000" => return "1111111";
+			when "0000000000001001" => return "1110011";
+			when "0000000000001010" => return "1110111";
+			when "0000000000001011" => return "0011111";
+			when "0000000000001100" => return "1001110";
+			when "0000000000001101" => return "0111101";
+			when "0000000000001110" => return "1001111";
+			when "0000000000001111" => return "1000111";
+			when others => return "0000000";
+		end case;
+		return "0000000";
+	end function encode_number;
+
 end cpu_top;
 
 architecture Behavioral of cpu_top is
@@ -337,10 +362,8 @@ begin
 --	digit(5 downto 0) <= "000000";
 --	digit(6) <= jump_enable;
 --	LED <= DM_memwb_out;
-	digit(6 downto 2) <= "00000";
-	digit(1) <= finish_signal;
-	digit(0) <= '1';
-	LED <= pc_pc_out;
+	digit <= encode_number(pc_pc_out);
+	LED <= inst_im_ifid;
 --	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
 --	LED(3 downto 0) <= save_register_addr_memwb_out;
 --	LED <= A_register_controll_out;
