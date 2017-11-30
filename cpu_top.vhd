@@ -35,6 +35,9 @@ entity cpu_top is
 		press_clk: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
+		
+		finish_out: out std_logic;
+		start_out: out std_logic;
 
 		LED: out std_logic_vector(15 downto 0);
 		digit: out std_logic_vector(6 downto 0);
@@ -334,10 +337,12 @@ begin
 --	digit(5 downto 0) <= "000000";
 --	digit(6) <= jump_enable;
 --	LED <= DM_memwb_out;
-	digit(6 downto 4) <= "000";
-	digit(3 downto 0) <= A_addr_operand_analyse_register_controll;
-	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
-	LED(3 downto 0) <= save_register_addr_memwb_out;
+	digit(6 downto 2) <= "00000";
+	digit(1) <= finish_signal;
+	digit(0) <= '1';
+	LED <= pc_pc_out;
+--	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
+--	LED(3 downto 0) <= save_register_addr_memwb_out;
 --	LED <= A_register_controll_out;
 --	LED <= test_R6;
 
@@ -528,7 +533,7 @@ begin
 	);
 
 	bd: bus_dispatcher port map(
-		clk => sys_clk,
+		clk => press_clk,
 		rst => '0',
 		operand_type => operand_exmem_out,
 		pc_in => bus_addr_im_bus, 
@@ -578,6 +583,9 @@ begin
 		wrn => wrn, 
 		rdn => rdn
 	);
+	
+	start_out <= mem_start_dm;
+	finish_out <= finish_signal;
 
 end Behavioral;
 

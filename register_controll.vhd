@@ -19,6 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -43,6 +45,7 @@ end register_controll;
 
 architecture Behavioral of register_controll is
 	signal R0, R1, R2, R3, R4, R5, R6, R7, T, SP, PC, IH: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal num1 : std_logic_vector(15 downto 0) := "0000000000000001";
 begin
 	write_ram: process(clk) is
 	begin
@@ -75,7 +78,7 @@ begin
 		end if;
 	end process;
 
-	PC <= pc_in;
+	PC <= pc_in + num1;
 
 	with A_addr select
 		A <=

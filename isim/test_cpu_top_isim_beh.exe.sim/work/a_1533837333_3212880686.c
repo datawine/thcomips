@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/thcomips/mux_3.vhd";
+static const char *ng0 = "G:/vhdl/lastfinal/thcomips/mux_3.vhd";
 
 
 
@@ -121,29 +121,29 @@ LAB3:    goto *t2;
 LAB2:    xsi_set_current_line(62, ng0);
     t2 = (t0 + 1992U);
     t3 = *((char **)t2);
-    t2 = (t0 + 5996);
+    t2 = (t0 + 6116);
     t5 = xsi_mem_cmp(t2, t3, 2U);
     if (t5 == 1)
         goto LAB5;
 
-LAB10:    t6 = (t0 + 5998);
+LAB10:    t6 = (t0 + 6118);
     t8 = xsi_mem_cmp(t6, t3, 2U);
     if (t8 == 1)
         goto LAB6;
 
-LAB11:    t9 = (t0 + 6000);
+LAB11:    t9 = (t0 + 6120);
     t11 = xsi_mem_cmp(t9, t3, 2U);
     if (t11 == 1)
         goto LAB7;
 
-LAB12:    t12 = (t0 + 6002);
+LAB12:    t12 = (t0 + 6122);
     t14 = xsi_mem_cmp(t12, t3, 2U);
     if (t14 == 1)
         goto LAB8;
 
 LAB13:
 LAB9:    xsi_set_current_line(64, ng0);
-    t2 = (t0 + 6004);
+    t2 = (t0 + 6124);
     t4 = (t0 + 4208);
     t6 = (t4 + 56U);
     t7 = *((char **)t6);

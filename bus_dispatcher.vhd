@@ -54,70 +54,75 @@ end bus_dispatcher;
 
 architecture Behavioral of bus_dispatcher is
 begin
-		op_sram_uart : process(pc_in, dm_addr, dm_content_in, finish_signal, mem_content_in, dm_signal) is
-		begin
-			if (finish_signal = '1') then
-				mem_start <= '0';
-				if (dm_signal = '1') then
-					if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then
-							dm_content_out <= mem_content_in;
-					end if;
-				else
-					im_content_out <= mem_content_in;
-				end if;
-			else
-				if(dm_signal = '1') then
-					bus_stall_request <= '1';
-					case operand_type is
-						when LW_OP =>
-							if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
-								mem_optype <= "00";
-							else
-								mem_optype <= "10";
-							end if;
-							mem_addr <= dm_addr;
-							mem_start <= '1';
-						when LW_SP_OP =>
-							if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
-								mem_optype <= "00";
-							else
-								mem_optype <= "10";
-							end if;
-							mem_addr <= dm_addr;
-							mem_start <= '1';
-						when SW_OP =>
-							if (dm_addr = "1011111100000000") then
-								mem_optype <= "01";
-							else
-								mem_optype <= "11";
-							end if;
-							mem_addr <= dm_addr;
-							mem_content <= dm_content_in;
-							mem_start <= '1';
-						when SW_SP_OP =>
-							if (dm_addr = "1011111100000000") then
-								mem_optype <= "01";
-							else
-								mem_optype <= "11";
-							end if;
-							mem_addr <= dm_addr;
-							mem_content <= dm_content_in;
-							mem_start <= '1';
-						when others =>
-							mem_start <= '0';
-					end case;
-				else
-					bus_stall_request <= '0';
-					if (pc_in = "1011111100000000") then
-						mem_optype <= "00"; 
+	gen_data: process(dm_signal, operand_type, pc_in, dm_addr, dm_content_in) is
+	begin
+		if(dm_signal = '1') then
+			bus_stall_request <= '1';
+			case operand_type is
+				when LW_OP =>
+					if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
+						mem_optype <= "00";
 					else
-						mem_optype <= "10"; 
+						mem_optype <= "10";
 					end if;
-					mem_addr <= pc_in;
-					mem_start <= '1';
-				end if;
+					mem_addr <= dm_addr;
+				when LW_SP_OP =>
+					if (dm_addr = "1011111100000000" or dm_addr = "1011111100000001") then
+						mem_optype <= "00";
+					else
+						mem_optype <= "10";
+					end if;
+					mem_addr <= dm_addr;
+				when SW_OP =>
+					if (dm_addr = "1011111100000000") then
+						mem_optype <= "01";
+					else
+						mem_optype <= "11";
+					end if;
+					mem_addr <= dm_addr;
+					mem_content <= dm_content_in;
+				when SW_SP_OP =>
+					if (dm_addr = "1011111100000000") then
+						mem_optype <= "01";
+					else
+						mem_optype <= "11";
+					end if;
+					mem_addr <= dm_addr;
+					mem_content <= dm_content_in;
+				when others =>
+			end case;
+		else
+			bus_stall_request <= '0';
+			if (pc_in = "1011111100000000") then
+				mem_optype <= "00"; 
+			else
+				mem_optype <= "10"; 
 			end if;
-		end process;
+			mem_addr <= pc_in;
+		end if;
+	end process;
+
+	gen_output: process(mem_content_in) is
+	begin
+		if (dm_signal = '1') then
+			if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then
+					dm_content_out <= mem_content_in;
+			end if;
+		else
+			im_content_out <= mem_content_in;
+		end if;
+	end process;
+
+	op_sram_uart : process(clk, finish_signal) is
+	begin
+		if (clk'event and clk = '1') then
+			mem_start <= '1';
+		end if;
+		
+		if (finish_signal = '1') then
+			mem_start <= '0';
+		end if;
+	end process;
 
 end Behavioral;
 

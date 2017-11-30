@@ -46,6 +46,10 @@ ARCHITECTURE behavior OF test_cpu_top IS
          tbre : IN  std_logic;
          tsre : IN  std_logic;
          data_ready : IN  std_logic;
+			
+			start_out : out std_logic;
+			finish_out : out std_logic;
+			
          inout_RAM1_DATA : INOUT  std_logic_vector(15 downto 0);
          LED : OUT  std_logic_vector(15 downto 0);
          digit : OUT  std_logic_vector(6 downto 0);
@@ -78,9 +82,11 @@ ARCHITECTURE behavior OF test_cpu_top IS
    signal ram1EN : std_logic;
    signal wrn : std_logic;
    signal rdn : std_logic;
+	signal start_out : std_logic;
+	signal finish_out : std_logic;
 
    -- Clock period definitions
-   constant sys_clk_period : time := 5 ns;
+   constant sys_clk_period : time := 2 ns;
    constant press_clk_period : time := 20 ns;
  
 BEGIN
@@ -95,6 +101,8 @@ BEGIN
           inout_RAM1_DATA => inout_RAM1_DATA,
           LED => LED,
           digit => digit,
+			 start_out => start_out,
+			 finish_out => finish_out,
           output_RAM1 => output_RAM1,
           ram1OE => ram1OE,
           ram1WE => ram1WE,
@@ -126,6 +134,7 @@ BEGIN
    begin		
       -- hold reset state for 100 ns.
       wait for 100 ns;
+		wait for 10 ns;
 		
 		inout_ram1_data <= "0110111010111111";
 		data_ready <= '1';
@@ -175,6 +184,32 @@ BEGIN
 		inout_ram1_data <= "1101111000000111";
 		
 		wait for 20 ns;
+		
+		inout_ram1_data <= "0110111011001111";
+		
+		wait for 20 ns;
+		
+		inout_ram1_data <= "0011011011010000";
+		
+		wait for 40 ns;
+		
+		inout_ram1_data <= "0100111000000001";
+		
+		wait for 20 ns;
+		
+		inout_ram1_data <= "1001111000000000";
+		
+		wait for 20 ns;
+		
+		inout_ram1_data <= "0110111000000001";
+		
+		wait for 20 ns;
+		
+		inout_ram1_data <= "1110100011011101";
+		
+		wait for 40 ns;
+		
+		inout_ram1_data <= "0000100000000000";
       -- insert stimulus here 
 
       wait;

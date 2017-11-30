@@ -46,7 +46,7 @@ entity memory is
 end memory;
 
 architecture Behavioral of memory is
-	type states is (start_0, mem_write_1, mem_write_2, mem_read_1, mem_read_2, uart_read_1, uart_read_2, uart_read_3, uart_write_1, uart_write_2, uart_write_3, uart_write_4);
+	type states is (start_0, mem_write_1, mem_write_2, mem_read_1, mem_read_2, uart_read_1, uart_read_2, uart_read_3, uart_write_1, uart_write_2, uart_write_3, uart_write_4, done_state);
 	shared variable current : states := start_0;
 begin
 	--'00' uart read, '01' uart write, '10' mem read, '11' mem write
@@ -55,13 +55,13 @@ begin
 		if (clk'event and clk = '1') then
 			case current is
 				when start_0 =>
-					done <= '0';
 					if (start = '1') then
 						if (operand_type = "00") then
 							if (input_addr = "1011111100000001") then
 								output_content(0) <= tsre and tbre;
 								output_content(1) <= data_ready;
 								output_content(15 downto 2) <= "00000000000000";
+								current := start_0;
 								done <= '1';
 							else
 								ram1OE <= '1';
@@ -130,6 +130,7 @@ begin
 					current := start_0;
 					done <= '1';
 				when uart_write_1 =>  -- high 8 or low 8?
+					done <= '0';
 					inout_RAM1_DATA(15 downto 8) <= "00000000";
 					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
 					wrn <= '0';

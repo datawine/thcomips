@@ -1,30 +1,30 @@
-Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o G:/vhdl/thcomips/test_cpu_top_isim_beh.exe -prj G:/vhdl/thcomips/test_cpu_top_beh.prj work.test_cpu_top 
+Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o G:/vhdl/lastfinal/thcomips/test_cpu_top_isim_beh.exe -prj G:/vhdl/lastfinal/thcomips/test_cpu_top_beh.prj work.test_cpu_top 
 ISim P.20131013 (signature 0x7708f090)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
 WARNING:Simulator:1010 - One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by Xilinx, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running fuse with the "-mt off -v 1" switches to see more information from the C compiler. The following environment variables have been detected:
-Parsing VHDL file "G:/vhdl/thcomips/cpuconstant.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/stall_controller.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/register_controll.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/pc.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/operand_analyse.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/mux_3.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/mem_forward.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/MEMWB.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/memory.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/jump_controller.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/IM.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/IFID.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/IDEX.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/EXMEM.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/DM.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/bus_dispatcher.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/alu_forward.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/alu.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/adder_1.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/cpu_top.vhd" into library work
-Parsing VHDL file "G:/vhdl/thcomips/test_cpu_top.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/cpuconstant.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/stall_controller.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/register_controll.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/pc.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/operand_analyse.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/mux_3.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/mem_forward.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/MEMWB.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/memory.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/jump_controller.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/IM.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/IFID.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/IDEX.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/EXMEM.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/DM.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/bus_dispatcher.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/alu_forward.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/alu.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/adder_1.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/cpu_top.vhd" into library work
+Parsing VHDL file "G:/vhdl/lastfinal/thcomips/test_cpu_top.vhd" into library work
 Starting static elaboration
 Completed static elaboration
 Compiling package standard
@@ -56,6 +56,6 @@ Time Resolution for simulation is 1ps.
 Waiting for 17 sub-compilation(s) to finish...
 WARNING:Simulator - Unable to copy libPortabilityNOSH.dll to the simulation executable directory: boost::filesystem::copy_file: 系统找不到指定的路径。, "isim\test_cpu_top_isim_beh.exe.sim\libPortability.dll".
 Compiled 44 VHDL Units
-Built simulation executable G:/vhdl/thcomips/test_cpu_top_isim_beh.exe
-Fuse Memory Usage: 35776 KB
-Fuse CPU Usage: 1233 ms
+Built simulation executable G:/vhdl/lastfinal/thcomips/test_cpu_top_isim_beh.exe
+Fuse Memory Usage: 35732 KB
+Fuse CPU Usage: 1342 ms

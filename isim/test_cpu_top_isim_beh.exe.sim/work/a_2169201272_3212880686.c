@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/thcomips/alu_forward.vhd";
+static const char *ng0 = "G:/vhdl/lastfinal/thcomips/alu_forward.vhd";
 extern char *WORK_P_0136478414;
 extern char *IEEE_P_3620187407;
 
@@ -328,10 +328,10 @@ static void work_a_2169201272_3212880686_p_2(char *t0)
 LAB0:    xsi_set_current_line(53, ng0);
     t2 = (t0 + 1352U);
     t3 = *((char **)t2);
-    t2 = (t0 + 7180U);
+    t2 = (t0 + 7340U);
     t4 = (t0 + 1192U);
     t5 = *((char **)t4);
-    t4 = (t0 + 7164U);
+    t4 = (t0 + 7324U);
     t6 = ieee_std_logic_unsigned_equal_stdv_stdv(IEEE_P_3620187407, t3, t2, t5, t4);
     if (t6 == 1)
         goto LAB5;
@@ -400,10 +400,10 @@ static void work_a_2169201272_3212880686_p_3(char *t0)
 LAB0:    xsi_set_current_line(54, ng0);
     t2 = (t0 + 1512U);
     t3 = *((char **)t2);
-    t2 = (t0 + 7196U);
+    t2 = (t0 + 7356U);
     t4 = (t0 + 1192U);
     t5 = *((char **)t4);
-    t4 = (t0 + 7164U);
+    t4 = (t0 + 7324U);
     t6 = ieee_std_logic_unsigned_equal_stdv_stdv(IEEE_P_3620187407, t3, t2, t5, t4);
     if (t6 == 1)
         goto LAB5;
@@ -543,10 +543,10 @@ LAB3:    t29 = (t0 + 5184);
 
 LAB5:    t3 = (t0 + 1352U);
     t16 = *((char **)t3);
-    t3 = (t0 + 7180U);
+    t3 = (t0 + 7340U);
     t17 = (t0 + 1192U);
     t18 = *((char **)t17);
-    t17 = (t0 + 7164U);
+    t17 = (t0 + 7324U);
     t19 = ieee_std_logic_unsigned_equal_stdv_stdv(IEEE_P_3620187407, t16, t3, t18, t17);
     if (t19 == 1)
         goto LAB14;
@@ -558,10 +558,10 @@ LAB16:    if (t15 == 1)
 
 LAB12:    t20 = (t0 + 1512U);
     t25 = *((char **)t20);
-    t20 = (t0 + 7196U);
+    t20 = (t0 + 7356U);
     t26 = (t0 + 1192U);
     t27 = *((char **)t26);
-    t26 = (t0 + 7164U);
+    t26 = (t0 + 7324U);
     t28 = ieee_std_logic_unsigned_equal_stdv_stdv(IEEE_P_3620187407, t25, t20, t27, t26);
     if (t28 == 1)
         goto LAB17;

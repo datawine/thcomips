@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/thcomips/EXMEM.vhd";
+static const char *ng0 = "G:/vhdl/lastfinal/thcomips/EXMEM.vhd";
 extern char *WORK_P_0136478414;
 
 

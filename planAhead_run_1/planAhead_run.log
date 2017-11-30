@@ -9,14 +9,14 @@ INFO: [Device 21-36] Loading parts and site information from C:/Xilinx/14.7/ISE_
 Parsing RTL primitives file [C:/Xilinx/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
 Finished parsing RTL primitives file [C:/Xilinx/14.7/ISE_DS/PlanAhead/data/parts/xilinx/rtl/prims/rtl_prims.xml]
 start_gui
-source G:/vhdl/thcomips/pa.fromNetlist.tcl
-# create_project -name thcomips -dir "G:/vhdl/thcomips/planAhead_run_2" -part xc3s1200efg320-4
+source G:/vhdl/lastfinal/thcomips/pa.fromNetlist.tcl
+# create_project -name thcomips -dir "G:/vhdl/lastfinal/thcomips/planAhead_run_1" -part xc3s1200efg320-4
 # set_property design_mode GateLvl [get_property srcset [current_run -impl]]
-# set_property edif_top_file "G:/vhdl/thcomips/cpu_top.ngc" [ get_property srcset [ current_run ] ]
-# add_files -norecurse { {G:/vhdl/thcomips} }
+# set_property edif_top_file "G:/vhdl/lastfinal/thcomips/cpu_top.ngc" [ get_property srcset [ current_run ] ]
+# add_files -norecurse { {G:/vhdl/lastfinal/thcomips} }
 # set_param project.pinAheadLayout  yes
 # set_property target_constrs_file "cpu_top.ucf" [current_fileset -constrset]
-Adding file 'G:/vhdl/thcomips/cpu_top.ucf' to fileset 'constrs_1'
+Adding file 'G:/vhdl/lastfinal/thcomips/cpu_top.ucf' to fileset 'constrs_1'
 # add_files [list {cpu_top.ucf}] -fileset [get_property constrset [current_run]]
 # link_design
 Design is defaulting to srcset: sources_1
@@ -34,12 +34,14 @@ Processing design ...
    Preping design's macros ...
 WARNING:NetListWriters:306 - Signal bus IDEX_1/imm_out<15 : 0> on block cpu_top
    is not reconstructed, because there are some missing bus signals.
+WARNING:NetListWriters:306 - Signal bus op/A_addr<3 : 0> on block cpu_top is not
+   reconstructed, because there are some missing bus signals.
   finished :Prep
 Writing EDIF netlist file cpu_top.edif ...
-ngc2edif: Total memory usage is 83188 kilobytes
+ngc2edif: Total memory usage is 83956 kilobytes
 
-Parsing EDIF File [./planAhead_run_2/thcomips.data/cache/cpu_top_ngc_zx.edif]
-Finished Parsing EDIF File [./planAhead_run_2/thcomips.data/cache/cpu_top_ngc_zx.edif]
+Parsing EDIF File [./planAhead_run_1/thcomips.data/cache/cpu_top_ngc_zx.edif]
+Finished Parsing EDIF File [./planAhead_run_1/thcomips.data/cache/cpu_top_ngc_zx.edif]
 INFO: [Designutils 20-910] Reading macro library C:/Xilinx/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/hd_int_macros.edn
 Parsing EDIF File [C:/Xilinx/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/hd_int_macros.edn]
 Finished Parsing EDIF File [C:/Xilinx/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/hd_int_macros.edn]
@@ -52,162 +54,10 @@ INFO: [Device 21-19] Loading pkg sso from C:/Xilinx/14.7/ISE_DS/PlanAhead/data\p
 Loading list of drcs for the architecture : C:/Xilinx/14.7/ISE_DS/PlanAhead/data\./parts/xilinx/spartan3e/spartan3e/drc.xml
 INFO: [Timing 38-77] Reading timing library C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/spartan3e-4.lib.
 INFO: [Timing 38-34] Done reading timing library C:/Xilinx/14.7/ISE_DS/PlanAhead/data\parts/xilinx/spartan3e/spartan3e/spartan3e-4.lib.
-Parsing UCF File [G:/vhdl/thcomips/cpu_top.ucf]
-Finished Parsing UCF File [G:/vhdl/thcomips/cpu_top.ucf]
+Parsing UCF File [G:/vhdl/lastfinal/thcomips/cpu_top.ucf]
+Finished Parsing UCF File [G:/vhdl/lastfinal/thcomips/cpu_top.ucf]
 INFO: [Project 1-111] Unisim Transformation Summary:
 No Unisim elements were transformed.
 
-Phase 0 | Netlist Checksum: 8b7af628
-link_design: Time (s): elapsed = 00:00:10 . Memory (MB): peak = 510.266 ; gain = 55.285
-startgroup
-set_property package_pin M14 [get_ports {inout_RAM1_DATA[15]}]
-endgroup
-startgroup
-set_property package_pin M13 [get_ports {inout_RAM1_DATA[14]}]
-endgroup
-startgroup
-set_property package_pin L18 [get_ports {inout_RAM1_DATA[13]}]
-endgroup
-startgroup
-set_property package_pin L17 [get_ports {inout_RAM1_DATA[12]}]
-endgroup
-startgroup
-set_property package_pin L16 [get_ports {inout_RAM1_DATA[11]}]
-endgroup
-startgroup
-set_property package_pin L15 [get_ports {inout_RAM1_DATA[10]}]
-endgroup
-startgroup
-set_property package_pin K15 [get_ports {inout_RAM1_DATA[9]}]
-endgroup
-startgroup
-set_property package_pin K14 [get_ports {inout_RAM1_DATA[8]}]
-endgroup
-startgroup
-set_property package_pin K13 [get_ports {inout_RAM1_DATA[7]}]
-endgroup
-startgroup
-set_property package_pin K12 [get_ports {inout_RAM1_DATA[6]}]
-endgroup
-startgroup
-set_property package_pin J17 [get_ports {inout_RAM1_DATA[5]}]
-endgroup
-startgroup
-set_property package_pin J16 [get_ports {inout_RAM1_DATA[4]}]
-endgroup
-startgroup
-set_property package_pin J15 [get_ports {inout_RAM1_DATA[3]}]
-endgroup
-startgroup
-set_property package_pin J14 [get_ports {inout_RAM1_DATA[2]}]
-endgroup
-startgroup
-set_property package_pin J13 [get_ports {inout_RAM1_DATA[1]}]
-endgroup
-startgroup
-set_property package_pin J12 [get_ports {inout_RAM1_DATA[0]}]
-endgroup
-startgroup
-set_property package_pin H17 [get_ports {output_RAM1[17]}]
-endgroup
-startgroup
-set_property package_pin H16 [get_ports {output_RAM1[17]}]
-endgroup
-startgroup
-set_property package_pin H17 [get_ports {output_RAM1[17]}]
-endgroup
-startgroup
-set_property package_pin H16 [get_ports {output_RAM1[16]}]
-endgroup
-startgroup
-set_property package_pin H15 [get_ports {output_RAM1[15]}]
-endgroup
-startgroup
-set_property package_pin H14 [get_ports {output_RAM1[14]}]
-endgroup
-startgroup
-set_property package_pin G16 [get_ports {output_RAM1[13]}]
-endgroup
-startgroup
-set_property package_pin G15 [get_ports {output_RAM1[12]}]
-endgroup
-startgroup
-set_property package_pin G14 [get_ports {output_RAM1[11]}]
-endgroup
-startgroup
-set_property package_pin G13 [get_ports {output_RAM1[10]}]
-endgroup
-startgroup
-set_property package_pin F18 [get_ports {output_RAM1[9]}]
-endgroup
-startgroup
-set_property package_pin F17 [get_ports {output_RAM1[8]}]
-endgroup
-startgroup
-set_property package_pin F15 [get_ports {output_RAM1[7]}]
-endgroup
-startgroup
-set_property package_pin F14 [get_ports {output_RAM1[6]}]
-endgroup
-startgroup
-set_property package_pin E16 [get_ports {output_RAM1[5]}]
-endgroup
-startgroup
-set_property package_pin E15 [get_ports {output_RAM1[4]}]
-endgroup
-startgroup
-set_property package_pin D17 [get_ports {output_RAM1[3]}]
-endgroup
-startgroup
-set_property package_pin D16 [get_ports {output_RAM1[2]}]
-endgroup
-startgroup
-set_property package_pin C18 [get_ports {output_RAM1[1]}]
-endgroup
-startgroup
-set_property package_pin C17 [get_ports {output_RAM1[0]}]
-endgroup
-startgroup
-set_property package_pin A16 [get_ports data_ready]
-endgroup
-startgroup
-set_property package_pin M15 [get_ports ram1EN]
-endgroup
-startgroup
-set_property package_pin M18 [get_ports ram1OE]
-endgroup
-startgroup
-set_property package_pin M16 [get_ports ram1OE]
-endgroup
-startgroup
-set_property package_pin M18 [get_ports ram1WE]
-endgroup
-startgroup
-set_property package_pin C14 [get_ports rdn]
-endgroup
-startgroup
-set_property package_pin D14 [get_ports sys_clk]
-endgroup
-startgroup
-set_property package_pin N9 [get_ports tbre]
-endgroup
-startgroup
-set_property package_pin U5 [get_ports tsre]
-endgroup
-startgroup
-set_property package_pin B8 [get_ports sys_clk]
-endgroup
-startgroup
-set_property package_pin D14 [get_ports tbre]
-endgroup
-startgroup
-set_property package_pin N9 [get_ports tsre]
-endgroup
-startgroup
-set_property package_pin U5 [get_ports wrn]
-endgroup
-save_constraints
-exit
-ERROR: [Common 17-39] 'stop_gui' failed due to earlier errors.
-INFO: [Common 17-206] Exiting PlanAhead at Sat Nov 25 19:24:39 2017...
-INFO: [Common 17-83] Releasing license: PlanAhead
+Phase 0 | Netlist Checksum: 74f4fb85
+link_design: Time (s): elapsed = 00:00:10 . Memory (MB): peak = 345.398 ; gain = 74.707

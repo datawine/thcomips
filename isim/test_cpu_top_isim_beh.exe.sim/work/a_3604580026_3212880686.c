@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/thcomips/IFID.vhd";
+static const char *ng0 = "G:/vhdl/lastfinal/thcomips/IFID.vhd";
 
 
 
@@ -166,7 +166,7 @@ LAB5:    t4 = (t0 + 1032U);
     goto LAB7;
 
 LAB8:    xsi_set_current_line(53, ng0);
-    t4 = (t0 + 6479);
+    t4 = (t0 + 6619);
     t12 = (t0 + 4528);
     t13 = (t12 + 56U);
     t14 = *((char **)t13);
