@@ -46,7 +46,7 @@ entity cpu_top is
 		wrn, rdn: out std_logic
 	);
 
-	function encode_number(inputnum: in std_logic_vector) return std_logic_vector is
+	function encode_number(inputnum: in std_logic_vector(15 downto 0)) return std_logic_vector is
 	begin
 		case inputnum is
 			when "0000000000000000" => return "1111110";
