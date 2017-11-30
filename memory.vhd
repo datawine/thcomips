@@ -76,7 +76,7 @@ begin
 	--'00' uart read, '01' uart write, '10' mem read, '11' mem write
 	change_states: process(clk) is
 	begin
-		if (clk'event and clk = '0') then
+		if (clk = '0') then
 --			if (clk = '0') then
 --				if (start = '1') then
 				if (operand_type = "00") then -- read uart
@@ -114,7 +114,7 @@ begin
 				end if;
 				
 --				end if;
-		elsif (clk'event and clk = '1') then
+		elsif (clk = '1') then
 			done <= '1';
 			rdn <= '1';
 			wrn <= '1';

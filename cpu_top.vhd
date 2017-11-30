@@ -40,31 +40,31 @@ entity cpu_top is
 		start_out: out std_logic;
 
 		LED: out std_logic_vector(15 downto 0);
-		digit: out std_logic_vector(6 downto 0);
+		digit, digit_2: out std_logic_vector(6 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		wrn, rdn: out std_logic
 	);
 
-	function encode_number(inputnum: in std_logic_vector(15 downto 0)) return std_logic_vector is
+	function encode_number(inputnum: in std_logic_vector(3 downto 0)) return std_logic_vector is
 	begin
 		case inputnum is
-			when "0000000000000000" => return "1111110";
-			when "0000000000000001" => return "0110000";
-			when "0000000000000010" => return "1101101";
-			when "0000000000000011" => return "1111001";
-			when "0000000000000100" => return "0110011";
-			when "0000000000000101" => return "1011011";
-			when "0000000000000110" => return "0011111";
-			when "0000000000000111" => return "1110000";
-			when "0000000000001000" => return "1111111";
-			when "0000000000001001" => return "1110011";
-			when "0000000000001010" => return "1110111";
-			when "0000000000001011" => return "0011111";
-			when "0000000000001100" => return "1001110";
-			when "0000000000001101" => return "0111101";
-			when "0000000000001110" => return "1001111";
-			when "0000000000001111" => return "1000111";
+			when "0000" => return "1111110";
+			when "0001" => return "0110000";
+			when "0010" => return "1101101";
+			when "0011" => return "1111001";
+			when "0100" => return "0110011";
+			when "0101" => return "1011011";
+			when "0110" => return "0011111";
+			when "0111" => return "1110000";
+			when "1000" => return "1111111";
+			when "1001" => return "1110011";
+			when "1010" => return "1110111";
+			when "1011" => return "0011111";
+			when "1100" => return "1001110";
+			when "1101" => return "0111101";
+			when "1110" => return "1001111";
+			when "1111" => return "1000111";
 			when others => return "0000000";
 		end case;
 		return "0000000";
@@ -353,6 +353,8 @@ end component;
 	--jump branch
 	
 	signal test_R6: std_logic_vector(15 downto 0);
+	
+	signal cpu_clk: std_logic;
 begin
 --	LED(15) <= bus_stall_request;
 --	LED(14 downto 0) <= pc_pc_out(14 downto 0);
@@ -362,15 +364,31 @@ begin
 --	digit(5 downto 0) <= "000000";
 --	digit(6) <= jump_enable;
 --	LED <= DM_memwb_out;
-	digit <= encode_number(pc_pc_out);
-	LED <= inst_im_ifid;
+	digit <= encode_number(pc_pc_out(7 downto 4));
+	digit_2 <= encode_number(pc_pc_out(3 downto 0));
+	LED <= mem_content_bus_mem;
+--	sys_clk <= sys_clk_11m;
+--	cpu_clk <= press_clk;
 --	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
 --	LED(3 downto 0) <= save_register_addr_memwb_out;
 --	LED <= A_register_controll_out;
 --	LED <= test_R6;
 
+--	record_cpu: process(pc_pc_out) is
+--	begin
+--		if (pc_pc_out = "0000000010010000") then
+--			LED <= mem_content_bus_mem;
+--		end if;
+--	end process;
+
+	cpu_clk <= sys_clk;
+--	with pc_pc_out select
+--		cpu_clk <=
+--			press_clk when "0000000010000111",
+--			sys_clk when others;
+
 	pc_1: pc port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		pc_in => next_pc,
 		pc_staller => pc_staller,
 		pc_out => pc_pc_out
@@ -400,7 +418,7 @@ begin
 	);
 
 	IFID_1: IFID port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		pc_in => pc_pc_out,
 		hold => ifid_hold, 
 		nop => ifid_nop,
@@ -410,7 +428,7 @@ begin
 	);
  
 	register_controller: register_controll port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		pc_in => pc_ifid_out,
 		A_addr => A_addr_operand_analyse_register_controll,
 		B_addr => B_addr_operand_analyse_register_controll, 
@@ -460,7 +478,7 @@ begin
 	);
 
 	sc: stall_controller port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		pc_pc => pc_pc_out, 
 		pc_ifid => pc_ifid_out,
 		alu_stall_request => alu_stall_request,
@@ -478,7 +496,7 @@ begin
 	);
 
 	IDEX_1: IDEX port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		operand_type_in => operand_operand_analyse_out,
 		save_reg_addr_in => save_register_addr_operand_analyse_IEDX,
 		A_in => A_mux_out, 
@@ -515,7 +533,7 @@ begin
 	); 
 	
 	EXMEM_1: EXMEM port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		operand_type_in => operand_idex_out,
 		pc_in => pc_idex_out,
 		save_reg_addr_in => save_register_addr_idex_out,
@@ -556,7 +574,7 @@ begin
 	);
 
 	bd: bus_dispatcher port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		rst => '0',
 		operand_type => operand_exmem_out,
 		pc_in => bus_addr_im_bus, 
@@ -576,7 +594,7 @@ begin
 	);
 
 	MEMWB_1: MEMWB port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		nop => '0', 
 		hold => '0',
 		pc_in => pc_exmem_out, 
@@ -588,7 +606,7 @@ begin
 	); 
 	
 	memory_1: memory port map(
-		clk => press_clk,
+		clk => cpu_clk,
 		input_addr => mem_addr_bus_mem, 
 		input_content => mem_content_bus_mem,
 		start => mem_start_dm,

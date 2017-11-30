@@ -63,12 +63,21 @@ NET "LED[1]" LOC = E10;
 NET "LED[0]" LOC = D10;
 NET "press_clk" LOC = U9;
 
+
+
 # PlanAhead Generated physical constraints 
 
-NET "digit[6]" LOC = F8;
-NET "digit[5]" LOC = E8;
-NET "digit[4]" LOC = A8;
+NET "digit_2[6]" LOC = C9;
+NET "digit_2[5]" LOC = D9;
+NET "digit_2[4]" LOC = E9;
+NET "digit_2[3]" LOC = F9;
+NET "digit_2[2]" LOC = G9;
+NET "digit_2[1]" LOC = A10;
+NET "digit_2[0]" LOC = B10;
+NET "digit[6]" LOC = C7;
+NET "digit[5]" LOC = D7;
+NET "digit[4]" LOC = E7;
 NET "digit[3]" LOC = F7;
-NET "digit[2]" LOC = E7;
-NET "digit[1]" LOC = D7;
-NET "digit[0]" LOC = C7;
+NET "digit[2]" LOC = A8;
+NET "digit[1]" LOC = E8;
+NET "digit[0]" LOC = F8;
