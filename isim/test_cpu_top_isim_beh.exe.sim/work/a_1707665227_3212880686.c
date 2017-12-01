@@ -10,7 +10,7 @@
 /*  \___\/\___\                                                    */
 /***********************************************************************/
 
-/* This file is designed for use with ISim build 0x7708f090 */
+/* This file is designed for use with ISim build 0x8ef4fb42 */
 
 #define XSI_HIDE_SYMBOL_SPEC true
 #include "xsi.h"
@@ -21,7 +21,7 @@
 #include <malloc.h>
 #define alloca _alloca
 #endif
-static const char *ng0 = "G:/vhdl/lastfinal/thcomips/IM.vhd";
+static const char *ng0 = "C:/Users/cslab/Desktop/thcomips/IM.vhd";
 
 
 
@@ -35,26 +35,26 @@ static void work_a_1707665227_3212880686_p_0(char *t0)
     char *t6;
 
 LAB0:    xsi_set_current_line(46, ng0);
-    t1 = (t0 + 1032U);
+    t1 = (t0 + 592U);
     t2 = *((char **)t1);
-    t1 = (t0 + 3072);
-    t3 = (t1 + 56U);
+    t1 = (t0 + 1768);
+    t3 = (t1 + 32U);
     t4 = *((char **)t3);
-    t5 = (t4 + 56U);
+    t5 = (t4 + 40U);
     t6 = *((char **)t5);
     memcpy(t6, t2, 16U);
     xsi_driver_first_trans_fast_port(t1);
     xsi_set_current_line(47, ng0);
-    t1 = (t0 + 1192U);
+    t1 = (t0 + 684U);
     t2 = *((char **)t1);
-    t1 = (t0 + 3136);
-    t3 = (t1 + 56U);
+    t1 = (t0 + 1804);
+    t3 = (t1 + 32U);
     t4 = *((char **)t3);
-    t5 = (t4 + 56U);
+    t5 = (t4 + 40U);
     t6 = *((char **)t5);
     memcpy(t6, t2, 16U);
     xsi_driver_first_trans_fast_port(t1);
-    t1 = (t0 + 2992);
+    t1 = (t0 + 1724);
     *((int *)t1) = 1;
 
 LAB1:    return;

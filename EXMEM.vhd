@@ -66,7 +66,7 @@ begin
 				operand_type_out <= NOP_OP;
 			elsif (hold = '1') then
 			else
-				pc_out <= pc_tmp;
+				pc_out <= tmp_pc;
 				A_out <= tmp_a;
 				B_out <= tmp_b;
 				C_out <= tmp_c;

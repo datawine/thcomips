@@ -51,6 +51,10 @@ architecture Behavioral of memory is
 	signal state_signal, uart_out_signal: std_logic_vector(15 downto 0);
 	signal uart_signal: std_logic_vector(15 downto 0);
 	signal mem_signal: std_logic_vector(15 downto 0);
+	
+	signal last_operand_type: std_logic_vector(1 downto 0);
+	signal this_operand_type: std_logic_vector(1 downto 0);
+
 begin
 	done <= '1';
 
@@ -77,34 +81,35 @@ begin
 	change_states: process(clk) is
 	begin
 		if (clk = '0') then
+			wrn <= '1';
+			last_operand_type <= this_operand_type;
 --			if (clk = '0') then
 --				if (start = '1') then
-				if (operand_type = "00") then -- read uart
+				if (this_operand_type = "00") then -- read uart
 					if (input_addr /= "1011111100000001") then	
 						ram1EN <= '1';
 						ram1WE <= '1';
 						ram1OE <= '1';
 					end if;
-				elsif (operand_type = "01") then -- write uart
+				elsif (this_operand_type = "01") then -- write uart
 					rdn <= '1';
-					wrn <= '0';
+--					wrn <= '1';
 					ram1EN <= '1';
 					ram1WE <= '1';
 					ram1OE <= '0';
 					inout_RAM1_DATA(15 downto 8) <= "00000000";
 					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
-				elsif (operand_type = "10") then -- read memory
+				elsif (this_operand_type = "10") then -- read memory
 					rdn <= '1';
-					wrn <= '1';
 					ram1EN <= '0';
 					ram1WE <= '1';
 					ram1OE <= '0';
 					inout_RAM1_DATA <= (others => 'Z');
 					output_RAM1(17 downto 16) <= "00";
 					output_RAM1(15 downto 0) <= input_addr;
-				elsif (operand_type = "11") then -- write memory
+				elsif (this_operand_type = "11") then -- write memory
 					rdn <= '1';
-					wrn <= '1';
+--					wrn <= '1';
 					ram1EN <= '0';
 					ram1OE <= '1';
 					ram1WE <= '0';
@@ -117,10 +122,13 @@ begin
 		elsif (clk = '1') then
 			done <= '1';
 			rdn <= '1';
-			wrn <= '1';
 			ram1EN <= '1';
 			ram1OE <= '1';
 			ram1WE <= '1';
+			this_operand_type <= operand_type;
+			if (last_operand_type = "01") then
+				wrn <= '0';
+			end if;
 			inout_RAM1_DATA <= (others => 'Z');
 		end if;	
 	end process;

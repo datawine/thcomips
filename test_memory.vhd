@@ -86,7 +86,7 @@ ARCHITECTURE behavior OF test_memory IS
    signal rdn : std_logic;
 
    -- Clock period definitions
-   constant clk_period : time := 10 ns;
+   constant clk_period : time := 20 ns;
  
 BEGIN
  
@@ -128,7 +128,15 @@ BEGIN
       wait for 100 ns;	
 
       wait for clk_period*10;
-
+		input_addr <= "1011111100000000";
+		operand_type <= "01";
+		wait for 20 ns;
+		
+		operand_type <= "10";
+		wait for 20 ns;
+		
+		operand_type <= "01";
+		wait for 20 ns;
       -- insert stimulus here 
 
       wait;

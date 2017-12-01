@@ -54,6 +54,7 @@ end bus_dispatcher;
 
 architecture Behavioral of bus_dispatcher is
 begin
+--	mem_content <= dm_content_in;
 	gen_data: process(dm_signal, operand_type, pc_in, dm_addr, dm_content_in) is
 	begin
 		if(dm_signal = '1') then

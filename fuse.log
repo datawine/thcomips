@@ -1,61 +1,21 @@
-Running: C:\Xilinx\14.7\ISE_DS\ISE\bin\nt64\unwrapped\fuse.exe -intstyle ise -incremental -o G:/vhdl/lastfinal/thcomips/test_cpu_top_isim_beh.exe -prj G:/vhdl/lastfinal/thcomips/test_cpu_top_beh.prj work.test_cpu_top 
-ISim P.20131013 (signature 0x7708f090)
+Running: C:\Xilinx\14.6\ISE_DS\ISE\bin\nt\unwrapped\fuse.exe -intstyle ise -incremental -o C:/Users/cslab/Desktop/thcomips/test_memory_isim_beh.exe -prj C:/Users/cslab/Desktop/thcomips/test_memory_beh.prj work.test_memory 
+ISim P.68d (signature 0x8ef4fb42)
 Number of CPUs detected in this system: 4
 Turning on mult-threading, number of parallel sub-compilation jobs: 8 
 Determining compilation order of HDL files
-WARNING:Simulator:1010 - One or more environment variables have been detected which affect the operation of the C compiler. These are typically not set in standard installations and are not tested by Xilinx, however they may be appropriate for your system, so the flow will attempt to continue.  If errors occur, try running fuse with the "-mt off -v 1" switches to see more information from the C compiler. The following environment variables have been detected:
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/cpuconstant.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/stall_controller.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/register_controll.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/pc.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/operand_analyse.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/mux_3.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/mem_forward.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/MEMWB.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/memory.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/jump_controller.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/IM.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/IFID.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/IDEX.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/EXMEM.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/DM.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/bus_dispatcher.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/alu_forward.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/alu.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/adder_1.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/cpu_top.vhd" into library work
-Parsing VHDL file "G:/vhdl/lastfinal/thcomips/test_cpu_top.vhd" into library work
+Parsing VHDL file "C:/Users/cslab/Desktop/thcomips/memory.vhd" into library work
+Parsing VHDL file "C:/Users/cslab/Desktop/thcomips/test_memory.vhd" into library work
 Starting static elaboration
 Completed static elaboration
+Fuse Memory Usage: 106212 KB
+Fuse CPU Usage: 202 ms
 Compiling package standard
 Compiling package std_logic_1164
-Compiling package std_logic_arith
-Compiling package std_logic_unsigned
-Compiling package cpuconstant
-Compiling architecture behavioral of entity pc [pc_default]
-Compiling architecture behavioral of entity IM [im_default]
-Compiling architecture behavioral of entity adder_1 [adder_1_default]
-Compiling architecture behavioral of entity mux_3 [mux_3_default]
-Compiling architecture behavioral of entity IFID [ifid_default]
-Compiling architecture behavioral of entity register_controll [register_controll_default]
-Compiling architecture behavioral of entity operand_analyse [operand_analyse_default]
-Compiling architecture behavioral of entity jump_controller [jump_controller_default]
-Compiling architecture behavioral of entity stall_controller [stall_controller_default]
-Compiling architecture behavioral of entity IDEX [idex_default]
-Compiling architecture behavioral of entity alu_forward [alu_forward_default]
-Compiling architecture behavioral of entity alu [alu_default]
-Compiling architecture behavioral of entity EXMEM [exmem_default]
-Compiling architecture behavioral of entity mem_forward [mem_forward_default]
-Compiling architecture behavioral of entity DM [dm_default]
-Compiling architecture behavioral of entity bus_dispatcher [bus_dispatcher_default]
-Compiling architecture behavioral of entity MEMWB [memwb_default]
 Compiling architecture behavioral of entity memory [memory_default]
-Compiling architecture behavioral of entity cpu_top [cpu_top_default]
-Compiling architecture behavior of entity test_cpu_top
+Compiling architecture behavior of entity test_memory
 Time Resolution for simulation is 1ps.
-Waiting for 17 sub-compilation(s) to finish...
-WARNING:Simulator - Unable to copy libPortabilityNOSH.dll to the simulation executable directory: boost::filesystem::copy_file: 系统找不到指定的路径。, "isim\test_cpu_top_isim_beh.exe.sim\libPortability.dll".
-Compiled 44 VHDL Units
-Built simulation executable G:/vhdl/lastfinal/thcomips/test_cpu_top_isim_beh.exe
-Fuse Memory Usage: 35732 KB
-Fuse CPU Usage: 1342 ms
+Waiting for 1 sub-compilation(s) to finish...
+Compiled 5 VHDL Units
+Built simulation executable C:/Users/cslab/Desktop/thcomips/test_memory_isim_beh.exe
+Fuse Memory Usage: 115156 KB
+Fuse CPU Usage: 248 ms

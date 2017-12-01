@@ -210,6 +210,12 @@ BEGIN
 		wait for 40 ns;
 		
 		inout_ram1_data <= "0000100000000000";
+		
+		wait for 20 ns;
+		
+		inout_ram1_data <= "1101111000000000";
+		
+		wait for 20 ns;
       -- insert stimulus here 
 
       wait;

@@ -284,77 +284,80 @@ component memory
 end component;
 
 	-- IF
-	signal next_pc, pc_pc_out: std_logic_vector(15 downto 0); 
-	signal bus_content_bus_im, bus_addr_im_bus: std_logic_vector(15 downto 0);
-	signal inst_im_ifid: std_logic_vector(15 downto 0);
+	signal next_pc, pc_pc_out: std_logic_vector(15 downto 0) := "0000000000000000"; 
+	signal bus_content_bus_im, bus_addr_im_bus: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal inst_im_ifid: std_logic_vector(15 downto 0) := "0000000000000000";
 	
-	signal added_pc: std_logic_vector(15 downto 0);
+	signal added_pc: std_logic_vector(15 downto 0) := "0000000000000000";
 	
-	signal jump_enable, jump_stall_enable: std_logic;
-	signal jump_target, jump_stall_target: std_logic_vector(15 downto 0);
+	signal jump_enable, jump_stall_enable: std_logic := '0';
+	signal jump_target, jump_stall_target: std_logic_vector(15 downto 0) := "0000000000000000";
 	
 	-- ID
-	signal inst_ifid: std_logic_vector(15 downto 0);
-	signal inst_ifid_out: std_logic_vector(15 downto 0);
-	signal pc_ifid_out: std_logic_vector(15 downto 0);
+	signal inst_ifid: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal inst_ifid_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal pc_ifid_out: std_logic_vector(15 downto 0) := "0000000000000000";
 	
-	signal A_addr_operand_analyse_register_controll: std_logic_vector(3 downto 0);
-	signal B_addr_operand_analyse_register_controll: std_logic_vector(3 downto 0);
-	signal A_register_controll_out: std_logic_vector(15 downto 0);
-	signal B_register_controll_out: std_logic_vector(15 downto 0);
+	signal A_addr_operand_analyse_register_controll: std_logic_vector(3 downto 0) := "0000";
+	signal B_addr_operand_analyse_register_controll: std_logic_vector(3 downto 0) := "0000";
+	signal A_register_controll_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal B_register_controll_out: std_logic_vector(15 downto 0) := "0000000000000000";
 	
-	signal A_mux_alu_enable, B_mux_alu_enable, A_mux_dm_enable, B_mux_dm_enable: std_logic;
+	signal A_mux_alu_enable, B_mux_alu_enable, A_mux_dm_enable, B_mux_dm_enable: std_logic := '0';
 	
-	signal A_mux_out, B_mux_out: std_logic_vector(15 downto 0);
+	signal A_mux_out, B_mux_out: std_logic_vector(15 downto 0) := "0000000000000000";
 	
-	signal operand_operand_analyse_out: integer;	
-	signal save_register_addr_operand_analyse_IEDX: std_logic_vector(3 downto 0);
-	signal imm_operand_analyse_out: std_logic_vector(15 downto 0);
+	signal operand_operand_analyse_out: integer := 0;	
+	signal save_register_addr_operand_analyse_IEDX: std_logic_vector(3 downto 0) := "0000";
+	signal imm_operand_analyse_out: std_logic_vector(15 downto 0) := "0000000000000000";
 	
 	
 	-- EXE
-	signal operand_idex_out: integer;
-	signal pc_idex_out: std_logic_vector(15 downto 0);
-	signal A_idex_out, B_idex_out, imm_idex_out: std_logic_vector(15 downto 0);
-	signal save_register_addr_idex_out: std_logic_vector(3 downto 0);
-	signal C_alu_out: std_logic_vector(15 downto 0);
+	signal operand_idex_out: integer := 0;
+	signal pc_idex_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal A_idex_out, B_idex_out, imm_idex_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal save_register_addr_idex_out: std_logic_vector(3 downto 0) := "0000";
+	signal C_alu_out: std_logic_vector(15 downto 0) := "0000000000000000";
 
-	signal alu_stall_request: std_logic;
-	signal alu_mem_addr: std_logic_vector(15 downto 0); 
+	signal alu_stall_request: std_logic := '0';
+	signal alu_mem_addr: std_logic_vector(15 downto 0) := "0000000000000000"; 
 	
 	-- MEM
-	signal operand_exmem_out: integer;
-	signal pc_exmem_out: std_logic_vector(15 downto 0);
-	signal A_exmem_out, B_exmem_out, C_exmem_out: std_logic_vector(15 downto 0);
-	signal save_register_addr_exmem_out: std_logic_vector(3 downto 0);
+	signal operand_exmem_out: integer := 0;
+	signal pc_exmem_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal A_exmem_out, B_exmem_out, C_exmem_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal save_register_addr_exmem_out: std_logic_vector(3 downto 0) := "0000";
 	
-	signal bus_stall_request: std_logic;
-	signal bus_content_dm_bus, bus_addr_dm_bus: std_logic_vector(15 downto 0);
-	signal bus_addr_dm: std_logic_vector(15 downto 0);
-	signal dm_signal: std_logic;
-	signal dm_dm_out: std_logic_vector(15 downto 0);
+	signal bus_stall_request: std_logic := '0';
+	signal bus_content_dm_bus, bus_addr_dm_bus: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal bus_addr_dm: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal dm_signal: std_logic := '0';
+	signal dm_dm_out: std_logic_vector(15 downto 0) := "0000000000000000";
 	
-	signal bus_content_bus_dm, bus_addr_bus_dm: std_logic_vector(15 downto 0);
-	signal mem_addr_bus_mem, mem_content_bus_mem: std_logic_vector(15 downto 0);
-	signal mem_optype: std_logic_vector(1 downto 0);
-	signal mem_content_mem_bus: std_logic_vector(15 downto 0);
+	signal bus_content_bus_dm, bus_addr_bus_dm: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal mem_addr_bus_mem, mem_content_bus_mem: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal mem_content_copy: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal mem_optype: std_logic_vector(1 downto 0) := "00";
+	signal mem_content_mem_bus: std_logic_vector(15 downto 0) := "0000000000000000";
 
-	signal bus_content_mem_bus: std_logic_vector(15 downto 0);
-	signal finish_signal, mem_start_dm: std_logic;
+	signal bus_content_mem_bus: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal finish_signal, mem_start_dm: std_logic := '0';
 
 	-- WB
-	signal pc_memwb_out: std_logic_vector(15 downto 0);
-	signal save_register_addr_memwb_out: std_logic_vector(3 downto 0);
-	signal dm_memwb_out: std_logic_vector(15 downto 0);
+	signal pc_memwb_out: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal save_register_addr_memwb_out: std_logic_vector(3 downto 0) := "0000";
+	signal dm_memwb_out: std_logic_vector(15 downto 0) := "0000000000000000";
 
 	--stall control
 	signal pc_staller, ifid_hold, ifid_nop, idex_hold, idex_nop: std_logic := '0';
 	
 	--jump branch
 	
-	signal test_R6: std_logic_vector(15 downto 0);
+	signal test_R6: std_logic_vector(15 downto 0) := "0000000000000000";
 	
 	signal cpu_clk: std_logic;
+	
+	signal tmp_wrn, tmp_rdn: std_logic;
 begin
 --	LED(15) <= bus_stall_request;
 --	LED(14 downto 0) <= pc_pc_out(14 downto 0);
@@ -364,9 +367,9 @@ begin
 --	digit(5 downto 0) <= "000000";
 --	digit(6) <= jump_enable;
 --	LED <= DM_memwb_out;
-	digit <= encode_number(pc_pc_out(7 downto 4));
-	digit_2 <= encode_number(pc_pc_out(3 downto 0));
-	LED <= mem_content_bus_mem;
+	digit <= encode_number(pc_exmem_out(7 downto 4));
+	digit_2 <= encode_number(pc_exmem_out(3 downto 0));
+--	LED <= mem_content_bus_mem;
 --	sys_clk <= sys_clk_11m;
 --	cpu_clk <= press_clk;
 --	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
@@ -374,14 +377,25 @@ begin
 --	LED <= A_register_controll_out;
 --	LED <= test_R6;
 
---	record_cpu: process(pc_pc_out) is
---	begin
---		if (pc_pc_out = "0000000010010000") then
---			LED <= mem_content_bus_mem;
---		end if;
---	end process;
-
+	mem_content_copy <= bus_content_dm_bus;
+	
+--	LED <= pc_exmem_out;
 	cpu_clk <= sys_clk;
+	LED(15) <= tmp_wrn;
+	LED(14) <= tmp_rdn;
+	LED(13) <= dm_signal;
+
+--	record_cpu: process(cpu_clk) is
+--	begin
+--		if (cpu_clk'event and cpu_clk = '1') then
+--			if (pc_exmem_out = "0000000010000100") then
+				LED(12 downto 0) <= mem_content_copy(12 downto 0);
+--			end if;
+--		end if;
+		
+--	end process; 
+
+	
 --	with pc_pc_out select
 --		cpu_clk <=
 --			press_clk when "0000000010000111",
@@ -621,9 +635,12 @@ begin
 		ram1EN => ram1EN,
 		output_content => mem_content_mem_bus,
 		done => finish_signal,
-		wrn => wrn, 
-		rdn => rdn
+		wrn => tmp_wrn, 
+		rdn => tmp_rdn
 	);
+	
+	wrn <= tmp_wrn;
+	rdn <= tmp_rdn;
 	
 	start_out <= mem_start_dm;
 	finish_out <= finish_signal;
