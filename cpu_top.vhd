@@ -358,7 +358,23 @@ end component;
 	signal cpu_clk: std_logic;
 	
 	signal tmp_wrn, tmp_rdn: std_logic;
+	
+	signal half_clk: std_logic;
 begin
+
+	split_clk: process(sys_clk) is
+	variable cnt: std_logic := '0';
+	begin
+		if(sys_clk'event and sys_clk = '1') then
+			if(cnt = '0') then
+				cnt := '1';
+				half_clk <= '1';
+			else
+				cnt := '0';
+				half_clk <= '0';
+			end if;
+		end if;
+	end process;
 --	LED(15) <= bus_stall_request;
 --	LED(14 downto 0) <= pc_pc_out(14 downto 0);
 --	LED <= inst_im_ifid;
@@ -380,7 +396,7 @@ begin
 	mem_content_copy <= bus_content_dm_bus;
 	
 --	LED <= pc_exmem_out;
-	cpu_clk <= sys_clk;
+	cpu_clk <= half_clk;
 	LED(15) <= tmp_wrn;
 	LED(14) <= tmp_rdn;
 	LED(13) <= dm_signal;

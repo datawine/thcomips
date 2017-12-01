@@ -39,7 +39,7 @@ NET "ram1EN" LOC = M15;
 NET "ram1OE" LOC = M16;
 NET "ram1WE" LOC = M18;
 NET "rdn" LOC = C14;
-NET "sys_clk" LOC = B8;
+NET "sys_clk" LOC = B9;
 NET "tbre" LOC = D14;
 NET "tsre" LOC = N9;
 NET "wrn" LOC = U5;
@@ -65,7 +65,6 @@ NET "press_clk" LOC = U9;
 
 
 
-# PlanAhead Generated physical constraints 
 
 NET "digit_2[6]" LOC = C9;
 NET "digit_2[5]" LOC = D9;

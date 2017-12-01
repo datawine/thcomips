@@ -1,0 +1,23 @@
+#-----------------------------------------------------------
+# PlanAhead v14.6
+# Build 269223 by xbuild on Wed Jun  5 11:17:50 MDT 2013
+# Start of session at: Fri Dec 01 08:32:19 2017
+# Process ID: 12964
+# Log file: C:/Users/cslab/Desktop/thcomips/planAhead_run_3/planAhead.log
+# Journal file: C:/Users/cslab/Desktop/thcomips/planAhead_run_3/planAhead.jou
+#-----------------------------------------------------------
+start_gui
+source C:/Users/cslab/Desktop/thcomips/pa.fromNetlist.tcl
+startgroup
+set_property package_pin B9 [get_ports sys_clk]
+endgroup
+save_constraints
+startgroup
+set_property package_pin B9 [get_ports sys_clk]
+endgroup
+set_property package_pin "" [get_ports [list  start_out]]
+set_property iostandard LVCMOS25 [get_ports [list tbre]]
+startgroup
+set_property package_pin B9 [get_ports sys_clk]
+endgroup
+set_property package_pin "" [get_ports [list  start_out]]
