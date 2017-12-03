@@ -47,6 +47,9 @@ architecture Behavioral of register_controll is
 	signal R0, R1, R2, R3, R4, R5, R6, R7, T, SP, PC, IH: std_logic_vector(15 downto 0) := "0000000000000000";
 	signal num1 : std_logic_vector(15 downto 0) := "0000000000000001";
 begin
+
+	R6_out <= R1;
+
 	write_ram: process(clk) is
 	begin
 		if (clk'event and clk = '0') then
@@ -111,8 +114,6 @@ begin
 			IH when "1010",
 			pc when "1011",
 			"ZZZZZZZZZZZZZZZZ" when others;
-
-	R6_out <= R6;
-
+			
 end Behavioral;
 

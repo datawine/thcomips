@@ -80,3 +80,7 @@ NET "digit[3]" LOC = F7;
 NET "digit[2]" LOC = A8;
 NET "digit[1]" LOC = E8;
 NET "digit[0]" LOC = F8;
+
+# PlanAhead Generated physical constraints 
+
+NET "clk_switch" LOC = T7;

@@ -32,6 +32,8 @@ use IEEE.STD_LOGIC_1164.ALL;
 entity memory is
 	Port(
 		clk: in std_logic;
+		cnt_clk : in std_logic;
+		clk_2: in std_logic;
 		input_addr, input_content: in std_logic_vector(15 downto 0);
 		start: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
@@ -87,12 +89,13 @@ begin
 --				if (start = '1') then
 				if (this_operand_type = "00") then -- read uart
 					if (input_addr /= "1011111100000001") then	
+--						rdn <= '0';
 						ram1EN <= '1';
 						ram1WE <= '1';
 						ram1OE <= '1';
 					end if;
 				elsif (this_operand_type = "01") then -- write uart
-					rdn <= '1';
+--					rdn <= '1';
 --					wrn <= '1';
 					ram1EN <= '1';
 					ram1WE <= '1';
@@ -100,7 +103,7 @@ begin
 					inout_RAM1_DATA(15 downto 8) <= "00000000";
 					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
 				elsif (this_operand_type = "10") then -- read memory
-					rdn <= '1';
+--					rdn <= '1';
 					ram1EN <= '0';
 					ram1WE <= '1';
 					ram1OE <= '0';
@@ -108,7 +111,7 @@ begin
 					output_RAM1(17 downto 16) <= "00";
 					output_RAM1(15 downto 0) <= input_addr;
 				elsif (this_operand_type = "11") then -- write memory
-					rdn <= '1';
+--					rdn <= '1';
 --					wrn <= '1';
 					ram1EN <= '0';
 					ram1OE <= '1';
@@ -121,7 +124,7 @@ begin
 --				end if;
 		elsif (clk = '1') then
 			done <= '1';
-			rdn <= '1';
+--			rdn <= '1';
 			ram1EN <= '1';
 			ram1OE <= '1';
 			ram1WE <= '1';
@@ -131,6 +134,19 @@ begin
 			end if;
 			inout_RAM1_DATA <= (others => 'Z');
 		end if;	
+	end process;
+	
+	change_rdn: process(cnt_clk, clk_2) is
+	begin
+		if (clk_2 = '0' and cnt_clk = '1') then
+			if (this_operand_type = "00") then -- read uart
+				if (input_addr /= "1011111100000001") then	
+					rdn <= '0';
+				end if;
+			end if;
+		elsif (clk_2 = '0' and cnt_clk = '0') then
+			rdn <= '1';
+		end if;
 	end process;
 
 end Behavioral;

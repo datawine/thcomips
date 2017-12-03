@@ -19,6 +19,8 @@
 ----------------------------------------------------------------------------------
 library IEEE;
 use IEEE.STD_LOGIC_1164.ALL;
+use IEEE.STD_LOGIC_ARITH.ALL;
+use IEEE.STD_LOGIC_UNSIGNED.ALL;
 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
@@ -33,6 +35,7 @@ entity cpu_top is
 	Port(
 		sys_clk: in std_logic;
 		press_clk: in std_logic;
+		clk_switch: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 		
@@ -270,6 +273,8 @@ end component;
 component memory
 	Port(
 		clk: in std_logic;
+		clk_2: in std_logic;
+		cnt_clk : in std_logic;
 		input_addr, input_content: in std_logic_vector(15 downto 0);
 		start: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
@@ -284,7 +289,8 @@ component memory
 end component;
 
 	-- IF
-	signal next_pc, pc_pc_out: std_logic_vector(15 downto 0) := "0000000000000000"; 
+	signal next_pc: std_logic_vector(15 downto 0) := "0000000000000000";
+	signal pc_pc_out: std_logic_vector(15 downto 0) := "0000000000000000"; 
 	signal bus_content_bus_im, bus_addr_im_bus: std_logic_vector(15 downto 0) := "0000000000000000";
 	signal inst_im_ifid: std_logic_vector(15 downto 0) := "0000000000000000";
 	
@@ -354,68 +360,74 @@ end component;
 	--jump branch
 	
 	signal test_R6: std_logic_vector(15 downto 0) := "0000000000000000";
-	
 	signal cpu_clk: std_logic;
-	
 	signal tmp_wrn, tmp_rdn: std_logic;
+	signal half_press_clk: std_logic;
+	signal half_sys_clk: std_logic;
 	
-	signal half_clk: std_logic;
+	signal cnt_clk : std_logic := '0';
+	signal cnt_sys_clk : std_logic := '0';
+	signal cpu_2_clk: std_logic := '0';
+	
+	signal final_clk: std_logic := '0';
 begin
 
-	split_clk: process(sys_clk) is
-	variable cnt: std_logic := '0';
+	split_clk: process(press_clk) is
 	begin
-		if(sys_clk'event and sys_clk = '1') then
-			if(cnt = '0') then
-				cnt := '1';
-				half_clk <= '1';
+		if(press_clk'event and press_clk = '1') then
+			if(cnt_clk = '0') then
+				cnt_clk <= '1';
+				half_press_clk <= '1';
 			else
-				cnt := '0';
-				half_clk <= '0';
+				cnt_clk <= '0';
+				half_press_clk <= '0';
 			end if;
 		end if;
 	end process;
---	LED(15) <= bus_stall_request;
---	LED(14 downto 0) <= pc_pc_out(14 downto 0);
---	LED <= inst_im_ifid;
---	digit(3 downto 0) <= save_register_addr_memwb_out;
---	digit(5 downto 4) <= "00";
---	digit(5 downto 0) <= "000000";
---	digit(6) <= jump_enable;
---	LED <= DM_memwb_out;
-	digit <= encode_number(pc_exmem_out(7 downto 4));
-	digit_2 <= encode_number(pc_exmem_out(3 downto 0));
---	LED <= mem_content_bus_mem;
---	sys_clk <= sys_clk_11m;
---	cpu_clk <= press_clk;
---	LED(15 downto 4) <= DM_memwb_out(15 downto 4);
---	LED(3 downto 0) <= save_register_addr_memwb_out;
---	LED <= A_register_controll_out;
---	LED <= test_R6;
+	
+	split_sys_clk: process(sys_clk) is
+	begin
+		if(sys_clk'event and sys_clk = '1') then
+			if(cnt_sys_clk = '0') then
+				cnt_sys_clk <= '1';
+				half_sys_clk <= '1';
+			else
+				cnt_sys_clk <= '0';
+				half_sys_clk <= '0';
+			end if;
+		end if;
+	end process;
+	
+	digit <= encode_number(pc_pc_out(7 downto 4));
+	digit_2 <= encode_number(pc_pc_out(3 downto 0));
 
 	mem_content_copy <= bus_content_dm_bus;
 	
 --	LED <= pc_exmem_out;
-	cpu_clk <= half_clk;
-	LED(15) <= tmp_wrn;
-	LED(14) <= tmp_rdn;
-	LED(13) <= dm_signal;
+--	cpu_clk <= half_clk;
+--	cpu_2_clk <= press_clk;
+	cpu_clk <= (clk_switch and half_press_clk) or (not clk_switch and half_sys_clk);
+	cpu_2_clk <= (clk_switch and press_clk) or (not clk_switch and sys_clk);
+	
+	LED(15) <= data_ready;
+	LED(14) <= cnt_clk;
+	LED(13 downto 8) <= B_mux_out(5 downto 0);
+	
+	LED(7 downto 0) <= test_R6(7 downto 0);
+	
+--	LED(15) <= tmp_wrn;
+--	LED(14) <= tmp_rdn;
+--	LED(13) <= dm_signal;
 
 --	record_cpu: process(cpu_clk) is
 --	begin
 --		if (cpu_clk'event and cpu_clk = '1') then
 --			if (pc_exmem_out = "0000000010000100") then
-				LED(12 downto 0) <= mem_content_copy(12 downto 0);
+--				LED(12 downto 0) <= mem_content_copy(12 downto 0);
 --			end if;
 --		end if;
 		
 --	end process; 
-
-	
---	with pc_pc_out select
---		cpu_clk <=
---			press_clk when "0000000010000111",
---			sys_clk when others;
 
 	pc_1: pc port map(
 		clk => cpu_clk,
@@ -637,6 +649,8 @@ begin
 	
 	memory_1: memory port map(
 		clk => cpu_clk,
+		clk_2 => cpu_2_clk,
+		cnt_clk => cnt_clk,
 		input_addr => mem_addr_bus_mem, 
 		input_content => mem_content_bus_mem,
 		start => mem_start_dm,
