@@ -88,12 +88,9 @@ begin
 --			if (clk = '0') then
 --				if (start = '1') then
 				if (this_operand_type = "00") then -- read uart
-					if (input_addr /= "1011111100000001") then	
---						rdn <= '0';
 						ram1EN <= '1';
 						ram1WE <= '1';
 						ram1OE <= '1';
-					end if;
 				elsif (this_operand_type = "01") then -- write uart
 --					rdn <= '1';
 --					wrn <= '1';

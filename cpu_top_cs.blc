@@ -1,0 +1,27 @@
+Release 14.6 ngcbuild P.68d (nt)
+Copyright (c) 1995-2013 Xilinx, Inc.  All rights reserved.
+
+Command Line: ngcbuild.exe -dd C:/Users/cslab/Desktop/thcomips/_ngo -p
+xc3s1200e-fg320-4 -i C:\Users\cslab\Desktop\thcomips\cpu_top.ngc
+C:\Users\cslab\Desktop\thcomips\cpu_top_cs.ngc
+
+Reading NGO file "C:/Users/cslab/Desktop/thcomips/cpu_top.ngc" ...
+
+Partition Implementation Status
+-------------------------------
+
+  No Partitions were found in this design.
+
+-------------------------------
+
+NGCBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   0
+
+Total memory usage is 119352 kilobytes
+
+Writing NGC file "C:/Users/cslab/Desktop/thcomips/cpu_top_cs.ngc" ...
+Total REAL time to NGCBUILD completion:  2 sec
+Total CPU time to NGCBUILD completion:   2 sec
+
+Writing NGCBUILD log file "C:/Users/cslab/Desktop/thcomips/cpu_top_cs.blc"...
