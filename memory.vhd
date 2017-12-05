@@ -35,22 +35,18 @@ entity memory is
 		cnt_clk : in std_logic;
 		clk_2: in std_logic;
 		input_addr, input_content: in std_logic_vector(15 downto 0);
-		start: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
 		operand_type: in std_logic_vector(1 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		output_content : out std_logic_vector(15 downto 0);
-		done: out std_logic;
 		control_out: out std_logic;
 		wrn, rdn: out std_logic
 	);
 end memory;
 
 architecture Behavioral of memory is
-	type states is (start_0, mem_write_1, mem_write_2, mem_read_1, mem_read_2, uart_read_1, uart_read_2, uart_read_3, uart_write_1, uart_write_2, uart_write_3, uart_write_4, done_state);
-	shared variable current : states := start_0;
 	signal state_signal, uart_out_signal: std_logic_vector(15 downto 0);
 	signal uart_signal: std_logic_vector(15 downto 0);
 	signal mem_signal: std_logic_vector(15 downto 0);
@@ -69,7 +65,6 @@ begin
 		end if;
 	end process;
 
-	done <= '1';
 	control_out <= control_signal;
 
 	state_signal(0) <= tsre and tbre;
@@ -105,7 +100,7 @@ begin
 	
 	with operand_type select
 		wrn <=
-			not control_signal when "01",
+			control_signal when "01",
 			'1' when others;
 	
 	with operand_type select
@@ -125,17 +120,24 @@ begin
 			'1' when others;
 	
 	
-	change_rdn: process(cnt_clk, clk_2) is
+	change_rdn: process(clk_2) is
 	begin
-		if (clk_2 = '0' and cnt_clk = '1') then
-			if (operand_type = "00") then -- read uart
-				if (input_addr /= "1011111100000001") then	
-					rdn <= '0';
+		if(clk_2'event and clk_2 = '0') then
+			if(clk = '1') then 
+				if(operand_type = "00") then
+					if(input_addr /= "1011111100000001") then
+						rdn <= '0';
+					else
+						rdn <= '1';
+					end if;
+				else
+					rdn <= '1';
 				end if;
+			elsif(clk = '0') then
+				rdn <= '1';
 			end if;
-		elsif (clk_2 = '0' and cnt_clk = '0') then
-			rdn <= '1';
 		end if;
 	end process;
+	
 
 end Behavioral;

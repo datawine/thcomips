@@ -40,10 +40,8 @@ entity bus_dispatcher is
 				dm_content_in : in std_logic_vector(15 downto 0);
 				mem_content_in : in std_logic_vector(15 downto 0);
 				dm_signal : in std_logic;
-				finish_signal : in std_logic;
 				
 				-- outputs
-				mem_start : out std_logic;
 				im_content_out : out std_logic_vector(15 downto 0);
 				dm_content_out : out std_logic_vector(15 downto 0);
 				mem_addr, mem_content : out std_logic_vector(15 downto 0);
@@ -102,6 +100,7 @@ begin
 			mem_addr <= pc_in;
 		end if;
 	end process;
+	
 
 	gen_output: process(mem_content_in, dm_signal, operand_type) is
 	begin
@@ -111,17 +110,6 @@ begin
 			end if;
 		else
 			im_content_out <= mem_content_in;
-		end if;
-	end process;
-
-	op_sram_uart : process(clk, finish_signal) is
-	begin
-		if (clk'event and clk = '1') then
-			mem_start <= '1';
-		end if;
-		
-		if (finish_signal = '1') then
-			mem_start <= '0';
 		end if;
 	end process;
 

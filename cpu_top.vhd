@@ -38,9 +38,6 @@ entity cpu_top is
 		clk_switch: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
-		
-		finish_out: out std_logic;
-		start_out: out std_logic;
 
 		LED: out std_logic_vector(15 downto 0);
 		digit, digit_2: out std_logic_vector(6 downto 0);
@@ -258,10 +255,8 @@ component bus_dispatcher
 		dm_content_in : in std_logic_vector(15 downto 0);
 		mem_content_in : in std_logic_vector(15 downto 0);
 		dm_signal : in std_logic;
-		finish_signal : in std_logic;
 				
 		-- outputs
-		mem_start : out std_logic;
 		im_content_out : out std_logic_vector(15 downto 0);
 		dm_content_out : out std_logic_vector(15 downto 0);
 		mem_addr, mem_content : out std_logic_vector(15 downto 0);
@@ -276,7 +271,6 @@ component memory
 		clk_2: in std_logic;
 		cnt_clk : in std_logic;
 		input_addr, input_content: in std_logic_vector(15 downto 0);
-		start: in std_logic;
 		tbre, tsre, data_ready: in std_logic;
 		operand_type: in std_logic_vector(1 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
@@ -284,7 +278,6 @@ component memory
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		output_content : out std_logic_vector(15 downto 0);
-		done: out std_logic;
 		wrn, rdn: out std_logic
 	);
 end component;
@@ -348,7 +341,6 @@ end component;
 	signal mem_content_mem_bus: std_logic_vector(15 downto 0) := "0000000000000000";
 
 	signal bus_content_mem_bus: std_logic_vector(15 downto 0) := "0000000000000000";
-	signal finish_signal, mem_start_dm: std_logic := '0';
 
 	-- WB
 	signal pc_memwb_out: std_logic_vector(15 downto 0) := "0000000000000000";
@@ -620,9 +612,7 @@ begin
 		dm_content_in => bus_content_dm_bus,
 		mem_content_in => mem_content_mem_bus,
 		dm_signal => dm_signal,
-		finish_signal => finish_signal,
 		
-		mem_start => mem_start_dm,
 		im_content_out => bus_content_bus_im, 
 		dm_content_out => bus_content_bus_dm,
 		mem_addr => mem_addr_bus_mem, 
@@ -649,7 +639,6 @@ begin
 		cnt_clk => cnt_clk,
 		input_addr => mem_addr_bus_mem, 
 		input_content => mem_content_bus_mem,
-		start => mem_start_dm,
 		tbre => tbre, 
 		tsre => tsre, 
 		data_ready => data_ready,
@@ -661,7 +650,6 @@ begin
 		ram1WE => ram1WE, 
 		ram1EN => ram1EN,
 		output_content => mem_content_mem_bus,
-		done => finish_signal,
 		wrn => tmp_wrn, 
 		rdn => tmp_rdn
 	);
@@ -669,8 +657,6 @@ begin
 	wrn <= tmp_wrn;
 	rdn <= tmp_rdn;
 	
-	start_out <= mem_start_dm;
-	finish_out <= finish_signal;
 
 end Behavioral;
 
