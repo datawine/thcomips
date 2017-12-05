@@ -58,28 +58,28 @@ begin
 					jump_enable <= '1';
 				when BEQZ_OP =>
 					if (A = "0000000000000000") then
-						jump_target <= pc_in + imm;
+						jump_target <= pc_in + imm + "0000000000000001";
 						jump_enable <= '1';
 					else
 						jump_enable <= '0';
 					end if;
 				when BNEZ_OP =>
 					if (A /= "0000000000000000") then
-						jump_target <= pc_in + imm;
+						jump_target <= pc_in + imm + "0000000000000001";
 						jump_enable <= '1';
 					else
 						jump_enable <= '0';
 					end if;
 				when BTEQZ_OP =>
 					if (A = "0000000000000000") then
-						jump_target <= pc_in + imm;
+						jump_target <= pc_in + imm + "0000000000000001";
 						jump_enable <= '1';
 					else
 						jump_enable <= '0';
 					end if;
 				when BTNEZ_OP =>
 					if (A /= "0000000000000000") then
-						jump_target <= pc_in + imm;
+						jump_target <= pc_in + imm + "0000000000000001";
 						jump_enable <= '1';
 					else
 						jump_enable <= '0';

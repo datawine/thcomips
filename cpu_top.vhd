@@ -404,8 +404,10 @@ begin
 	cpu_clk <= (clk_switch and half_press_clk) or (not clk_switch and half_sys_clk);
 	cpu_2_clk <= (clk_switch and press_clk) or (not clk_switch and sys_clk);
 	
-	LED(15 downto 2) <= mem_content_mem_bus(15 downto 2);
-	LED(1 downto 0) <= mem_optype;
+	LED <= test_R6;
+	
+--	LED(15 downto 2) <= mem_content_mem_bus(15 downto 2);
+--	LED(1 downto 0) <= mem_optype;
 
 --	record_cpu: process(cpu_clk) is
 --	begin
