@@ -80,7 +80,7 @@ begin
 		end if;
 	end process;
 	
-	make_stall: process(reset, nop) is
+	make_stall: process(reset, nop, pc_ifid, pc_pc) is
 	begin
 		if (reset /= 0) then
 			case reset is

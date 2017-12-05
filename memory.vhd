@@ -43,6 +43,7 @@ entity memory is
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		output_content : out std_logic_vector(15 downto 0);
 		done: out std_logic;
+		control_out: out std_logic;
 		wrn, rdn: out std_logic
 	);
 end memory;
@@ -54,11 +55,22 @@ architecture Behavioral of memory is
 	signal uart_signal: std_logic_vector(15 downto 0);
 	signal mem_signal: std_logic_vector(15 downto 0);
 	
-	signal last_operand_type: std_logic_vector(1 downto 0);
-	signal this_operand_type: std_logic_vector(1 downto 0);
+	signal control_signal: std_logic := '1';
 
 begin
+	process(clk_2) is
+	begin
+		if(clk_2'event and clk_2 = '0') then
+			if(clk = '1') then
+				control_signal <= '0';
+			else
+				control_signal <= '1';
+			end if;
+		end if;
+	end process;
+
 	done <= '1';
+	control_out <= control_signal;
 
 	state_signal(0) <= tsre and tbre;
 	state_signal(1) <= data_ready;
@@ -66,6 +78,7 @@ begin
 	
 	uart_out_signal(7 downto 0) <= inout_RAM1_DATA(7 downto 0);
 	uart_out_signal(15 downto 8) <= "00000000";
+	
 
 	with input_addr select
 		uart_signal <=
@@ -80,63 +93,42 @@ begin
 			mem_signal when others;
 
 	--'00' uart read, '01' uart write, '10' mem read, '11' mem write
-	change_states: process(clk) is
-	begin
-		if (clk = '0') then
-			wrn <= '1';
-			last_operand_type <= this_operand_type;
---			if (clk = '0') then
---				if (start = '1') then
-				if (this_operand_type = "00") then -- read uart
-						ram1EN <= '1';
-						ram1WE <= '1';
-						ram1OE <= '1';
-				elsif (this_operand_type = "01") then -- write uart
---					rdn <= '1';
---					wrn <= '1';
-					ram1EN <= '1';
-					ram1WE <= '1';
-					ram1OE <= '0';
-					inout_RAM1_DATA(15 downto 8) <= "00000000";
-					inout_RAM1_DATA(7 downto 0) <= input_content(7 downto 0);
-				elsif (this_operand_type = "10") then -- read memory
---					rdn <= '1';
-					ram1EN <= '0';
-					ram1WE <= '1';
-					ram1OE <= '0';
-					inout_RAM1_DATA <= (others => 'Z');
-					output_RAM1(17 downto 16) <= "00";
-					output_RAM1(15 downto 0) <= input_addr;
-				elsif (this_operand_type = "11") then -- write memory
---					rdn <= '1';
---					wrn <= '1';
-					ram1EN <= '0';
-					ram1OE <= '1';
-					ram1WE <= '0';
-					inout_RAM1_DATA <= input_content;
-					output_RAM1(17 downto 16) <= "00";
-					output_RAM1(15 downto 0) <= input_addr;
-				end if;
-				
---				end if;
-		elsif (clk = '1') then
-			done <= '1';
---			rdn <= '1';
-			ram1EN <= '1';
-			ram1OE <= '1';
-			ram1WE <= '1';
-			this_operand_type <= operand_type;
-			if (last_operand_type = "01") then
-				wrn <= '0';
-			end if;
-			inout_RAM1_DATA <= (others => 'Z');
-		end if;	
-	end process;
+
+	with operand_type select
+		inout_RAM1_DATA <=
+			input_content when "01",
+			input_content when "11",
+			(others => 'Z') when others;
+	
+	output_RAM1(17 downto 16) <= "00";
+	output_RAM1(15 downto 0) <= input_addr;
+	
+	with operand_type select
+		wrn <=
+			not control_signal when "01",
+			'1' when others;
+	
+	with operand_type select
+		ram1EN <=
+			clk when "10",
+			control_signal when "11",
+			'1' when others;
+	
+	with operand_type select
+		ram1WE <=
+			control_signal when "11",
+			'1' when others;
+			
+	with operand_type select
+		ram1OE <=
+			clk when "10",
+			'1' when others;
+	
 	
 	change_rdn: process(cnt_clk, clk_2) is
 	begin
 		if (clk_2 = '0' and cnt_clk = '1') then
-			if (this_operand_type = "00") then -- read uart
+			if (operand_type = "00") then -- read uart
 				if (input_addr /= "1011111100000001") then	
 					rdn <= '0';
 				end if;

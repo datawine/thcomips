@@ -48,7 +48,7 @@ architecture Behavioral of register_controll is
 	signal num1 : std_logic_vector(15 downto 0) := "0000000000000001";
 begin
 
-	R6_out <= R1;
+	R6_out <= R7;
 
 	write_ram: process(clk) is
 	begin

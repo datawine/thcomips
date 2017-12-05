@@ -280,6 +280,7 @@ component memory
 		tbre, tsre, data_ready: in std_logic;
 		operand_type: in std_logic_vector(1 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
+		control_out: out std_logic;
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		output_content : out std_logic_vector(15 downto 0);
@@ -370,6 +371,8 @@ end component;
 	signal cpu_2_clk: std_logic := '0';
 	
 	signal final_clk: std_logic := '0';
+	
+	signal control_out: std_logic;
 begin
 
 	split_clk: process(press_clk) is
@@ -409,15 +412,8 @@ begin
 	cpu_clk <= (clk_switch and half_press_clk) or (not clk_switch and half_sys_clk);
 	cpu_2_clk <= (clk_switch and press_clk) or (not clk_switch and sys_clk);
 	
-	LED(15) <= data_ready;
-	LED(14) <= cnt_clk;
-	LED(13 downto 8) <= B_mux_out(5 downto 0);
-	
-	LED(7 downto 0) <= test_R6(7 downto 0);
-	
---	LED(15) <= tmp_wrn;
---	LED(14) <= tmp_rdn;
---	LED(13) <= dm_signal;
+	LED(15 downto 2) <= mem_content_mem_bus(15 downto 2);
+	LED(1 downto 0) <= mem_optype;
 
 --	record_cpu: process(cpu_clk) is
 --	begin
@@ -657,6 +653,7 @@ begin
 		tbre => tbre, 
 		tsre => tsre, 
 		data_ready => data_ready,
+		control_out => control_out,
 		operand_type => mem_optype,
 		output_RAM1 => output_RAM1,
 		inout_RAM1_DATA => inout_RAM1_DATA,

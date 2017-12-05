@@ -103,7 +103,7 @@ begin
 		end if;
 	end process;
 
-	gen_output: process(mem_content_in) is
+	gen_output: process(mem_content_in, dm_signal, operand_type) is
 	begin
 		if (dm_signal = '1') then
 			if (operand_type = LW_OP or operand_type = LW_SP_OP or operand_type = SW_OP or operand_type = SW_SP_OP) then

@@ -49,7 +49,7 @@ begin
 	
 	jp_op <= '1' when (operand = B_OP or operand = BEQZ_OP or operand = BNEZ_OP or operand = BTEQZ_OP or operand = BTNEZ_OP or operand = JR_OP) else '0';
 
-	make_jp : process(jp_op, operand, A, B, imm) is		
+	make_jp : process(jp_op, operand, A, B, imm, pc_in) is		
 	begin
 		if (jp_op = '1') then
 			case operand is
