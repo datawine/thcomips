@@ -409,6 +409,7 @@ begin
 --	LED(15 downto 2) <= mem_content_mem_bus(15 downto 2);
 --	LED(1 downto 0) <= mem_optype;
 
+
 --	record_cpu: process(cpu_clk) is
 --	begin
 --		if (cpu_clk'event and cpu_clk = '1') then

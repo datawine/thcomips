@@ -71,8 +71,7 @@ begin
 	state_signal(1) <= data_ready;
 	state_signal(15 downto 2) <= "00000000000000";
 	
-	uart_out_signal(7 downto 0) <= inout_RAM1_DATA(7 downto 0);
-	uart_out_signal(15 downto 8) <= "00000000";
+	uart_out_signal <= inout_RAM1_DATA;
 	
 
 	with input_addr select
@@ -119,25 +118,10 @@ begin
 			clk when "10",
 			'1' when others;
 	
-	
-	change_rdn: process(clk_2) is
-	begin
-		if(clk_2'event and clk_2 = '0') then
-			if(clk = '1') then 
-				if(operand_type = "00") then
-					if(input_addr /= "1011111100000001") then
-						rdn <= '0';
-					else
-						rdn <= '1';
-					end if;
-				else
-					rdn <= '1';
-				end if;
-			elsif(clk = '0') then
-				rdn <= '1';
-			end if;
-		end if;
-	end process;
+	with operand_type select
+		rdn <=
+			input_addr(0) or control_signal when "00",
+			'1' when others;
 	
 
 end Behavioral;
