@@ -61,6 +61,8 @@ begin
 	begin
 		if (clk'event and clk = '1') then
 			if (nop = '1') then
+				pc_out <= "0000000000000000";
+				save_reg_addr_out <= "1110";
 				operand_type_out <= NOP_OP;
 			elsif (hold = '1') then
 			else

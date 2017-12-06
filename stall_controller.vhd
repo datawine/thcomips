@@ -116,10 +116,10 @@ begin
 					idex_hold <= '0';
 					pc_enable <= '1';					
 				when 2 =>
-					ifid_nop <= '1';
-					idex_nop <= '0';
+					ifid_nop <= '0';
+					idex_nop <= '1';
 					idex_hold <= '0';
-					ifid_hold <= '0';
+					ifid_hold <= '1';
 					pc_enable <= '1';
 				when others =>
 					idex_nop <= '0';
