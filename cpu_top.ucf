@@ -134,6 +134,9 @@ NET "inout_ram2_data[13]" LOC = P10;
 NET "inout_ram2_data[14]" LOC = N12;
 NET "inout_ram2_data[15]" LOC = N11;
 
+NET "ps2clk" LOC = U6;
+NET "ps2data" LOC = V6;
+
 # PlanAhead Generated physical constraints 
 
 NET "clk_switch" LOC = T7;

@@ -155,7 +155,7 @@
     </file>
     <file xil_pn:name="cpu_top.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="0"/>
-      <association xil_pn:name="Implementation" xil_pn:seqID="22"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="23"/>
     </file>
     <file xil_pn:name="test_memory.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="2"/>
@@ -183,6 +183,10 @@
     <file xil_pn:name="ram2_writer_test.vhd" xil_pn:type="FILE_VHDL">
       <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="87"/>
       <association xil_pn:name="Implementation" xil_pn:seqID="5"/>
+    </file>
+    <file xil_pn:name="../Keyboard/Keyboard.vhd" xil_pn:type="FILE_VHDL">
+      <association xil_pn:name="BehavioralSimulation" xil_pn:seqID="88"/>
+      <association xil_pn:name="Implementation" xil_pn:seqID="22"/>
     </file>
   </files>
 
