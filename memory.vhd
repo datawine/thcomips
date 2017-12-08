@@ -42,6 +42,9 @@ entity memory is
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		output_content : out std_logic_vector(15 downto 0);
 		control_out: out std_logic;
+        keyboard_ready : in std_logic_vector(15 downto 0);
+        keyboard_data : in std_logic_vector(15 downto 0);
+        keyboard_control :out std_logic;
 		wrn, rdn: out std_logic
 	);
 end memory;
@@ -79,7 +82,16 @@ begin
 			state_signal when "1011111100000001",
 			uart_out_signal when others;
 	
-	mem_signal <= inout_RAM1_DATA;
+    with input_addr select
+        mem_signal <=
+            keyboard_ready when "1111111100000001",
+            keyboard_data when "1111111100000000",
+            inout_RAM1_DATA when others;
+            
+    with input_addr select
+        keyboard_control <=
+            '0' when "1111111100000000",
+            '1' when others;
 	
 	with operand_type select
 		output_content <=

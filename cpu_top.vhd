@@ -99,8 +99,8 @@ component keyboard is
         reading     : in  std_logic;
         ps2clk      : in  std_logic;  -- Keyboard clk
         ps2data     : in  std_logic;  -- Keyboard data
-        dataReady   : out std_logic;
-        output      : out std_logic_vector(7 downto 0)
+        dataReady   : out std_logic_vector(15 downto 0);
+        output      : out std_logic_vector(15 downto 0)
     );
 end component;
 
@@ -343,6 +343,9 @@ component memory
 		inout_RAM1_DATA: inout std_logic_vector(15 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
 		output_content : out std_logic_vector(15 downto 0);
+        keyboard_ready : in std_logic_vector(15 downto 0);
+        keyboard_data : in std_logic_vector(15 downto 0);
+        keyboard_control :out std_logic;
 		wrn, rdn: out std_logic
 	);
 end component;
@@ -438,8 +441,8 @@ end component;
     
     -- Keyboard data receive signals --
     signal top_keyboard_reading_signal   : std_logic;
-    signal top_keyboard_dataready_signal : std_logic;
-    signal top_received_keyboard_data    : std_logic_vector(7 downto 0);  -- ascii code
+    signal top_keyboard_dataready_signal : std_logic_vector(15 downto 0);
+    signal top_received_keyboard_data    : std_logic_vector(15 downto 0);  -- ascii code
     
 begin
     
@@ -485,8 +488,8 @@ begin
 	
 --	LED <= test_R6;
     LED(15 downto 9) <= (others => '0');
-    LED(8) <= top_keyboard_dataready_signal;
-    LED(7 downto 0) <= top_received_keyboard_data;
+    LED(8) <= top_keyboard_dataready_signal(0);
+    LED(7 downto 0) <= top_received_keyboard_data(7 downto 0);
 	
 --	LED(15 downto 2) <= mem_content_mem_bus(15 downto 2);
 --	LED(1 downto 0) <= mem_optype;
@@ -728,6 +731,9 @@ begin
 		tsre => tsre, 
 		data_ready => data_ready,
 		control_out => control_out,
+        keyboard_ready => top_keyboard_dataready_signal,
+        keyboard_data => top_received_keyboard_data,
+        keyboard_control => top_keyboard_reading_signal,
 		operand_type => mem_optype,
 		output_RAM1 => output_RAM1,
 		inout_RAM1_DATA => inout_RAM1_DATA,
