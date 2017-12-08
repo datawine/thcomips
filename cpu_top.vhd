@@ -43,7 +43,21 @@ entity cpu_top is
 		digit, digit_2: out std_logic_vector(6 downto 0);
 		output_RAM1: out std_logic_vector(17 downto 0);
 		ram1OE, ram1WE, ram1EN: out std_logic;
-		wrn, rdn: out std_logic
+		wrn, rdn: out std_logic;
+        
+        -- VGA CONTROLLER --
+        R	: out std_logic_vector(2 downto 0);
+		G	: out std_logic_vector(2 downto 0);
+		B	: out std_logic_vector(2 downto 0);
+        Hs  : out std_logic;
+        Vs	: out std_logic;
+        
+        -- RAM2 -- 
+        ram2_OE         : out   std_logic;
+        ram2_WE         : out   std_logic;
+        ram2_EN         : out   std_logic;
+        ram2_addr       : out   std_logic_vector(17 downto 0);
+        inout_ram2_data : inout std_logic_vector(15 downto 0)
 	);
 
 	function encode_number(inputnum: in std_logic_vector(3 downto 0)) return std_logic_vector is
@@ -73,6 +87,41 @@ entity cpu_top is
 end cpu_top;
 
 architecture Behavioral of cpu_top is
+
+component ram2_writer_test
+    port
+    (
+        CLK	            : in  std_logic;       
+        CLK50           : in  std_logic; 
+        ram2_write_flag : out std_logic;
+        ram2_write_addr : out std_logic_vector(17 downto 0);
+        ram2_write_data : out std_logic_vector(15 downto 0)
+    );
+end component;
+
+component vga
+    port
+    (
+        CLK	            : in std_logic;
+        RST             : in std_logic;
+        
+		R	            : out std_logic_vector(2 downto 0);
+		G	            : out std_logic_vector(2 downto 0);
+		B	            : out std_logic_vector(2 downto 0);
+        Hs              : out std_logic;
+        Vs	            : out std_logic;
+        
+         
+        ram2_write_flag : in    std_logic;
+        ram2_write_addr : in    std_logic_vector(17 downto 0);
+        ram2_write_data : in    std_logic_vector(15 downto 0);
+        
+        ram2_WE         : out   std_logic;
+        ram2_OE         : out   std_logic;
+        ram2_addr       : out   std_logic_vector(17 downto 0);
+        inout_ram2_data : inout std_logic_vector(15 downto 0)
+    );
+end component;
 
 component pc
 	Port(
@@ -281,7 +330,7 @@ component memory
 		wrn, rdn: out std_logic
 	);
 end component;
-
+    
 	-- IF
 	signal next_pc: std_logic_vector(15 downto 0) := "0000000000000000";
 	signal pc_pc_out: std_logic_vector(15 downto 0) := "0000000000000000"; 
@@ -365,7 +414,16 @@ end component;
 	signal final_clk: std_logic := '0';
 	
 	signal control_out: std_logic;
+    
+    -- RAM2 write signals --
+    signal top_ram2_write_flag : std_logic := '0';  -- '1' : need to write
+    signal top_ram2_Write_addr : std_logic_vector(17 downto 0);
+    signal top_ram2_write_data : std_logic_vector(15 downto 0);
+
 begin
+    
+    -- RAM2 --
+    ram2_EN <= '0';
 
 	split_clk: process(press_clk) is
 	begin
@@ -658,8 +716,37 @@ begin
 	);
 	
 	wrn <= tmp_wrn;
-	rdn <= tmp_rdn;
-	
+	rdn <= tmp_rdn; 
+    
+    vga_controller : vga port map
+    (
+        CLK	=> sys_clk,  -- in  std_logic
+        RST => '1',      -- in  std_logic
+        
+		R	=> R,        -- out std_logic_vector(2 downto 0)
+		G	=> G,        -- out std_logic_vector(2 downto 0)
+		B	=> B,        -- out std_logic_vector(2 downto 0)
+        Hs  => Hs,       -- out std_logic
+        Vs	=> Vs,       -- out std_logic
+        
+        ram2_write_flag => top_ram2_write_flag,  -- in    std_logic;
+        ram2_write_addr => top_ram2_write_addr,  -- in    std_logic_vector(17 downto 0)
+        ram2_write_data => top_ram2_write_data,  -- in    std_logic_vector(15 downto 0)
+        
+        ram2_WE         => ram2_WE,              -- out   std_logic;
+        ram2_OE         => ram2_OE,              -- out   std_logic;
+        ram2_addr       => ram2_addr,            -- out   std_logic_vector(17 downto 0);
+        inout_ram2_data => inout_ram2_data       -- inout std_logic_vector(15 downto 0)
+    );
+    
+    ram2_writer_tester : ram2_writer_test port map
+    (
+        CLK	            => press_clk,    
+        CLK50           => sys_clk,
+        ram2_write_flag => top_ram2_write_flag,
+        ram2_write_addr => top_ram2_write_addr,
+        ram2_write_data => top_ram2_write_data
+    );
 
 end Behavioral;
 
