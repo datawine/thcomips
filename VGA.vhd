@@ -80,6 +80,117 @@ architecture behave of vga is
     
     type Write_State is (S1, S2);
     signal w_state      : Write_State := S1;
+----------------------------------------------------------------------------------
+    -- Char Mat to Show on Screen, size 40(hori) * 15(vert) --
+    type Screen_Mat is array (0 to 14, 0 to 39) of std_logic_vector(7 downto 0);
+    constant screen     : Screen_Mat :=
+    (
+        -- 0 --
+        (
+            x"30", x"31", x"32", x"33", x"34", x"35", x"36", x"37", x"38", x"39", 
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 1 --
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 2 --
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 3 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 4 --
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 5 --
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ), 
+        -- 6 --
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 7 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 8 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 9 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 10 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 11 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 12 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 13 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        ),
+        -- 14 --        
+        (
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
+            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
+        )
+    );
 ----------------------------------------------------------------------------------     
     -- Font Constant --
     constant ADDR_WIDTH  : integer := 11;
@@ -2312,12 +2423,6 @@ begin
         end if;
     end process;
 ----------------------------------------------------------------------------------
-    Char_Section_Cordinate_Proceed : process (x, y)
-    begin
-        secx <= conv_integer(unsigned(x)) / CHAR_WIDTH;
-        secy <= conv_integer(unsigned(y)) / CHAR_HEIGHT;
-    end process;
-----------------------------------------------------------------------------------
     Ram2_Read_Addr_Mod : process (secx, secy)
         variable offset : integer range 0 to 599 := 0;
     begin
@@ -2325,118 +2430,92 @@ begin
         global_current_ram2_read_addr <= conv_std_logic_vector(offset, 18);
     end process;
 ----------------------------------------------------------------------------------
-	Cordinate_Proceed : process (clk2, RST)
+	Cordinate_Proceed : process (clk2)
 	begin
-		if RST = '0' then
-			x <= (others => '0');
-            y <= (others => '0');
-		elsif rising_edge(clk2) then
+		if rising_edge(clk2) then
 			if x = 799 then
 				x <= (others => '0');
+                secx <= 0;
+                
                 if y = 524 then
                     y <= (others => '0');
+                    secy <= 0;
                 else
                     y <= y + 1;
+                    secy <= conv_integer(unsigned(y + 1)) / CHAR_HEIGHT;
                 end if;
 			else
 				x <= x + 1;
-			end if;
+                secx <= conv_integer(unsigned(x + 1)) / CHAR_WIDTH;
+			end if; 
 		end if;
 	end process;
 ----------------------------------------------------------------------------------
-    Hs_Mod : process (clk2, RST)
+    Hs_Mod : process (x)
     begin
-        if RST = '0' then
+        if x >= 656 and x < 752 then
+            hst <= '0';
+        else
             hst <= '1';
-        elsif rising_edge(clk2) then
-            if x >= 656 and x < 752 then
-                hst <= '0';
-            else
-                hst <= '1';
-            end if;
         end if;
     end process;
 ----------------------------------------------------------------------------------
-    Vs_Mod : process (clk2, RST)
+    Vs_Mod : process (y)
     begin
-        if RST = '0' then
+        if y >= 490 and y < 492 then
+            vst <= '0';
+        else
             vst <= '1';
-        elsif rising_edge(clk2) then
-            if y >= 490 and y < 492 then
-                vst <= '0';
-            else
-                vst <= '1';
-            end if;
-        end if;
-    end process;
-----------------------------------------------------------------------------------
-    Hs_Output : process (clk2, RST)
-    begin
-        if RST = '0' then
-            Hs <= '0';
-        elsif rising_edge(clk2) then
-            Hs <=  hst;
-        end if;
-    end process;
-----------------------------------------------------------------------------------
-    Vs_Output : process (clk2, RST)
-    begin
-        if RST = '0' then
-            Vs <= '0';
-        elsif rising_edge(clk2) then
-            Vs <=  vst;
         end if;
     end process;
 ----------------------------------------------------------------------------------
 	-- XY坐标定制 -- 
-    Cordinate_Manual_Mod : process (clk2, RST, x, y)  
-        -- 字体ROM访问 --
+    Cordinate_Manual_Mod : process (x, y)  
         variable font_code : integer range 0 to 127;                  -- 要显示的字符的ascii码
         variable font_addr : integer range 0 to 2 ** ADDR_WIDTH - 1;  -- 此ascii码对应于字体ROM的地址（行数）
         variable font_data : std_logic_vector(0 to 7);                -- 此addr对应的显示数据
 	begin
-		if RST ='0' then
-            rt <= "000";
-            ggt	<= "000";
-            bt <= "000";
-		elsif (rising_edge(clk2)) then
-            if (x < 640 and y < 480) then
-                if (0 <= global_current_char_code and global_current_char_code < 256) then
-                    font_code := global_current_char_code;
-                else
-                    font_code := 71;
-                end if;
-                
-                -- Read from font and show in 2 * size --
-                font_addr := font_code * 16 + (conv_integer(unsigned(y)) mod CHAR_HEIGHT) / 2;
-                font_data := ROM(font_addr);
-                if (font_data((conv_integer(unsigned(x)) mod CHAR_WIDTH) / 2) = '1') then
-                    rt <= "111";
-                    ggt	<= "111";
-                    bt <= "111";
-                else
-                    rt <= "000";
-                    ggt	<= "000";
-                    bt <= "000";                    
-                end if;
+        if (x < 640 and y < 480) then
+            if (0 <= global_current_char_code and global_current_char_code < 256) then
+                font_code := global_current_char_code;
+            else
+                font_code := conv_integer(unsigned(screen(secy, secx)));
+            end if;
+            
+            -- Read from font and show in 2 * size --
+            font_addr := font_code * 16 + (conv_integer(unsigned(y)) mod CHAR_HEIGHT) / 2;
+            font_data := ROM(font_addr);
+            if (font_data((conv_integer(unsigned(x)) mod CHAR_WIDTH) / 2) = '1') then
+                rt <= "111";
+                ggt	<= "111";
+                bt <= "111";
             else
                 rt <= "000";
                 ggt	<= "000";
-                bt <= "000";
+                bt <= "000";                    
             end if;
-		end if;
+        else
+            rt <= "000";
+            ggt	<= "000";
+            bt <= "000";
+        end if;
 	end process;
 ----------------------------------------------------------------------------------
-	RGB_Output : process (hst, vst, rt, ggt, bt)  -- 信号赋值
+	Output : process (clk3)  -- 信号赋值
 	begin
-		if hst = '1' and vst = '1' then
-			R <= rt;
-			G <= ggt;
-			B <= bt;
-		else
-			R <= (others => '0');
-			G <= (others => '0');
-			B <= (others => '0');
-		end if;
+        if (rising_edge(clk3)) then
+            Hs <= hst;
+            Vs <= vst;
+            
+            if hst = '1' and vst = '1' then
+                R <= rt;
+                G <= ggt;
+                B <= bt;
+            else
+                R <= (others => '0');
+                G <= (others => '0');
+                B <= (others => '0');
+            end if;
+        end if;
 	end process;
 end behave;
