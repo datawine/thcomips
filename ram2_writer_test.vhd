@@ -43,8 +43,8 @@ end ram2_writer_test;
 
 architecture Behavioral of ram2_writer_test is
     signal tmp_flag : std_logic := '0';
-    signal tmp_addr : integer range 0 to 599 := 0;
-    signal tmp_data : integer range 33 to 126 := 65;
+    signal tmp_addr : integer range 0 to 2399 := 0;
+    signal tmp_data : integer range 33 to 126 := 72;
 ----------------------------------------------------------------------------------
 begin
 ----------------------------------------------------------------------------------

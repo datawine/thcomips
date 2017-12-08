@@ -72,131 +72,20 @@ architecture behave of vga is
 	signal x            : std_logic_vector(9 downto 0);   -- X×ø±ê
 	signal y            : std_logic_vector(8 downto 0);   -- Y×ø±ê
     
-    signal secx         : integer range 0 to 39;          -- ×Ö¿éX×ø±ê
-    signal secy         : integer range 0 to 14;          -- ×Ö¿éY×ø±ê
+    signal secx         : integer range 0 to 79;          -- ×Ö¿éX×ø±ê
+    signal secy         : integer range 0 to 29;          -- ×Ö¿éY×ø±ê
     
     signal global_current_char_code      : integer range 0 to 255 := 54;
     signal global_current_ram2_read_addr : std_logic_vector(17 downto 0);
     
     type Write_State is (S1, S2);
     signal w_state      : Write_State := S1;
-----------------------------------------------------------------------------------
-    -- Char Mat to Show on Screen, size 40(hori) * 15(vert) --
-    type Screen_Mat is array (0 to 14, 0 to 39) of std_logic_vector(7 downto 0);
-    constant screen     : Screen_Mat :=
-    (
-        -- 0 --
-        (
-            x"30", x"31", x"32", x"33", x"34", x"35", x"36", x"37", x"38", x"39", 
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 1 --
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 2 --
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 3 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 4 --
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 5 --
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ), 
-        -- 6 --
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 7 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 8 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 9 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 10 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 11 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 12 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 13 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        ),
-        -- 14 --        
-        (
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20",             
-            x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20", x"20"             
-        )
-    );
 ----------------------------------------------------------------------------------     
     -- Font Constant --
     constant ADDR_WIDTH  : integer := 11;
     constant DATA_WIDTH  : integer := 8;
-    constant CHAR_WIDTH  : integer := 16;
-    constant CHAR_HEIGHT : integer := 32;
+    constant CHAR_WIDTH  : integer := 8;
+    constant CHAR_HEIGHT : integer := 16;
     
     type rom_type is array (0 to 2 ** ADDR_WIDTH - 1) of std_logic_vector(0 to DATA_WIDTH - 1);
     
@@ -2424,9 +2313,9 @@ begin
     end process;
 ----------------------------------------------------------------------------------
     Ram2_Read_Addr_Mod : process (secx, secy)
-        variable offset : integer range 0 to 599 := 0;
+        variable offset : integer range 0 to 2399 := 0;
     begin
-        offset := secx + secy * 40;
+        offset := secx + secy * 80;
         global_current_ram2_read_addr <= conv_std_logic_vector(offset, 18);
     end process;
 ----------------------------------------------------------------------------------
@@ -2479,13 +2368,13 @@ begin
             if (0 <= global_current_char_code and global_current_char_code < 256) then
                 font_code := global_current_char_code;
             else
-                font_code := conv_integer(unsigned(screen(secy, secx)));
+                font_code := 71;  -- 'G'
             end if;
             
-            -- Read from font and show in 2 * size --
-            font_addr := font_code * 16 + (conv_integer(unsigned(y)) mod CHAR_HEIGHT) / 2;
+            -- Read from font and show in 8 * 16 size --
+            font_addr := font_code * 16 + (conv_integer(unsigned(y)) mod CHAR_HEIGHT);
             font_data := ROM(font_addr);
-            if (font_data((conv_integer(unsigned(x)) mod CHAR_WIDTH) / 2) = '1') then
+            if (font_data((conv_integer(unsigned(x)) mod CHAR_WIDTH)) = '1') then
                 rt <= "111";
                 ggt	<= "111";
                 bt <= "111";
