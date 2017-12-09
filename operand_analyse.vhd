@@ -36,6 +36,8 @@ use work.cpuconstant.ALL;
 entity operand_analyse is
 	Port(
 		instruct : in std_logic_vector(15 downto 0);
+        
+        ram2_write_signal: out std_logic;
 		operand : out integer;
 		A_addr, B_addr, save_addr: out std_logic_vector(3 downto 0);
 		imm : out std_logic_vector(15 downto 0)
@@ -88,6 +90,7 @@ begin
 			ADDU_SUBU_OP when "11100",
 			AND_CMP_JR_NOT_OR_MFPC_SLLV_OP when "11101",
 			MFIH_MTIH_OP when "11110",
+            INT_OP when "11111",
 			ERROR_OP when others;
 
 	with inst_1_0 select
@@ -163,6 +166,7 @@ begin
 			"1111" when MFIH_OP,
 			"1111" when MFPC_OP,
 			"1111" when NOP_OP,
+            "0000" when INT_OP,
 			conv_std_logic_vector(conv_integer(inst_7_5), 4) when MTSP_OP,
 			conv_std_logic_vector(conv_integer(inst_10_8), 4) when others;
 	
@@ -187,7 +191,7 @@ begin
 			"1011" when MFPC_OP,
 			"1111" when MTIH_OP,
 			"1111" when MTSP_OP,
-			"1111" when NOP_OP,
+			"0001" when INT_OP,
 			conv_std_logic_vector(conv_integer(inst_7_5), 4) when others;
 	
 	with optype select
@@ -247,5 +251,10 @@ begin
 			
 	imm <= conv_std_logic_vector(tmp_imm, 16);
 	operand <= optype;
+    
+    with optype select
+        ram2_write_signal <= 
+            '1' when INT_OP,
+            '0' when others;
 		
 end Behavioral;

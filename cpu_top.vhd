@@ -92,6 +92,20 @@ end cpu_top;
 
 architecture Behavioral of cpu_top is
 
+component ram2_writer is
+    port
+    (
+        CLK             : in std_logic;
+        write_signal    : in std_logic;
+        offset          : in std_logic_vector(15 downto 0);
+        code            : in std_logic_vector(15 downto 0);
+        
+        ram2_write_flag : out std_logic;
+        ram2_write_addr : out std_logic_vector(17 downto 0);
+        ram2_write_data : out std_logic_vector(15 downto 0)
+    );
+end component;
+
 component keyboard is
     Port 
     ( 
@@ -101,17 +115,6 @@ component keyboard is
         ps2data     : in  std_logic;  -- Keyboard data
         dataReady   : out std_logic_vector(15 downto 0);
         output      : out std_logic_vector(15 downto 0)
-    );
-end component;
-
-component ram2_writer_test
-    port
-    (
-        CLK	            : in  std_logic;       
-        CLK50           : in  std_logic; 
-        ram2_write_flag : out std_logic;
-        ram2_write_addr : out std_logic_vector(17 downto 0);
-        ram2_write_data : out std_logic_vector(15 downto 0)
     );
 end component;
 
@@ -200,6 +203,8 @@ end component;
 component operand_analyse
 	Port(
 		instruct : in std_logic_vector(15 downto 0);
+        
+        ram2_write_signal: out std_logic;
 		operand : out integer;
 		A_addr, B_addr, save_addr: out std_logic_vector(3 downto 0);
 		imm : out std_logic_vector(15 downto 0)
@@ -434,15 +439,24 @@ end component;
 	
 	signal control_out: std_logic;
     
-    -- RAM2 write signals --
+    -- RAM2 write signals (used inside vga unit) --
+    -- DO NOT MODIFY MANUALLY --
     signal top_ram2_write_flag : std_logic := '0';  -- '1' : need to write
     signal top_ram2_Write_addr : std_logic_vector(17 downto 0);
     signal top_ram2_write_data : std_logic_vector(15 downto 0);
     
     -- Keyboard data receive signals --
+    -- can modify --
     signal top_keyboard_reading_signal   : std_logic;
     signal top_keyboard_dataready_signal : std_logic_vector(15 downto 0);
     signal top_received_keyboard_data    : std_logic_vector(15 downto 0);  -- ascii code
+    
+    -- RAM2 write signals (for ram2 writer unit) --
+    -- can modify --
+    signal top_notebook_write_to_ram2_signal : std_logic;
+    signal top_notebook_write_to_ram2_x      : std_logic_vector(15 downto 0);
+    signal top_notebook_write_to_ram2_y      : std_logic_vector(15 downto 0);
+    signal top_notebook_write_to_ram2_code   : std_logic_vector(15 downto 0);
     
 begin
     
@@ -578,6 +592,8 @@ begin
 	
 	op: operand_analyse port map(
 		instruct => inst_ifid_out,
+        
+        ram2_write_signal => top_notebook_write_to_ram2_signal,
 		operand => operand_operand_analyse_out,
 		A_addr => A_addr_operand_analyse_register_controll, 
 		B_addr => B_addr_operand_analyse_register_controll, 
@@ -769,15 +785,6 @@ begin
         inout_ram2_data => inout_ram2_data       -- inout std_logic_vector(15 downto 0)
     );
     
-    ram2_writer_tester : ram2_writer_test port map
-    (
-        CLK	            => press_clk,    
-        CLK50           => sys_clk,
-        ram2_write_flag => top_ram2_write_flag,
-        ram2_write_addr => top_ram2_write_addr,
-        ram2_write_data => top_ram2_write_data
-    );
-    
     keyboard_unit : keyboard port map
     ( 
         fclk      => sys_clk,
@@ -787,6 +794,23 @@ begin
         dataReady => top_keyboard_dataready_signal,
         output    => top_received_keyboard_data
     );
+    
+    ram2_write_unit : ram2_writer port map
+    (
+        CLK             => sys_clk,
+        write_signal    => top_notebook_write_to_ram2_signal,
+        offset          => top_notebook_write_to_ram2_x,
+        code            => top_notebook_write_to_ram2_code,
+        
+        ram2_write_flag => top_ram2_write_flag,
+        ram2_write_addr => top_ram2_write_addr,
+        ram2_write_data => top_ram2_write_data
+    );
+    
+    top_notebook_write_to_ram2_x <= A_mux_out;
+    top_notebook_write_to_ram2_code <= B_mux_out;
+    -- x,y  A_mux_out
+    -- code B_mux_out
 
 end Behavioral;
 

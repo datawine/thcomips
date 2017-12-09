@@ -65,11 +65,10 @@ package cpuconstant is
 	constant AND_CMP_JR_NOT_OR_MFPC_SLLV_OP: integer := 34;
 	constant MFPC_SLLV_OP: integer := 35;
 	constant MFIH_MTIH_OP: integer := 36;
-	
-	
+    
 	constant ERROR_OP: integer := 37;
 
-
+    constant INT_OP: integer := 38;
 
 
 -- Declare functions and procedure
